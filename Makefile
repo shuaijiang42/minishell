@@ -6,7 +6,7 @@
 #    By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/07/31 17:42:24 by samusanc         ###   ########.fr        #
+#    Updated: 2023/07/31 17:46:36 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,5 +39,6 @@ fclean: clean
 clean:
 	@make -sC ./libft/ clean
 	@rm -f $(OBJS)
+	@rm -rf ./objects/
 
 .PHONY: all
