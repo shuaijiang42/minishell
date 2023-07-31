@@ -6,7 +6,7 @@
 #    By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 17:37:02 by samusanc          #+#    #+#              #
-#    Updated: 2023/07/31 17:37:06 by samusanc         ###   ########.fr        #
+#    Updated: 2023/07/31 17:55:55 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 1. **Antes de empezar:**
