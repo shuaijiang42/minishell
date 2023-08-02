@@ -6,13 +6,13 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:53:40 by shujiang          #+#    #+#             */
-/*   Updated: 2023/03/22 17:26:27 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/02 17:59:17 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/* int	ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int	res;
 	int	sign;
@@ -31,4 +31,4 @@
 		str++;
 	}
 	return (sign * res);
-} */
+}

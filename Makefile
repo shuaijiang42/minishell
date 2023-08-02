@@ -6,18 +6,23 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/02 17:05:43 by shujiang         ###   ########.fr        #
+#    Updated: 2023/08/02 18:16:53 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ 
 CC		= gcc $(CFLAGS)
+UTILS	= ./src/utils/
 LIBFT	= -L./libft/ -lft 
 LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 
-MAIN	= ./src/main.c
+MAIN	= ./src/main.c 
 SRCS	= $(MAIN) \
+		$(UTILS)pipex/execute_cmd.c \
+		$(UTILS)pipex/cmd_path.c \
+		$(UTILS)pipex/error_handling.c \
+		$(UTILS)pipex/main.c
 
 O_DIR	= ./objects/
 OBJS	= $(addprefix $(O_DIR)/, $(SRCS:.c=.o))

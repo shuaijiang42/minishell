@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/02 17:48:24 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:12:40 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,4 @@ void			rl_replace_line(const char *text, int clear_undo);
 
 void	execve_with_error_check(char **argv, char **env);
 
-typedef enum e_flag_his
-{
-	tmp,
-	his
-}			t_flag_his;
-
-typedef struct s_list
-{
-	char			*content;
-	t_flag_his		flag;
-	struct s_list	*prev;
-	struct s_list	*next;
-}	t_list;
 #endif
