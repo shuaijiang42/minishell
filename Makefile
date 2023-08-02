@@ -6,14 +6,16 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/02 16:43:07 by shujiang         ###   ########.fr        #
+#    Updated: 2023/08/02 17:05:43 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
 CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ 
 CC		= gcc $(CFLAGS)
-LIBFT	= -L./libft/ -lft -lreadline
+LIBFT	= -L./libft/ -lft 
+LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+
 MAIN	= ./src/main.c
 SRCS	= $(MAIN) \
 
@@ -28,7 +30,7 @@ all: $(NAME) $(SRCS)
 
 $(NAME): $(OBJS)
 	@make -sC ./libft/
-	@$(CC) $(OBJS) $(MLX) $(LIBFT) -o $(NAME)
+	@$(CC) $(OBJS) $(LIBFT) $(LDFLAGS)  -o $(NAME)
 
 re: fclean all
 
