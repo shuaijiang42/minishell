@@ -6,15 +6,37 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/02 19:55:26 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/02 22:55:22 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+void	*ft_free(void **str)
+{
+	if (*str)
+	{
+		free(*str);
+		*str = NULL;
+	}
+	return (0);
+}
+
+char **ft_lexer(char **argv)
+{
+	char **result;
+	char	*str;
+	typedef	str;
+
+	str = argv[0];
+	result = ft_split(str, ' ');
+	return (result);
+	str = NULL;
+}
 
 int main(int argc, char **argv, char **env)
 {
@@ -26,8 +48,6 @@ int main(int argc, char **argv, char **env)
 	{
 		(void)argv;
 		printf("Too many arguments\n");
-		
-		exit(0);
 	}
 	while (1)
 	{
@@ -39,13 +59,27 @@ int main(int argc, char **argv, char **env)
 			free (input);
 			exit (0);
 		}
-		pid = fork_with_error_check();
-		if (pid == 0)
-			execve_with_error_check(&input, env);
-		wait(&status);
-		rl_replace_line(input, 1);
-		rl_redisplay();
-		free (input);
+		/*
+		if (ft_strncmp(input, "echo", 4) == 0)
+		{
+			printf("%s\n", input);
+			//this is a built in, i will comment this because i need try the "" and ', 
+			//so if u like you can implement the echo built in 
+		
+		}
+		*/
+		else if (input && !input[0])
+			input[0] = '\0';
+		else
+		{
+			pid = fork_with_error_check();
+			if (pid == 0)
+				execve_with_error_check(&input, env);
+			wait(&status);
+			rl_replace_line(input, 1);
+			rl_redisplay();
+			free (input);
+		}
 	}
 	return (0);
 }

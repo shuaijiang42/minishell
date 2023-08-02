@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/02 22:25:14 by samusanc         ###   ########.fr       */
+/*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
+/*   Updated: 2023/08/02 22:55:25 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef FT_LEXER_H
+# define FT_LEXER_H
 
-# ifndef MINISHELL_H
-# define MINISHELL_H
+typedef enum e_bool
+{
+	false = 0,
+	true = 1
+}			t_bool;
 
-# include <libft.h>
-# include <sys/errno.h>
-# include <pipex.h>
-# include <stdio.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+typedef struct s_tokens
+{
+	t_bool	simple_cuotes;
+	t_bool	double_cuotes;
+	t_bool	dollar;
+}	t_tokens;
 
-/* Replace_line shenanigans */
-void			rl_replace_line(const char *text, int clear_undo);
-
-void	execve_with_error_check(char **argv, char **env);
+char	**ft_lexer(char **argv);
 
 #endif
