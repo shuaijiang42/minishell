@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:07:01 by shujiang          #+#    #+#             */
-/*   Updated: 2023/05/09 17:13:58 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/02 20:41:21 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_var2	get_input_fd_for_cmd1(char **argv)
 	return (var);
 }
 
+/*
 int	main(int argc, char **argv, char **env)
 {
 	int		temp;
@@ -86,3 +87,4 @@ int	main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
+*/
