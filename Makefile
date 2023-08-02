@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+         #
+#    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/07/31 17:46:36 by samusanc         ###   ########.fr        #
+#    Updated: 2023/08/02 16:43:07 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
-CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/
+CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ 
 CC		= gcc $(CFLAGS)
-LIBFT	= -L./libft/ -lft
+LIBFT	= -L./libft/ -lft -lreadline
 MAIN	= ./src/main.c
 SRCS	= $(MAIN) \
 
