@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 14:53:23 by samusanc          #+#    #+#             */
-/*   Updated: 2023/03/09 13:38:13 by samusanc         ###   ########.fr       */
+/*   Created: 2023/02/03 11:44:26 by shujiang          #+#    #+#             */
+/*   Updated: 2023/03/17 13:34:36 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*Envía el carácter ’c’ al file descriptor
-especificado.*/
 void	ft_putchar_fd(char c, int fd)
 {
-	write(fd, &c, 1);
+	write (fd, &c, 1);
 }

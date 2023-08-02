@@ -1,18 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 14:44:45 by shujiang          #+#    #+#             */
-/*   Updated: 2023/04/27 13:33:31 by shujiang         ###   ########.fr       */
+/*   Created: 2023/02/22 16:34:38 by shujiang          #+#    #+#             */
+/*   Updated: 2023/04/20 11:37:23 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char *s1, char*s2)
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	if (!s)
+		return (NULL);
+	if ((unsigned char)c == '\0')
+	{
+		while (*s != '\0')
+			s++;
+		return ((char *)s);
+	}
+	else
+	{
+		while (*s != (unsigned char)c && *s != '\0')
+			s++;
+		if (*s == '\0')
+			return (0);
+		else
+			return ((char *)s);
+	}
+}
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	char	*ret;
@@ -22,9 +53,9 @@ char	*ft_strjoin(char *s1, char*s2)
 	if (s2 == NULL)
 		return ((char *)s1);
 	str = malloc (ft_strlen(s1) + ft_strlen(s2) + 1);
-	ret = str;
 	if (!str)
 		return (NULL);
+	ret = str;
 	while (*s1)
 	{
 		*str = *s1;

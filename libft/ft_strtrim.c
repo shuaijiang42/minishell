@@ -3,82 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 13:25:09 by samusanc          #+#    #+#             */
-/*   Updated: 2023/03/02 16:41:52 by samusanc         ###   ########.fr       */
+/*   Created: 2023/01/25 15:25:14 by shujiang          #+#    #+#             */
+/*   Updated: 2023/02/09 17:15:05 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_vc(char c, char *s);
-static char	*ft_put_str(char *o, size_t l, char *s);
-static char	*ft_trim(char *s1, char *set);
+static int	count_start(char const *s1, char const *set)
+{
+	int	i;
+	int	j;
+	int	counter;
+
+	i = 0;
+	j = 0;
+	counter = 0;
+	while (set[j])
+	{
+		if (s1[i] == set[j])
+		{
+			counter++;
+			i++;
+			j = -1;
+		}			
+		j++;
+	}
+	return (counter);
+}
+
+static int	count_end(char const *s1, char const *set)
+{
+	size_t	i;
+	size_t	j;
+	int		counter;
+
+	i = ft_strlen(s1) - 1;
+	j = 0;
+	counter = 0;
+	while (i > 0 && j < ft_strlen(set))
+	{
+		while (s1[i] == set[j])
+		{
+			counter++;
+			i--;
+			j = 0;
+		}
+		j++;
+	}
+	if (counter == (int)ft_strlen(s1))
+		counter = 0;
+	return (counter);
+}
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	if (!set || !*set)
-		return (ft_strdup(s1));
-	if (!s1 || !*s1)
-		return (ft_strdup(""));
-	return (ft_trim((char *)s1, (char *)set));
-}
+	char	*ret;
+	int		i;
+	size_t	start;
+	size_t	end;
 
-static int	ft_vc(char c, char *s)
-{
-	while (*s)
-	{
-		if (*s == c)
-			return (1);
-		++s;
-	}
-	return (0);
-}
-
-static char	*ft_put_str(char *o, size_t l, char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < l)
-	{
-		s[i] = o[i];
-		++i;
-	}
-	return (s);
-}
-
-static char	*ft_trim(char *s1, char *set)
-{
-	size_t	i;
-	size_t	f;
-	size_t	l;
-	int		s;
-	char	*r;
-
-	i = 0;
-	f = 0;
-	l = 0;
-	while (s1[i] && ft_vc(s1[i], set) == 1)
-		++i;
-	while (s1[l])
-		++l;
-	f = l - 1;
-	while (s1[f] && ft_vc(s1[f], set) == 1)
-		--f;
-	f = (l - 1) - f;
-	s = l - (i + f);
-	if (s < 0)
-		return (ft_strdup(""));
-	r = malloc (sizeof(char) * (s + 1));
-	if (!r)
+	if (s1 == NULL)
 		return (NULL);
-	r[s] = '\0';
-	return (ft_put_str((s1 + i), s, r));
+	if (set == NULL)
+		return ((char *)s1);
+	start = count_start(s1, set);
+	end = count_end(s1, set);
+	ret = malloc((sizeof(char) * (ft_strlen(s1)) - start - end + 1));
+	if (!ret)
+		return (NULL);
+	i = 0;
+	while (start < (int)ft_strlen(s1) - end)
+	{
+		ret[i] = s1[start];
+		i++;
+		start++;
+	}
+	ret[i] = '\0';
+	return (ret);
 }
-/*
-int	main()
-{
-	printf("%s", ft_strtrim("              ", " "));
-}*/

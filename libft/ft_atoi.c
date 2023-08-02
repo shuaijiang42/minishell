@@ -3,37 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 13:19:52 by samusanc          #+#    #+#             */
-/*   Updated: 2023/03/02 16:09:07 by samusanc         ###   ########.fr       */
+/*   Created: 2023/01/20 16:53:40 by shujiang          #+#    #+#             */
+/*   Updated: 2023/03/22 17:26:27 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<stdio.h>
+#include "libft.h"
 
-int	ft_atoi(const char *nptr)
+/* int	ft_atoi(const char *str)
 {
-	char	*str;
-	int		r;
-	int		s;
+	int	res;
+	int	sign;
 
-	str = (char *)nptr;
-	r = 0;
-	s = 1;
-	while ((*str >= 9 && *str <= 13) || *str == 32)
+	res = 0;
+	sign = 1;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
 		str++;
-	if (*str == 45)
-		s = -s;
-	if (*str == 45 || *str == 43)
+	if (*str == '-')
+		sign *= -1;
+	if (*str == '+' || *str == '-' )
 		str++;
-	while (*str >= 48 && *str <= 57)
-		r = (r * 10) + (*str++ - '0');
-	return (r * s);
-}
-
-/*int	main(void)
-{
-	printf("atoi:%d\n", ft_atoi("    -2147483647"));
-}
-*/
+	while (*str >= '0' && *str <= '9')
+	{
+		res = res * 10 + *str - '0';
+		str++;
+	}
+	return (sign * res);
+} */

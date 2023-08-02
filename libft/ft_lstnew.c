@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/05 18:25:21 by samusanc          #+#    #+#             */
-/*   Updated: 2023/06/27 17:32:09 by samusanc         ###   ########.fr       */
+/*   Created: 2023/02/03 16:52:41 by shujiang          #+#    #+#             */
+/*   Updated: 2023/02/04 19:29:27 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include<stdio.h>
-# include<unistd.h>
-# include<stdarg.h>
-# include"./src/formats.h"
+#include "libft.h"
 
-int	ft_printf(char const *format, ...);
-#endif
+t_list	*ft_lstnew(void *content)
+{
+	t_list	*root;
+
+	root = malloc(sizeof(t_list));
+	if (!root)
+		return (NULL);
+	root -> content = content;
+	root -> next = NULL;
+	return (root);
+}

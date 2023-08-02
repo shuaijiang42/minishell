@@ -3,97 +3,109 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 13:28:39 by samusanc          #+#    #+#             */
-/*   Updated: 2023/03/09 13:37:53 by samusanc         ###   ########.fr       */
+/*   Created: 2023/01/25 16:10:14 by shujiang          #+#    #+#             */
+/*   Updated: 2023/03/21 11:26:07 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_p_word(char *s, char c)
+static int	count_sub(const char *s, char c)
 {
-	char	*str;
-	size_t	l;
-	size_t	i;
+	int		count;
+	char	*ptr;
 
-	l = 0;
-	i = 0;
-	while (s[l] && s[l] != c)
-		++l;
-	str = malloc (sizeof(char) * (l + 1));
-	if (!str)
+	ptr = (char *)s;
+	count = 0;
+	if (!ptr || (c == '\0' && *ptr == '\0'))
 		return (0);
-	str[l] = '\0';
-	while (i < l)
+	if (c == '\0' && *ptr != '\0')
+		return (1);
+	while (*ptr != '\0' && *ptr == c)
+		ptr++;
+	while (ft_strchr(ptr, c) != NULL)
 	{
-		str[i] = *s;
-		++s;
-		++i;
+		count++;
+		ptr = ft_strchr(ptr, c) + 1;
+		while (*ptr != '\0' && *ptr == c)
+			ptr++;
 	}
-	return (str);
+	if (*ptr != '\0')
+		count += 1;
+	return (count);
 }
 
-static void	ft_get_str(char *s, char c, char **r)
+static int	count_substring_len(const char *s, char c)
 {
-	size_t	i;
+	int	len;
+
+	len = 0;
+	while (*s != '\0' && *s == c)
+		s++;
+	while (*s != c && *s)
+	{
+		len++;
+		s++;
+	}	
+	return (len);
+}
+
+static char	*write_substrings(const char *s, char c)
+{
+	char			*substr;
+	int				substr_len;
+	unsigned int	i;
 
 	i = 0;
-	while (*s && *s == c)
-		++s;
-	while (*s)
-	{
-		r[i] = ft_p_word((char *)s, c);
-		if (!r[i] && r[0])
-		{
-			while (i != 0)
-			{
-				free(r[i]);
-				r[i] = NULL;
-				--i;
-			}
-			free(r);
-			return ;
-		}
-		++i;
-		while (*s && *s != c)
-			++s;
-		while (*s && *s == c)
-			++s;
-	}
-}
-
-static size_t	ft_n_words(char *s, char c)
-{
-	size_t	i;
-
-	i = 0;
-	while (*s && *s == c)
-		++s;
-	while (*s)
-	{
-		++i;
-		while (*s && *s != c)
-			++s;
-		while (*s && *s == c)
-			++s;
-	}
-	return (i);
-}
-
-char	**ft_split(const char *s, char c)
-{
-	char	**r;
-	size_t	l;
-
-	if (!s)
+	substr_len = count_substring_len(s, c);
+	substr = ft_substr(s, i, substr_len);
+	if (!substr)
 		return (NULL);
-	l = ft_n_words((char *)s, c);
-	r = malloc (sizeof(char *) * (l + 1));
-	if (!r)
-		return (0);
-	r[l] = 0;
-	ft_get_str((char *)s, c, r);
-	return (r);
+	substr[substr_len] = '\0';
+	return (substr);
+}
+
+static void	*ft_free_strings(char	**strings)
+{
+	int	i;
+
+	i = 0;
+	while (strings[i])
+	{
+		free(strings[i]);
+		i++;
+	}
+	free(strings);
+	return (NULL);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**strings;
+	int		index;
+	int		i;
+
+	strings = NULL;
+	i = 0;
+	index = count_sub(s, c);
+	strings = malloc((sizeof(char *) * (index + 1)));
+	if (strings == NULL)
+		return (NULL);
+	while (*s == c && *s != '\0')
+		s++;
+	while (i < index)
+	{
+		strings[i] = write_substrings(s, c);
+		if (strings[i] == NULL)
+			return (ft_free_strings(strings));
+		else
+			s = s + ft_strlen(strings[i]);
+		while (*s == c && *s != '\0')
+			s++;
+		i++;
+	}
+	strings[i] = NULL;
+	return (strings);
 }

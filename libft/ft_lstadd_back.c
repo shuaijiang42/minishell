@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_format_char.c                                   :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/30 18:04:08 by samusanc          #+#    #+#             */
-/*   Updated: 2023/06/11 10:17:30 by samusanc         ###   ########.fr       */
+/*   Created: 2023/02/04 20:05:34 by shujiang          #+#    #+#             */
+/*   Updated: 2023/02/05 13:07:03 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <unistd.h>
 
-static void	ft_sum_general_count(int *i)
-{
-	if (*i == -1)
-		return ;
-	++*i;
-}
+#include "libft.h"
 
-int	ft_format_char(char c, int *general_count)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	if (write(1, &c, 1) < 0)
-		*general_count = -1;
-	ft_sum_general_count(general_count);
-	return (0);
+	t_list	*elem;
+
+	if (lst && *lst)
+	{
+		elem = *lst;
+		elem = ft_lstlast(elem);
+		elem -> next = new;
+	}
+	else
+		*lst = new;
 }

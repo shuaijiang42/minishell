@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 15:50:44 by samusanc          #+#    #+#             */
-/*   Updated: 2023/02/12 12:09:25 by samusanc         ###   ########.fr       */
+/*   Created: 2023/01/20 10:36:25 by shujiang          #+#    #+#             */
+/*   Updated: 2023/02/09 16:04:03 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,19 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	int		i;
-	int		v;
-	char	t;
-
-	i = 0;
-	v = 0;
-	t = (char)c;
-	if (t == '\0')
+	if ((unsigned char)c == '\0')
 	{
-		while (*(const char *)(s + v) != '\0')
-			++v;
-		return ((char *)s + v);
+		while (*s != '\0')
+			s++;
+		return ((char *)s);
 	}
-	while (*(const char *)(s + i) != '\0')
+	else
 	{
-		if (*(const char *)(s + i) == t)
-		{
-			v = 1;
-			break ;
-		}
-		++i;
+		while (*s != (unsigned char)c && *s != '\0')
+			s++;
+		if (*s == '\0')
+			return (0);
+		else
+			return ((char *)s);
 	}
-	if (v == 0)
-		return (0);
-	return ((char *)s + i);
 }

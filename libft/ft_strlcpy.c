@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 14:46:28 by samusanc          #+#    #+#             */
-/*   Updated: 2023/03/09 13:36:07 by samusanc         ###   ########.fr       */
+/*   Created: 2023/01/16 18:59:30 by shujiang          #+#    #+#             */
+/*   Updated: 2023/02/09 16:04:32 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,16 @@
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t			i;
-	long			len;
+	size_t	i;
 
-	len = ft_strlen((char *)src);
-	if (dstsize > 0)
+	i = 0;
+	if (dstsize == 0)
+		return (ft_strlen(src));
+	while (src[i] && i < dstsize -1)
 	{
-		if (dst > src)
-		{
-			i = -1;
-			while (++i < (dstsize - 1) && i < (unsigned long)(len))
-				*(char *)(dst + i) = *(const char *)(src + i);
-			*(char *)(dst + i) = '\0';
-			return (len);
-		}
-		else
-		{
-			i = -1;
-			while (++i < (dstsize - 1) && i < (unsigned long)(len))
-				*(char *)(dst + i - 1) = *(const char *)(src + i);
-			*(char *)(dst + i) = '\0';
-			return (0);
-		}
+		dst[i] = src[i];
+		i++;
 	}
-	else
-		return (len);
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }

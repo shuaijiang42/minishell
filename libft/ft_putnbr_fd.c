@@ -3,40 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/06 14:53:41 by samusanc          #+#    #+#             */
-/*   Updated: 2023/03/02 14:26:10 by samusanc         ###   ########.fr       */
+/*   Created: 2023/02/03 12:23:50 by shujiang          #+#    #+#             */
+/*   Updated: 2023/05/06 17:59:36 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*Envía el número ’n’ al file descriptor dado.*/
 void	ft_putnbr_fd(int n, int fd)
 {
-	long	nd;
+	char	c;
 
 	if (n == -2147483648)
 	{
-		write(fd, "-2147483648", 11);
-		return ;
+		ft_putstr_fd("-2147483648", fd);
 	}
-	if (n < 0)
+	else if (n < 0)
 	{
-		n = n * -1;
-		write(fd, "-", 1);
+		c = '-';
+		write (fd, &c, 1);
+		ft_putnbr_fd(-n, fd);
+	}	
+	if (n >= 0 && n <= 9)
+	{
+		c = n + 48;
+		write (fd, &c, 1);
 	}
-	nd = (long)n;
 	if (n > 9)
-		ft_putnbr_fd((int)(nd / 10), fd);
-	ft_putchar_fd(nd % 10 + '0', fd);
+	{
+		c = n + 48;
+		ft_putnbr_fd(n / 10, fd);
+		ft_putchar_fd(n % 10 + 48, fd);
+	}
 }
-/*
-int	main()
-{
-	int	i;
 
-	i = (-2147483647 -1);
-	ft_putnbr_fd(i, 1);
-}*/
+/* int	main()
+{
+	ft_putnbr_fd(42, 1);
+	return (0);
+} */

@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 22:22:13 by shujiang          #+#    #+#             */
-/*   Updated: 2023/02/09 16:02:10 by shujiang         ###   ########.fr       */
+/*   Created: 2023/02/05 15:11:02 by shujiang          #+#    #+#             */
+/*   Updated: 2023/02/09 16:02:43 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_bzero(void *s, size_t n)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	size_t	i;
-	char	*ptr;
+	t_list	*node;
+	t_list	*successor;
 
-	ptr = (char *)s;
-	i = 0;
-	while (i < n)
+	node = *lst;
+	successor = NULL;
+	while (node != NULL)
 	{
-		ptr[i] = '\0';
-		i++;
+		successor = node -> next;
+		del(node->content);
+		free(node);
+		node = successor;
 	}
+	*lst = NULL;
 }
