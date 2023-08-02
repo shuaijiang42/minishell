@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/02 18:59:03 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/02 19:37:22 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,33 @@
 
 int main(int argc, char **argv, char **env)
 {
-	(void)argc;
-	(void)argv;
 	char *input;
 	int	pid;
 	int	status = 0;
 	
+	if(argc > 1)
+	{
+		(void)argv;
+		perror("Too many arguments\n");
+		exit(0);
+	}
 	while (1)
 	{
 		input = readline("minishell$ ");
 		if (input != NULL)
 			add_history(input);
-		
+		if (ft_strcmp(input, "exit") == 0)
+		{
+			free (input);
+			exit (0);
+		}
 		pid = fork_with_error_check();
 		if (pid == 0)
 			execve_with_error_check(&input, env);
 		wait(&status);
-		/* input = readline("minishell$ "); */
-		//rl_on_new_line();
 		rl_replace_line(input, 1);
 		rl_redisplay();
 		free (input);
-		
 	}
 	return (0);
 }
