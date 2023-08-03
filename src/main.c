@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/03 12:39:51 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:32:46 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+char **get_cmd(char *input)
+{
+	
+}
+
 
 int main(int argc, char **argv, char **env)
 {

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/02 18:12:40 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/03 13:58:20 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@
 void			rl_replace_line(const char *text, int clear_undo);
 
 void	execve_with_error_check(char **argv, char **env);
-
+void    pipex(char *input, char **env);
 #endif
