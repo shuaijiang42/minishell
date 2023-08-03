@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/02 22:55:22 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:54:24 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ char **ft_lexer(char **argv)
 {
 	char **result;
 	char	*str;
-	typedef	str;
+	unsigned int	i;
 
+	i = 0;
 	str = argv[0];
 	result = ft_split(str, ' ');
 	return (result);
