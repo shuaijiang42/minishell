@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:09:21 by shujiang          #+#    #+#             */
-/*   Updated: 2023/05/09 17:23:49 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:27:10 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**split_path(char **env)
 	return (path);
 }
 
-void	ft_free(char **strings)
+void	*ft_free_split(void **strings)
 {
 	int	i;
 
@@ -44,6 +44,7 @@ void	ft_free(char **strings)
 		i++;
 	}
 	free(strings);
+	return (NULL);
 }
 
 //get cmd, remove flags
@@ -56,7 +57,7 @@ char	*get_cmd(char *argv)
 	if (*temp == NULL)
 		print_error(" : command not found");
 	cmd = ft_strdup(temp[0]);
-	ft_free(temp);
+	ft_free_split((void **)temp);
 	return (cmd);
 }
 
@@ -78,12 +79,12 @@ char	*get_full_path(char **env, char *cmd)
 		if (access(path, X_OK) == 0)
 		{
 			free(temp);
-			ft_free(path_list);
+			ft_free_split((void **)path_list);
 			return (path);
 		}
 		i++;
 	}
-	ft_free(path_list);
+	ft_free_split((void **)path_list);
 	exit_cmd_not_found(path, temp, cmd);
 	return (0);
 }

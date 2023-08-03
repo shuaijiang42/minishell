@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/03 13:58:20 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:28:22 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include <sys/errno.h>
 # include <pipex.h>
 # include <stdio.h>
 # include <unistd.h>
