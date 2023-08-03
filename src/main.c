@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/02 19:55:26 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:39:51 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int main(int argc, char **argv, char **env)
 	{
 		(void)argv;
 		printf("Too many arguments\n");
-		
 		exit(0);
 	}
 	while (1)
