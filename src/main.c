@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 15:55:24 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/04 17:24:30 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	main(int argc, char **argv)
 }
 #endif
 
-#if 1
+/* #if 1
 
 int main(int argc, char **argv, char **env)
 {
@@ -132,13 +132,6 @@ int main(int argc, char **argv, char **env)
 	int	pid;
 	int	status = 0;
 	
-	copy_env(env);
-	/* int i = 0;
-	while (env_cpy[i])
-	{
-		printf("%s\n", env_cpy[i]);
-		i++;
-	} */
 	if(argc > 1)
 	{
 		(void)argv;
@@ -156,7 +149,6 @@ int main(int argc, char **argv, char **env)
 			exit (0);
 		}
 		else if (!(input && !count_arguments(input)))
-
 		{
 			pid = fork_with_error_check();
 			if (pid == 0)
@@ -169,4 +161,29 @@ int main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
-#endif
+#endif */
+
+//Shuai: This is main for testing echo
+/* int main(int argc, char **argv)
+{
+	char **input;
+	char *line;
+	(void)argv;
+	
+	line = NULL;
+	input = NULL;
+	if (argc != 1)
+		return (0);
+	while (1)
+	{
+		line = readline("minishell$ ");
+		if (line != NULL)
+			add_history(line);
+		input = ft_split(line, ' ');
+		free (line);
+		if (ft_strcmp(input[0], "echo") == 0)
+			ft_echo(input);
+		free (input);
+	}
+	return (0);
+} */
