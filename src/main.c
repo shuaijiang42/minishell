@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 20:23:55 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/04 21:22:21 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,38 @@ int	ft_lexer_check_status(t_command *cmd, char *str, int *i)
 			cmd->status = q_close;
 			return (1);
 		}
-		*i += 1;
-		cmd->status = q_close;
-	}
-	else if (cmd->status == q_close)
-	{
+		else if (str[*i] == '\'' && str[*i] == '\"')
+		{
+			if (str[*i] == '\'' && cmd->simple_q == q_open)
+			{
+				if (!str[*i + 1] || str[*i + 1] == ' ')
+				{
+					printf("hola");
+					cmd->status = q_close;
+				
+				}
+				cmd->simple_q = q_close;
+				cmd->dollar = funtional;
+			}
+			else if (str[*i] == '\"' && cmd->double_q == q_open)
+			{
+				if (!str[*i + 1] || str[*i + 1] == ' ')
+					cmd->status = q_close;
+				cmd->double_q = q_close;
+			}
+			else if (str[*i] == '\'' && cmd->simple_q == q_close && cmd->simple_q == q_close)
+			{
+				printf("opening comillas simples");
+				cmd->simple_q = q_open;
+				cmd->status = q_open;
+			}
+			else if (str[*i] == '\"' && cmd->simple_q == q_close && cmd->simple_q == q_close)
+			{
+				printf("opening comillas dobles");
+				cmd->double_q = q_open;
+				cmd->status = q_open;
+			}
+		}
 		*i += 1;
 	}
 	return (0);
@@ -132,7 +159,8 @@ char **ft_lexer(char **argv)
 			i++;
 		if (str[i] && !end)
 		{
-			//if ((str[*i] == '|' || str[*i] == '<' || str[*i] == '>'))
+			if ((str[i] == '|' || str[i] == '<' || str[i] == '>'))
+				break ;
 			n_commands += 1;
 			status.status = q_open;
 		}
@@ -147,7 +175,7 @@ char **ft_lexer(char **argv)
 	i = 0;
 }
 
-#if 0
+#if 1
 int	main(int argc, char **argv)
 {
 	if (argc != 2)
@@ -159,7 +187,7 @@ int	main(int argc, char **argv)
 }
 #endif
 
-#if 1
+#if 0
 int main(int argc, char **argv, char **env)
 {
 	char *input;
