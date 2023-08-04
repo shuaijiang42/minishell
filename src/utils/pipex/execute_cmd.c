@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/03 16:26:10 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:43:15 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -52,9 +52,13 @@ void	child_execute_preparation(int i, int *end, int argc, char **argv)
 void	execve_with_error_check(char **argv, char **env)
 {
 	char	*path;
+	char	**arguments;
 
+	arguments = ft_lexer(argv);
+	if (!arguments)
+		exit(0);
 	path = cmd_path(*argv, env);
-	if (execve(path, ft_lexer(argv), env) == -1)
+	if (execve(path, arguments, env) == -1)
 	{
 		perror(*argv);
 		exit(1);
