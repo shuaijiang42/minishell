@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 18:37:18 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/04 19:40:19 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,41 +89,10 @@ char **ft_lexer(char **argv)
 {
 	char			**result;
 	char			*str;
-	int				i;
-	int				command;
-	int				n_commands;
-	t_command		status;
-
-	i = 0;
-	n_commands = 0;
-	command = 0;
 	str = argv[0];
-	while (str[i] == ' ')
-		i++;
-	if (str[i])
-	{
-		n_commands = 1;
-		if (str[i] == '|')
-			return ((char **)ft_print_error("syntax error near unexpected token '|'"));
-	//	ft_lexer_check_status(&status);
-	}
-	while (str[i])
-	{
-		while (str[i] != ' ' && str[i])
-			i++;
-		command = 0;
-		while (str[i] == ' ' && str[i])
-			i++;
-		if (str[i] && str[i] != ' ' && !command)
-			command += n_commands++;
-		i++;
-	}
-	printf("%d", n_commands);
+	
 	result = ft_split(str, ' ');
 	return (result);
-	status.simple = q_close;
-	str = NULL;
-	i = 0;
 }
 
 #if 0
@@ -178,8 +147,8 @@ int main(int argc, char **argv, char **env)
 #endif */
 
 
-//Shuai: This is main for testing echo
-int main(int argc, char **argv)
+//Shuai: This is main for testing ft_excuter
+int main(int argc, char **argv, char **env)
 {
 	char **input;
 	char *line;
@@ -196,8 +165,7 @@ int main(int argc, char **argv)
 			add_history(line);
 		input = ft_split(line, ' ');
 		free (line);
-		ft_built_in(input);
-		free (input);
+		ft_excuter(input, env);
 	}
 	return (0);
 }

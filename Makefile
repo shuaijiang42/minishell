@@ -6,12 +6,12 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/04 18:17:41 by shujiang         ###   ########.fr        #
+#    Updated: 2023/08/04 19:13:12 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
-CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ 
+CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ -fsanitize=address -g3
 CC		= gcc $(CFLAGS)
 UTILS	= ./src/utils/
 LIBFT	= -L./libft/ -lft 
