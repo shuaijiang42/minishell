@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 21:22:21 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/04 22:47:48 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	dollar_delimiter(char c)
 
 int	ft_lexer_check_status(t_command *cmd, char *str, int *i)
 {
-	printf("%s\n", str + *i);
 	char	c;
 
 	c = str[*i];
@@ -77,37 +76,43 @@ int	ft_lexer_check_status(t_command *cmd, char *str, int *i)
 			cmd->status = q_close;
 			return (1);
 		}
-		else if (str[*i] == '\'' && str[*i] == '\"')
+		else if (str[*i] == '\'' ||	str[*i] == '\"')
 		{
-			if (str[*i] == '\'' && cmd->simple_q == q_open)
+			if (cmd->simple_q == q_open || cmd->double_q == q_open)
 			{
-				if (!str[*i + 1] || str[*i + 1] == ' ')
+				if (str[*i] == '\'' && cmd->simple_q == q_open)
 				{
-					printf("hola");
-					cmd->status = q_close;
-				
+					if (!str[*i + 1] || str[*i + 1] == ' ')
+						cmd->status = q_close;
+					cmd->simple_q = q_close;
+					cmd->dollar = funtional;
 				}
-				cmd->simple_q = q_close;
-				cmd->dollar = funtional;
-			}
-			else if (str[*i] == '\"' && cmd->double_q == q_open)
-			{
-				if (!str[*i + 1] || str[*i + 1] == ' ')
-					cmd->status = q_close;
-				cmd->double_q = q_close;
+				else if (str[*i] == '\"' && cmd->double_q == q_open)
+				{
+					if (!str[*i + 1] || str[*i + 1] == ' ')
+						cmd->status = q_close;
+					cmd->double_q = q_close;
+				}
 			}
 			else if (str[*i] == '\'' && cmd->simple_q == q_close && cmd->simple_q == q_close)
 			{
-				printf("opening comillas simples");
 				cmd->simple_q = q_open;
 				cmd->status = q_open;
 			}
 			else if (str[*i] == '\"' && cmd->simple_q == q_close && cmd->simple_q == q_close)
 			{
-				printf("opening comillas dobles");
 				cmd->double_q = q_open;
 				cmd->status = q_open;
 			}
+		}
+		else if (str[*i] == ' ' && cmd->simple_q == q_close && cmd->double_q == q_close)
+			cmd->status = q_close;
+		else if (str[*i] == '$' && cmd->simple_q == q_close)
+		{
+			if (str[*i + 1] == '$')
+				*i += 1;
+			while (!str[*i + 1] && dollar_delimiter(str[*i + 1]))
+				*i += 1;
 		}
 		*i += 1;
 	}
@@ -155,20 +160,20 @@ char **ft_lexer(char **argv)
 				break ;
 			}
 		}
+		n_commands += 1;
+		printf("dou:%s, %d\n", str + i, i);
 		while (str[i] == ' ' && str[i] && !end)
 			i++;
 		if (str[i] && !end)
 		{
 			if ((str[i] == '|' || str[i] == '<' || str[i] == '>'))
 				break ;
-			n_commands += 1;
 			status.status = q_open;
 		}
 	}
+	printf("%d", n_commands);
 	if (status.status == q_open)
 		return ((char **)ft_print_error("syntax error unclosed quotes"));
-	printf("\n%d", n_commands);
-	printf("%s\n", str + i);
 	result = ft_split(str, ' ');
 	return (result);
 	str = NULL;
