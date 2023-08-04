@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 15:42:56 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:23:55 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,37 @@ int	count_arguments(char *str)
 	return (n_commands);
 }
 
-/*
-int	ft_lexer_check_status()
+int	dollar_delimiter(char c)
 {
-
+	if (!c || c == '$' || c == '\'' || c == '\"' \
+		|| c == '|' || c == '<' || c == '>')
+		return (0);
+	return (1);
 }
-*/
+
+int	ft_lexer_check_status(t_command *cmd, char *str, int *i)
+{
+	printf("%s\n", str + *i);
+	char	c;
+
+	c = str[*i];
+	if (cmd->status == q_open)
+	{
+		if (cmd->simple_q == q_close && cmd->double_q == q_close \
+		&& (str[*i] == '|' || str[*i] == '<' || str[*i] == '>'))
+		{
+			cmd->status = q_close;
+			return (1);
+		}
+		*i += 1;
+		cmd->status = q_close;
+	}
+	else if (cmd->status == q_close)
+	{
+		*i += 1;
+	}
+	return (0);
+}
 
 void	*ft_print_error(char *str)
 {
@@ -74,39 +99,50 @@ char **ft_lexer(char **argv)
 {
 	char			**result;
 	char			*str;
+	str = argv[0];
 	int				i;
 	int				command;
 	int				n_commands;
+	int				end;
 	t_command		status;
+	status.dollar = funtional;
+	status.simple_q = q_close;
+	status.double_q = q_close;
+	status.dollar = funtional;
 
 	i = 0;
 	n_commands = 0;
 	command = 0;
-	str = argv[0];
+	end = 0;
 	while (str[i] == ' ')
 		i++;
 	if (str[i])
+		status.status = q_open;
+	while (str[i] && !end)
 	{
-		n_commands = 1;
-		if (str[i] == '|')
-			return ((char **)ft_print_error("syntax error near unexpected token '|'"));
-	//	ft_lexer_check_status(&status);
-	}
-	while (str[i])
-	{
-		while (str[i] != ' ' && str[i])
+		while (status.status == q_open && str[i])
+		{
+			if(ft_lexer_check_status(&status, str, &i))
+			{
+				end = 1;
+				break ;
+			}
+		}
+		while (str[i] == ' ' && str[i] && !end)
 			i++;
-		command = 0;
-		while (str[i] == ' ' && str[i])
-			i++;
-		if (str[i] && str[i] != ' ' && !command)
-			command += n_commands++;
-		i++;
+		if (str[i] && !end)
+		{
+			//if ((str[*i] == '|' || str[*i] == '<' || str[*i] == '>'))
+			n_commands += 1;
+			status.status = q_open;
+		}
 	}
-	printf("%d", n_commands);
+	if (status.status == q_open)
+		return ((char **)ft_print_error("syntax error unclosed quotes"));
+	printf("\n%d", n_commands);
+	printf("%s\n", str + i);
 	result = ft_split(str, ' ');
 	return (result);
-	status.simple = q_close;
 	str = NULL;
 	i = 0;
 }

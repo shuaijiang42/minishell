@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/04 13:09:59 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/04 16:55:04 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FT_LEXER_H
@@ -29,9 +29,10 @@ typedef enum e_dollar{
 
 //el dollar sing funciona solo si las commillas son dobles
 typedef struct t_command{
-	t_quotes	simple;
-	t_quotes	dobule;
+	t_quotes	simple_q;
+	t_quotes	double_q;
 	t_dollar	dollar;
+	t_quotes	status;
 }				t_command;
 
 char	**ft_lexer(char **arguments);
