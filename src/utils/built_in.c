@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/04 18:03:51 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/04 18:37:54 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,35 @@ void ft_echo(char    **input)
 		printf("%s\n", input[i]);
 }
 
-/* int	ft_built_in(char **input)
+void ft_exit(char    **input)
 {
-	if (ft_strcmp(input[0], "echo" == 0))
+	printf("exit\n");
+	if (input[1])
+	{
+		printf("minishell: exit: %s: numeric argument required\n", input[1]);
+	}
+	ft_free_input(input);
+	exit (0);
+}
+
+int	ft_built_in(char **input)
+{
+	if (ft_strcmp(input[0], "echo") == 0)
 		ft_echo (input);
-	else if (ft_strcmp(input[0], "cd" == 0))
+	/* else if (ft_strcmp(input[0], "cd") == 0)
 		ft_cd (input);
-	else if (ft_strcmp(input[0], "pwd" == 0))
+	else if (ft_strcmp(input[0], "pwd") == 0)
 		ft_pwd (input);
-	else if (ft_strcmp(input[0], "export" == 0))
+	else if (ft_strcmp(input[0], "export") == 0)
 		ft_export (input);
-	else if (ft_strcmp(input[0], "unset" == 0))
+	else if (ft_strcmp(input[0], "unset") == 0)
 		ft_unset (input);
-	else if (ft_strcmp(input[0], "env" == 0))
-		ft_env (input);
-	else if (ft_strcmp(input[0], "exit" == 0))
-		ft_exit (input);
+	else if (ft_strcmp(input[0], "env") == 0)
+		ft_env (input); */
+	else if (ft_strcmp(input[0], "exit") == 0)
+		ft_exit (input);  
 	else
 		return (0);
 	return (1);
-} */
+}
+
