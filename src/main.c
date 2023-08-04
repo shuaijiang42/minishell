@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 17:24:30 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/04 18:00:42 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,8 +163,28 @@ int main(int argc, char **argv, char **env)
 }
 #endif */
 
+/* int	ft_built_in(char **input)
+{
+	if (ft_strcmp(input[0], "echo") == 0)
+		ft_echo (input);
+	else if (ft_strcmp(input[0], "cd") == 0)
+		ft_cd (input);
+	else if (ft_strcmp(input[0], "pwd") == 0)
+		ft_pwd (input);
+	else if (ft_strcmp(input[0], "export") == 0)
+		ft_export (input);
+	else if (ft_strcmp(input[0], "unset") == 0)
+		ft_unset (input);
+	else if (ft_strcmp(input[0], "env") == 0)
+		ft_env (input);
+	else if (ft_strcmp(input[0], "exit") == 0)
+		ft_exit (input); 
+	else
+		return (0);
+	return (1);
+} */
 //Shuai: This is main for testing echo
-/* int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	char **input;
 	char *line;
@@ -183,7 +203,8 @@ int main(int argc, char **argv, char **env)
 		free (line);
 		if (ft_strcmp(input[0], "echo") == 0)
 			ft_echo(input);
+		//ft_built_in(input);
 		free (input);
 	}
 	return (0);
-} */
+}
