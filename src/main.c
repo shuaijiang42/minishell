@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/03 16:39:17 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/03 18:56:22 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,37 @@ char **ft_lexer(char **argv)
 	str = NULL;
 }
 
+void copy_env(char **env)
+{
+	int i;
+
+	i = 0;
+	while (env[i])
+		i++;
+	env_cpy = (char **)malloc((sizeof(char *) * (i+1)));
+	if (!env_cpy)
+		return ;
+	i = 0;
+	while (env[i])
+	{
+		env_cpy[i] = ft_strdup(env[i]);
+		i++;
+	}
+}
+
 int main(int argc, char **argv, char **env)
 {
 	char *input;
 	int	pid;
 	int	status = 0;
 	
+	copy_env(env);
+	/* int i = 0;
+	while (env_cpy[i])
+	{
+		printf("%s\n", env_cpy[i]);
+		i++;
+	} */
 	if(argc > 1)
 	{
 		(void)argv;
@@ -61,15 +86,15 @@ int main(int argc, char **argv, char **env)
 			free (input);
 			exit (0);
 		}
-		/*
 		if (ft_strncmp(input, "echo", 4) == 0)
 		{
-			printf("%s\n", input);
-			//this is a built in, i will comment this because i need try the "" and ', 
-			//so if u like you can implement the echo built in 
-		
+			
+			ft_echo(input);
 		}
-		*/
+		/* if (ft_strcmp(input, "unset PATH") == 0)
+		{
+			
+		} */
 		else if (input && !input[0])
 			input[0] = '\0';
 		else

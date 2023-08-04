@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/02 18:16:53 by shujiang         ###   ########.fr        #
+#    Updated: 2023/08/03 17:16:26 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCS	= $(MAIN) \
 		$(UTILS)pipex/execute_cmd.c \
 		$(UTILS)pipex/cmd_path.c \
 		$(UTILS)pipex/error_handling.c \
-		$(UTILS)pipex/main.c
+		$(UTILS)pipex/main.c \
+		$(UTILS)echo.c
 
 O_DIR	= ./objects/
 OBJS	= $(addprefix $(O_DIR)/, $(SRCS:.c=.o))

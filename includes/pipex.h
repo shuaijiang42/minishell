@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/02 22:01:03 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/03 17:18:55 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include "../libft/libft.h"
+# include <libft.h>
 # include <sys/wait.h>
 # include <ft_lexer.h>
 
