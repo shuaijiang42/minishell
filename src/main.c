@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/05 18:58:07 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/05 21:56:08 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	*ft_print_error(char *str)
 
 //			ft_get_next_command
 //		return values:
+//		-4 if the command is empty
 //		-3 if is the last or only command
 //		-2 if is one pipe open
 //		-1 if the quotes is no closed
@@ -155,6 +156,8 @@ int ft_get_next_command(char *str)
 		i++;
 	if (str[i])
 		status.status = q_open;
+	else
+		return (-4);
 	while (str[i] && !end)
 	{
 		while (status.status == q_open && str[i])
@@ -242,6 +245,166 @@ int	count_arguments_lexer(char *str)
 	return (n_commands);
 }
 
+//			ft_check_argument
+//		return values:
+//		1 if is a valid argument 
+//		0 if is a empty argument
+//		-1 if is a invalid argument
+
+int	ft_check_argument(char *str)
+{
+	int	len;
+
+	len = ft_get_next_command(str);
+	if (len == -4)
+		return (0);
+	while (len > 0)
+	{
+		str += len;
+		len = ft_get_next_command(str);
+	}
+	if (len == -1)
+		return (-1);
+	return (1);
+}
+
+char *ft_get_argument(char *str, int *i, int *end)
+{
+	char	*start;
+	char *result;
+	int		len;
+	int		j;
+	t_command	cmd_c;
+	t_command	cmd;
+
+	cmd_c.status = q_open;
+	cmd.status = q_open;
+	start = str + *i;
+	j = 0;
+	len = 0;
+	printf("starting string:%s\n", start);
+	while(cmd_c.status == q_open)
+	{
+		if (cmd_c.simple_q == q_close && cmd_c.double_q == q_close \
+		&& (start[j] == '|' || start[j] == '<' || start[j] == '>'))
+		{
+			cmd_c.status = q_close;
+			*end = 1;
+			break ;
+		}
+		else if (start[j] == '\'' ||	start[j] == '\"')
+		{
+			if (cmd_c.simple_q == q_open || cmd_c.double_q == q_open)
+			{
+				if (start[j] == '\'' && cmd_c.simple_q == q_open)
+				{
+					if (!start[j + 1] || start[j + 1] == ' ')
+						cmd_c.status = q_close;
+					cmd_c.simple_q = q_close;
+					cmd_c.dollar = funtional;
+					j += 1;
+				}
+				else if (start[j] == '\"' && cmd_c.double_q == q_open)
+				{
+					if (!start[j + 1] || start[j + 1] == ' ')
+						cmd_c.status = q_close;
+					cmd_c.double_q = q_close;
+					j += 1;
+				}
+				else
+				{
+					len += 1;
+					j += 1;
+				}
+			}
+			else if (start[j] == '\'' && cmd_c.simple_q == q_close && cmd_c.simple_q == q_close)
+			{
+				cmd_c.simple_q = q_open;
+				cmd_c.status = q_open;
+				j += 1;
+			}
+			else if (start[j] == '\"' && cmd_c.simple_q == q_close && cmd_c.simple_q == q_close)
+			{
+				cmd_c.double_q = q_open;
+				cmd_c.status = q_open;
+				j += 1;
+			}
+		}
+		else if ((start[j] == ' ' || !start[j]) && cmd_c.simple_q == q_close && cmd_c.double_q == q_close)
+		{
+			cmd_c.status = q_close;
+		}
+		else if (start[j] == '$' && cmd_c.simple_q == q_close)
+		{
+			if (start[j + 1] == '$')
+			{
+				j += 1;
+			}
+			while (!start[j + 1] && dollar_delimiter(start[j + 1]))
+				j += 1;
+			j += 1;
+		}
+		else
+		{
+			len += 1;
+			j += 1;
+		}
+	}
+	result = malloc(sizeof(char) * (len + 1));
+	if (!result)
+		return (NULL);
+	printf("result len:%d\n", len);
+	result[len] = '\0';
+	j = 0;
+	printf("result:%s\n", result);
+
+	result = ft_strdup("hola");
+	*i += 1;
+	return (result);
+	len = 0;
+	if (&cmd_c == &cmd)
+		return (NULL);
+	end = 0;
+}
+
+void	*ft_free_split_2(char ***split)
+{
+	int i;
+
+	i = 0;
+	while (split[0][i])
+	{
+		if (split[0][i++])
+			ft_free((void *)&split[0][i]);
+	}
+	ft_free((void *)&split[0]);
+	*split = NULL;
+	return (NULL);
+}
+
+void	*ft_parse_arguments(char ***result_ptr, char *str, int n)
+{
+	char		**result;
+	int			i;
+	int			j;
+	int			end;
+
+	i = 0;
+	j = 0;
+	if (!n)
+		return (NULL);
+	while (str[i] == ' ')
+		str++;
+	result = *result_ptr;
+	while (str[i] && !end && j != n)
+	{
+		result[j] = ft_get_argument(str, &i, &end);
+		if (!result[j++])
+			return(ft_free_split_2(result_ptr));
+	}
+	return (NULL);
+}
+
 char **ft_lexer(char **argv)
 {
 	char			**result;
@@ -252,7 +415,15 @@ char **ft_lexer(char **argv)
 	len = count_arguments_lexer(str);
 	if (len == -1)
 		return (NULL);
+	result = malloc(sizeof(char) * (len + 1));
+	if (!result)
+		return (NULL);
+	ft_parse_arguments(&result, str, len);
+	if (!result)
+		return (NULL);
+	result[len] = NULL;
 	result = ft_split(str, ' ');
+	printf("len:%d\n", len);
 	return (result);
 	str = NULL;
 }
@@ -262,8 +433,8 @@ int	main(int argc, char **argv)
 {
 	if (argc != 2)
 		return (0);
-	printf("%d", ft_get_next_command(*(argv + 1)));
-	//ft_lexer(argv + 1);
+	//printf("%d", ft_check_argument(*(argv + 1)));
+	ft_lexer(argv + 1);
 	
 	return (0);
 	argc = 0;
