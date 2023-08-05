@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 22:47:48 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/05 18:58:07 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	ft_lexer_check_status(t_command *cmd, char *str, int *i)
 				cmd->status = q_open;
 			}
 		}
-		else if (str[*i] == ' ' && cmd->simple_q == q_close && cmd->double_q == q_close)
+		else if ((str[*i] == ' ' || !str[*i]) && cmd->simple_q == q_close && cmd->double_q == q_close)
 			cmd->status = q_close;
 		else if (str[*i] == '$' && cmd->simple_q == q_close)
 		{
@@ -127,11 +127,73 @@ void	*ft_print_error(char *str)
 	return (NULL);
 }
 
-char **ft_lexer(char **argv)
+
+//			ft_get_next_command
+//		return values:
+//		-3 if is the last or only command
+//		-2 if is one pipe open
+//		-1 if the quotes is no closed
+//		(other value) index of the next command in the array
+
+int ft_get_next_command(char *str)
 {
-	char			**result;
-	char			*str;
-	str = argv[0];
+	int				i;
+	int				command;
+	int				n_commands;
+	int				end;
+
+	t_command		status;
+	status.dollar = funtional;
+	status.simple_q = q_close;
+	status.double_q = q_close;
+	status.dollar = funtional;
+	i = 0;
+	n_commands = 0;
+	command = 0;
+	end = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i])
+		status.status = q_open;
+	while (str[i] && !end)
+	{
+		while (status.status == q_open && str[i])
+		{
+			if(ft_lexer_check_status(&status, str, &i))
+			{
+				end = 1;
+				break ;
+			}
+		}
+		n_commands += 1;
+		while (str[i] == ' ' && str[i] && !end)
+			i++;
+		if ((str[i] == '|' || str[i] == '<' || str[i] == '>'))
+		{
+			if(!str[i + 1])
+				return (-2);
+			else
+				return (i + 1);
+		}
+		if (str[i] && !end)
+		{
+			if ((str[i] == '|' || str[i] == '<' || str[i] == '>'))
+				break ;
+			status.status = q_open;
+		}
+	}
+	if (!str[i] && status.simple_q == q_close && status.double_q == q_close)
+		status.status = q_close;
+	if (status.status == q_open)
+	{
+		ft_print_error("syntax error unclosed quotes");
+		return (-1);
+	}
+	return (-3);
+}
+
+int	count_arguments_lexer(char *str)
+{
 	int				i;
 	int				command;
 	int				n_commands;
@@ -161,7 +223,6 @@ char **ft_lexer(char **argv)
 			}
 		}
 		n_commands += 1;
-		printf("dou:%s, %d\n", str + i, i);
 		while (str[i] == ' ' && str[i] && !end)
 			i++;
 		if (str[i] && !end)
@@ -171,13 +232,29 @@ char **ft_lexer(char **argv)
 			status.status = q_open;
 		}
 	}
-	printf("%d", n_commands);
+	if (!str[i] && status.simple_q == q_close && status.double_q == q_close)
+		status.status = q_close;
 	if (status.status == q_open)
-		return ((char **)ft_print_error("syntax error unclosed quotes"));
+	{
+		ft_print_error("syntax error unclosed quotes");
+		return (-1);
+	}
+	return (n_commands);
+}
+
+char **ft_lexer(char **argv)
+{
+	char			**result;
+	char			*str;
+	int				len;
+
+	str = argv[0];
+	len = count_arguments_lexer(str);
+	if (len == -1)
+		return (NULL);
 	result = ft_split(str, ' ');
 	return (result);
 	str = NULL;
-	i = 0;
 }
 
 #if 1
@@ -185,7 +262,8 @@ int	main(int argc, char **argv)
 {
 	if (argc != 2)
 		return (0);
-	ft_lexer(argv + 1);
+	printf("%d", ft_get_next_command(*(argv + 1)));
+	//ft_lexer(argv + 1);
 	
 	return (0);
 	argc = 0;
