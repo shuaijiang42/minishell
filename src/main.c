@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/05 21:56:08 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/06 21:33:22 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,10 +270,11 @@ int	ft_check_argument(char *str)
 
 char *ft_get_argument(char *str, int *i, int *end)
 {
-	char	*start;
-	char *result;
-	int		len;
-	int		j;
+	char		*start;
+	char		*result;
+	int			len;
+	int			j;
+	int			k;
 	t_command	cmd_c;
 	t_command	cmd;
 
@@ -282,59 +283,134 @@ char *ft_get_argument(char *str, int *i, int *end)
 	start = str + *i;
 	j = 0;
 	len = 0;
-	printf("starting string:%s\n", start);
+	k = 0;
 	while(cmd_c.status == q_open)
 	{
 		if (cmd_c.simple_q == q_close && cmd_c.double_q == q_close \
-		&& (start[j] == '|' || start[j] == '<' || start[j] == '>'))
+		&& (start[*i] == '|' || start[*i] == '<' || start[*i] == '>'))
 		{
 			cmd_c.status = q_close;
-			*end = 1;
 			break ;
 		}
-		else if (start[j] == '\'' ||	start[j] == '\"')
+		else if (start[*i] == '\'' ||	start[*i] == '\"')
 		{
 			if (cmd_c.simple_q == q_open || cmd_c.double_q == q_open)
 			{
-				if (start[j] == '\'' && cmd_c.simple_q == q_open)
+				if (start[*i] == '\'' && cmd_c.simple_q == q_open)
 				{
-					if (!start[j + 1] || start[j + 1] == ' ')
+					if (!start[*i + 1] || start[*i + 1] == ' ')
 						cmd_c.status = q_close;
 					cmd_c.simple_q = q_close;
 					cmd_c.dollar = funtional;
-					j += 1;
+					*i += 1;
 				}
-				else if (start[j] == '\"' && cmd_c.double_q == q_open)
+				else if (start[*i] == '\"' && cmd_c.double_q == q_open)
 				{
-					if (!start[j + 1] || start[j + 1] == ' ')
+					if (!start[*i + 1] || start[*i + 1] == ' ')
 						cmd_c.status = q_close;
 					cmd_c.double_q = q_close;
-					j += 1;
+					*i += 1;
 				}
 				else
 				{
 					len += 1;
-					j += 1;
+					*i += 1;
 				}
 			}
-			else if (start[j] == '\'' && cmd_c.simple_q == q_close && cmd_c.simple_q == q_close)
+			else if (start[*i] == '\'' && cmd_c.simple_q == q_close && cmd_c.simple_q == q_close)
 			{
 				cmd_c.simple_q = q_open;
 				cmd_c.status = q_open;
-				j += 1;
+				*i += 1;
 			}
-			else if (start[j] == '\"' && cmd_c.simple_q == q_close && cmd_c.simple_q == q_close)
+			else if (start[*i] == '\"' && cmd_c.simple_q == q_close && cmd_c.simple_q == q_close)
 			{
 				cmd_c.double_q = q_open;
 				cmd_c.status = q_open;
-				j += 1;
+				*i += 1;
 			}
 		}
-		else if ((start[j] == ' ' || !start[j]) && cmd_c.simple_q == q_close && cmd_c.double_q == q_close)
+		else if ((start[*i] == ' ' || !start[*i]) && cmd_c.simple_q == q_close && cmd_c.double_q == q_close)
 		{
 			cmd_c.status = q_close;
 		}
-		else if (start[j] == '$' && cmd_c.simple_q == q_close)
+		else if (start[*i] == '$' && cmd_c.simple_q == q_close)
+		{
+			if (start[*i + 1] == '$')
+			{
+				*i += 1;
+			}
+			while (!start[*i + 1] && dollar_delimiter(start[*i + 1]))
+				*i += 1;
+			*i += 1;
+		}
+		else
+		{
+			len += 1;
+			if (str[*i + 1])
+				*i += 1;
+			if (*i > 100)
+				return (NULL);
+			printf("i:%c\n", start[*i]);
+		}
+	}
+	//result = malloc(sizeof(char) * (len + 1));
+	//if (!result)
+	//	return (NULL);
+	//result[len] = '\0';
+	/*
+	while(cmd.status == q_open)
+	{
+		if (cmd.simple_q == q_close && cmd_c.double_q == q_close \
+		&& (start[j] == '|' || start[j] == '<' || start[j] == '>'))
+		{
+			cmd.status = q_close;
+			break ;
+		}
+		else if (start[j] == '\'' ||	start[j] == '\"')
+		{
+			if (cmd.simple_q == q_open || cmd_c.double_q == q_open)
+			{
+				if (start[j] == '\'' && cmd.simple_q == q_open)
+				{
+					if (!start[j + 1] || start[j + 1] == ' ')
+						cmd.status = q_close;
+					cmd.simple_q = q_close;
+					cmd.dollar = funtional;
+					j += 1;
+				}
+				else if (start[j] == '\"' && cmd.double_q == q_open)
+				{
+					if (!start[j + 1] || start[j + 1] == ' ')
+						cmd.status = q_close;
+					cmd.double_q = q_close;
+					j += 1;
+				}
+				else
+				{
+					if (start[j])
+						result[k++] = start[j];
+					j += 1;
+				}
+			}
+			else if (start[j] == '\'' && cmd.simple_q == q_close && cmd_c.simple_q == q_close)
+			{
+				cmd.simple_q = q_open;
+				cmd.status = q_open;
+				j += 1;
+			}
+			else if (start[j] == '\"' && cmd.simple_q == q_close && cmd_c.simple_q == q_close)
+			{
+				cmd.double_q = q_open;
+				cmd.status = q_open;
+				j += 1;
+			}
+		}
+		else if ((start[j] == ' ' || !start[j]) && cmd.simple_q == q_close && cmd_c.double_q == q_close)
+		{
+			cmd.status = q_close;
+		}
+		else if (start[j] == '$' && cmd.simple_q == q_close)
 		{
 			if (start[j + 1] == '$')
 			{
@@ -346,24 +422,16 @@ char *ft_get_argument(char *str, int *i, int *end)
 		}
 		else
 		{
-			len += 1;
+			if (start[j])
+				result[k++] = start[j];
 			j += 1;
 		}
-	}
-	result = malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (NULL);
-	printf("result len:%d\n", len);
-	result[len] = '\0';
-	j = 0;
-	printf("result:%s\n", result);
 
+	}
+	*/
 	result = ft_strdup("hola");
-	*i += 1;
 	return (result);
 	len = 0;
-	if (&cmd_c == &cmd)
-		return (NULL);
 	end = 0;
 }
 
@@ -399,6 +467,11 @@ void	*ft_parse_arguments(char ***result_ptr, char *str, int n)
 	while (str[i] && !end && j != n)
 	{
 		result[j] = ft_get_argument(str, &i, &end);
+		while (str[i] == ' ')
+			i++;
+		printf("1str now:%s, result:%s, j:%d, i:%d\n", str + i, result[j], j, i);
+		str = str + i;
+		i = 0;
 		if (!result[j++])
 			return(ft_free_split_2(result_ptr));
 	}
@@ -415,15 +488,14 @@ char **ft_lexer(char **argv)
 	len = count_arguments_lexer(str);
 	if (len == -1)
 		return (NULL);
-	result = malloc(sizeof(char) * (len + 1));
-	if (!result)
-		return (NULL);
-	ft_parse_arguments(&result, str, len);
+	result = malloc(sizeof(char *) * (len + 1));
 	if (!result)
 		return (NULL);
 	result[len] = NULL;
+	ft_parse_arguments(&result, str, len);
+	if (!result)
+		return (NULL);
 	result = ft_split(str, ' ');
-	printf("len:%d\n", len);
 	return (result);
 	str = NULL;
 }
