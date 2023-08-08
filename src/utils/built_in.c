@@ -6,11 +6,34 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/08 12:39:47 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 14:12:57 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void ft_cd(char *path)
+{
+	DIR *dir;
+
+	if (!path)
+	{
+		chdir("$HOME");
+		printf("Pls check the code. Here we need $ done\n");
+		return ;
+	}
+	dir = opendir(path);
+	if (dir)
+	{
+		if (access(path, X_OK) == -1)
+			printf("minishell: cd: %s: Permission denied\n", path);
+		else
+			chdir(path);
+		closedir(dir);
+	}
+	else
+		printf("minishell: cd: %s: No such file or directory\n", path);
+}
 
 void ft_pwd(void)
 {
@@ -61,8 +84,8 @@ int	ft_built_in(char **input)
 {
 	if (input && ft_strcmp(input[0], "echo") == 0)
 		ft_echo (input);
-	/* else if (ft_strcmp(input[0], "cd") == 0)
-		ft_cd (input);*/
+	else if (ft_strcmp(input[0], "cd") == 0)
+		ft_cd(input[1]);
 	else if (ft_strcmp(input[0], "pwd") == 0)
 		ft_pwd ();
 	/* else if (ft_strcmp(input[0], "export") == 0)

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 18:52:12 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 13:07:16 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <sys/stat.h>
+# include <dirent.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
-char    **env_cpy;
+
 void	rl_replace_line(const char *text, int clear_undo);
 
 void	execve_with_error_check(char **argv, char **env);
