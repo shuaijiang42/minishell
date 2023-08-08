@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/08 16:11:08 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:02:47 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,25 +400,22 @@ void	ft_init_cmd(t_cmd *cmd)
 	cmd->status = q_close;
 }
 
-char **ft_lexer(char *str)
+int	ft_lexer_len_argument(char *str)
 {
-	char			**result;
-	int				len;
 	t_cmd			cmd;
+	int				len;
+	int				i;
+	int				j;
 
-	int	i;
-	int	j;
 	len = 0;
 	i = 0;
 	j = 0;
-	if (ft_check_argument(str) == -1)
-		return (NULL);
 	ft_init_cmd(&cmd);
 	while (!j)
 	{
 		j = ft_check_char(&cmd, str[i]);
 		if (j == 2)
-			printf("%c", str[i]);
+			len++;
 		i++;
 	}
 	while (str[i] && j >= 0)
@@ -427,9 +424,10 @@ char **ft_lexer(char *str)
 		{
 			j = ft_check_char(&cmd, str[i]);
 			if (j == 2)
-				printf("%c", str[i]);
+				len++;
 			i++;
 		}
+		break ;
 		ft_init_cmd(&cmd);
 		while (!j)
 		{
@@ -437,25 +435,181 @@ char **ft_lexer(char *str)
 			i++;
 		}
 	}
-	result = ft_split(str, ' ');
-	return (result);
-	str = NULL;
+	return (len);
 }
 
-#if 1
+int	ft_lexer_len_n_arguments(char *str)
+{
+	t_cmd			cmd;
+	int				len;
+	int				i;
+	int				j;
+
+	len = 0;
+	i = 0;
+	j = 0;
+	ft_init_cmd(&cmd);
+	while (!j)
+	{
+		j = ft_check_char(&cmd, str[i]);
+		//if (j == 2)
+			//	printf("i");
+		i++;
+	}
+	while (str[i] && j >= 0)
+	{
+		while (j > 0)
+		{
+			j = ft_check_char(&cmd, str[i]);
+			//if (j == 2)
+			//	printf("i");
+			i++;
+		}
+		len++;
+		ft_init_cmd(&cmd);
+		while (!j)
+		{
+			j = ft_check_char(&cmd, str[i]);
+			i++;
+		}
+	}
+	return (len);
+}
+
+void	ft_lexer_fill_str(char *str, char **str2)
+{
+	t_cmd			cmd;
+	int				len;
+	int				i;
+	int				j;
+	int				x;
+
+	len = 0;
+	i = 0;
+	j = 0;
+	x = 0;
+	ft_init_cmd(&cmd);
+	while (!j)
+	{
+		j = ft_check_char(&cmd, str[i]);
+		if (j == 2)
+			str2[0][x++] = str[i];
+		i++;
+	}
+	while (str[i] && j >= 0)
+	{
+		while (j > 0)
+		{
+			j = ft_check_char(&cmd, str[i]);
+			if (j == 2)
+				str2[0][x++] = str[i];
+			i++;
+		}
+		break ;
+	}
+}
+
+int	ft_lexer_get_next_argument(char *str)
+{
+	t_cmd			cmd;
+	int				len;
+	int				i;
+	int				j;
+
+	len = 0;
+	i = 0;
+	j = 0;
+	ft_init_cmd(&cmd);
+	while (!j)
+	{
+		j = ft_check_char(&cmd, str[i]);
+		i++;
+	}
+	while (str[i] && j >= 0)
+	{
+		while (j > 0)
+		{
+			j = ft_check_char(&cmd, str[i]);
+			i++;
+		}
+		return (i);
+	}
+	return (ft_strlen(str));
+}
+
+
+void	ft_alloc_parse_result(char ***result_ptr ,char *str, int len)
+{
+	char **result;
+	int	i;
+	int	arg_len;
+	char	*str2;
+	int		x;
+
+	i = 0;
+	x = 0;
+	result = *result_ptr;
+	while (len)
+	{
+		arg_len = ft_lexer_len_argument(str);
+		str2 = malloc(sizeof(char) * arg_len + 1);
+		if (!str2)
+			return ;
+		str2[arg_len] = '\0';
+		ft_lexer_fill_str(str, &str2);
+		result[x++] = str2;
+		i = ft_lexer_get_next_argument(str);
+		str += i;
+		len--;
+	}
+	
+	return ;
+	str = NULL;
+	len = 0;
+}
+
+char **ft_lexer(char *str)
+{
+	char			**result;
+	//t_cmd			cmd;
+	int				len;
+	int				i;
+
+	if (ft_check_argument(str) == -1)
+		return (NULL);
+	len = ft_lexer_len_n_arguments(str);
+	// y si len da 0 que se hace???
+	result = malloc(sizeof(char *) * len + 1);
+	if (!result)
+		return (NULL);
+	result[len] = NULL;
+	ft_alloc_parse_result(&result, str, len);
+	return (result);
+	str = NULL;
+	i = 0;
+}
+
+#if 0
 int	main(int argc, char **argv)
 {
+	char **result;
 	if (argc != 2)
 		return (0);
 	//printf("%d", ft_check_argument(*(argv + 1)));
-	ft_lexer(*(argv + 1));
+	result = ft_lexer(*(argv + 1));
 	
+	int i;
+	i = 0;
+	while (result[i])
+	{
+		printf("%s\n", result[i++]);
+	}
 	return (0);
 	argc = 0;
 }
 #endif
 
-#if 0
+#if 1
 int main(int argc, char **argv, char **env)
 {
 	char *input;

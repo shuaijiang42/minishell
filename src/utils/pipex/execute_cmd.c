@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/04 15:43:15 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:58:30 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "pipex.h"
@@ -54,7 +54,7 @@ void	execve_with_error_check(char **argv, char **env)
 	char	*path;
 	char	**arguments;
 
-	arguments = ft_lexer(argv);
+	arguments = ft_lexer(*argv);
 	if (!arguments)
 		exit(0);
 	path = cmd_path(*argv, env);
