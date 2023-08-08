@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/04 19:40:19 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:41:32 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ int main(int argc, char **argv, char **env)
 #endif */
 
 
+
 //Shuai: This is main for testing ft_excuter
 int main(int argc, char **argv, char **env)
 {
@@ -158,6 +159,7 @@ int main(int argc, char **argv, char **env)
 	input = NULL;
 	if (argc != 1)
 		return (0);
+	env_copy(env);
 	while (1)
 	{
 		line = readline("minishell$ ");
