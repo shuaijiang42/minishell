@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/06 21:33:22 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:11:08 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,11 @@ int ft_get_next_command(char *str)
 	end = 0;
 	while (str[i] == ' ')
 		i++;
+	if (str[i] == '|')
+	{
+		ft_print_error("syntax error near unexpected token `|'");
+		return (-1);
+	}
 	if (str[i])
 		status.status = q_open;
 	else
@@ -194,57 +199,6 @@ int ft_get_next_command(char *str)
 	}
 	return (-3);
 }
-
-int	count_arguments_lexer(char *str)
-{
-	int				i;
-	int				command;
-	int				n_commands;
-	int				end;
-	t_command		status;
-	status.dollar = funtional;
-	status.simple_q = q_close;
-	status.double_q = q_close;
-	status.dollar = funtional;
-
-	i = 0;
-	n_commands = 0;
-	command = 0;
-	end = 0;
-	while (str[i] == ' ')
-		i++;
-	if (str[i])
-		status.status = q_open;
-	while (str[i] && !end)
-	{
-		while (status.status == q_open && str[i])
-		{
-			if(ft_lexer_check_status(&status, str, &i))
-			{
-				end = 1;
-				break ;
-			}
-		}
-		n_commands += 1;
-		while (str[i] == ' ' && str[i] && !end)
-			i++;
-		if (str[i] && !end)
-		{
-			if ((str[i] == '|' || str[i] == '<' || str[i] == '>'))
-				break ;
-			status.status = q_open;
-		}
-	}
-	if (!str[i] && status.simple_q == q_close && status.double_q == q_close)
-		status.status = q_close;
-	if (status.status == q_open)
-	{
-		ft_print_error("syntax error unclosed quotes");
-		return (-1);
-	}
-	return (n_commands);
-}
-
 //			ft_check_argument
 //		return values:
 //		1 if is a valid argument 
@@ -268,173 +222,6 @@ int	ft_check_argument(char *str)
 	return (1);
 }
 
-char *ft_get_argument(char *str, int *i, int *end)
-{
-	char		*start;
-	char		*result;
-	int			len;
-	int			j;
-	int			k;
-	t_command	cmd_c;
-	t_command	cmd;
-
-	cmd_c.status = q_open;
-	cmd.status = q_open;
-	start = str + *i;
-	j = 0;
-	len = 0;
-	k = 0;
-	while(cmd_c.status == q_open)
-	{
-		if (cmd_c.simple_q == q_close && cmd_c.double_q == q_close \
-		&& (start[*i] == '|' || start[*i] == '<' || start[*i] == '>'))
-		{
-			cmd_c.status = q_close;
-			break ;
-		}
-		else if (start[*i] == '\'' ||	start[*i] == '\"')
-		{
-			if (cmd_c.simple_q == q_open || cmd_c.double_q == q_open)
-			{
-				if (start[*i] == '\'' && cmd_c.simple_q == q_open)
-				{
-					if (!start[*i + 1] || start[*i + 1] == ' ')
-						cmd_c.status = q_close;
-					cmd_c.simple_q = q_close;
-					cmd_c.dollar = funtional;
-					*i += 1;
-				}
-				else if (start[*i] == '\"' && cmd_c.double_q == q_open)
-				{
-					if (!start[*i + 1] || start[*i + 1] == ' ')
-						cmd_c.status = q_close;
-					cmd_c.double_q = q_close;
-					*i += 1;
-				}
-				else
-				{
-					len += 1;
-					*i += 1;
-				}
-			}
-			else if (start[*i] == '\'' && cmd_c.simple_q == q_close && cmd_c.simple_q == q_close)
-			{
-				cmd_c.simple_q = q_open;
-				cmd_c.status = q_open;
-				*i += 1;
-			}
-			else if (start[*i] == '\"' && cmd_c.simple_q == q_close && cmd_c.simple_q == q_close)
-			{
-				cmd_c.double_q = q_open;
-				cmd_c.status = q_open;
-				*i += 1;
-			}
-		}
-		else if ((start[*i] == ' ' || !start[*i]) && cmd_c.simple_q == q_close && cmd_c.double_q == q_close)
-		{
-			cmd_c.status = q_close;
-		}
-		else if (start[*i] == '$' && cmd_c.simple_q == q_close)
-		{
-			if (start[*i + 1] == '$')
-			{
-				*i += 1;
-			}
-			while (!start[*i + 1] && dollar_delimiter(start[*i + 1]))
-				*i += 1;
-			*i += 1;
-		}
-		else
-		{
-			len += 1;
-			if (str[*i + 1])
-				*i += 1;
-			if (*i > 100)
-				return (NULL);
-			printf("i:%c\n", start[*i]);
-		}
-	}
-	//result = malloc(sizeof(char) * (len + 1));
-	//if (!result)
-	//	return (NULL);
-	//result[len] = '\0';
-	/*
-	while(cmd.status == q_open)
-	{
-		if (cmd.simple_q == q_close && cmd_c.double_q == q_close \
-		&& (start[j] == '|' || start[j] == '<' || start[j] == '>'))
-		{
-			cmd.status = q_close;
-			break ;
-		}
-		else if (start[j] == '\'' ||	start[j] == '\"')
-		{
-			if (cmd.simple_q == q_open || cmd_c.double_q == q_open)
-			{
-				if (start[j] == '\'' && cmd.simple_q == q_open)
-				{
-					if (!start[j + 1] || start[j + 1] == ' ')
-						cmd.status = q_close;
-					cmd.simple_q = q_close;
-					cmd.dollar = funtional;
-					j += 1;
-				}
-				else if (start[j] == '\"' && cmd.double_q == q_open)
-				{
-					if (!start[j + 1] || start[j + 1] == ' ')
-						cmd.status = q_close;
-					cmd.double_q = q_close;
-					j += 1;
-				}
-				else
-				{
-					if (start[j])
-						result[k++] = start[j];
-					j += 1;
-				}
-			}
-			else if (start[j] == '\'' && cmd.simple_q == q_close && cmd_c.simple_q == q_close)
-			{
-				cmd.simple_q = q_open;
-				cmd.status = q_open;
-				j += 1;
-			}
-			else if (start[j] == '\"' && cmd.simple_q == q_close && cmd_c.simple_q == q_close)
-			{
-				cmd.double_q = q_open;
-				cmd.status = q_open;
-				j += 1;
-			}
-		}
-		else if ((start[j] == ' ' || !start[j]) && cmd.simple_q == q_close && cmd_c.double_q == q_close)
-		{
-			cmd.status = q_close;
-		}
-		else if (start[j] == '$' && cmd.simple_q == q_close)
-		{
-			if (start[j + 1] == '$')
-			{
-				j += 1;
-			}
-			while (!start[j + 1] && dollar_delimiter(start[j + 1]))
-				j += 1;
-			j += 1;
-		}
-		else
-		{
-			if (start[j])
-				result[k++] = start[j];
-			j += 1;
-		}
-
-	}
-	*/
-	result = ft_strdup("hola");
-	return (result);
-	len = 0;
-	end = 0;
-}
-
 void	*ft_free_split_2(char ***split)
 {
 	int i;
@@ -450,51 +237,206 @@ void	*ft_free_split_2(char ***split)
 	return (NULL);
 }
 
-void	*ft_parse_arguments(char ***result_ptr, char *str, int n)
-{
-	char		**result;
-	int			i;
-	int			j;
-	int			end;
+//	1 si no es imprimible, 2 si es imprimible, 0 si es espacio y -1 es que ha acabado
 
-	i = 0;
-	j = 0;
-	if (!n)
-		return (NULL);
-	while (str[i] == ' ')
-		str++;
-	result = *result_ptr;
-	while (str[i] && !end && j != n)
+int	ft_lex_quotes(t_cmd *cmd, char c)
+{
+	if (cmd->status == q_close)
 	{
-		result[j] = ft_get_argument(str, &i, &end);
-		while (str[i] == ' ')
-			i++;
-		printf("1str now:%s, result:%s, j:%d, i:%d\n", str + i, result[j], j, i);
-		str = str + i;
-		i = 0;
-		if (!result[j++])
-			return(ft_free_split_2(result_ptr));
+		cmd->status = q_open;
+		if (c == '\'')
+		{
+			cmd->dollar_status = q_close;
+			cmd->quotes = s_q;
+		}
+		else
+			cmd->quotes = d_q;
+		return (1);
 	}
-	return (NULL);
+	else
+	{
+		if (cmd->quotes == no_q)
+		{
+			if (c == '\'')
+			{
+				cmd->quotes = s_q;
+				cmd->dollar_status = q_close;
+			}
+			else
+			{
+				cmd->dollar_status = q_close;
+				cmd->quotes = d_q;
+			}
+			return (1);
+		}
+		else
+		{
+			if (cmd->quotes == s_q)
+			{
+				if (c == '\'')
+				{
+					cmd->dollar_status = q_close;
+					cmd->quotes = no_q;
+					return (1);
+				}
+				else
+					return (2);
+			}
+			else
+			{
+				if (c == '\"')
+				{
+					cmd->quotes = no_q;
+					cmd->dollar_status = q_close;
+					return (1);
+				}
+				else
+					return (2);
+			}
+		}
+	
+	}
 }
 
-char **ft_lexer(char **argv)
+int	ft_lex_delimiters(t_cmd *cmd, char c)
+{
+	cmd->dollar_status = q_close;
+	if (cmd->status == q_close)
+		return (-1);
+	else
+	{
+		if (cmd->quotes == no_q)
+		{
+			cmd->status = q_close;
+			return (-1);
+		}
+		else
+			return (2);
+	}
+	c = 0;
+}
+
+int	ft_lex_space(t_cmd *cmd, char c)
+{
+	if (cmd->status == q_close)
+		return (0);
+	else
+	{
+		if (cmd->quotes == no_q)
+		{
+			cmd->status = q_close;
+			cmd->dollar_status = q_close;
+			cmd->dollar = funtional;
+			return (0);
+		}
+		else
+		{
+			if (cmd->quotes == d_q)
+			{
+				cmd->dollar_status = q_close;
+				return (2);
+			}
+			else
+				return (2);
+		}
+	}
+	c = 0;
+}
+
+int	ft_lex_chars(t_cmd *cmd, char c)
+{
+	if (cmd->status == q_close)
+		cmd->status = q_open;
+	if (cmd->dollar_status == q_open)
+		return (1);
+	return (2);
+	c = 0;
+}
+
+int	ft_lex_dollar(t_cmd *cmd, char c)
+{
+	if (cmd->quotes != s_q)
+	{
+		if (cmd->dollar_status == q_close)
+		{
+			cmd->dollar_status = q_open;
+			return (1);
+		}
+		else
+		{
+			cmd->dollar_status = q_close;
+			return (1);
+		}
+	}
+	else
+	{
+		cmd->dollar_status = q_close;
+		return (2);
+	}
+	c = 0;
+}
+
+int	ft_check_char(t_cmd *cmd, char c)
+{
+	if (c == '\'' || c == '\"')
+		return (ft_lex_quotes(cmd, c));
+	else if (c == '$')
+		return (ft_lex_dollar(cmd, c));
+	else if (c == '|' || c == '<' || c == '>')
+		return (ft_lex_delimiters(cmd, c));
+	else if (!c)
+		return (-1);
+	else if (c == ' ')
+		return (ft_lex_space(cmd, c));
+	else
+		return (ft_lex_chars(cmd, c));
+	cmd = NULL;
+}
+
+void	ft_init_cmd(t_cmd *cmd)
+{
+	cmd->quotes = no_q;
+	cmd->dollar_status = q_close;
+	cmd->status = q_close;
+}
+
+char **ft_lexer(char *str)
 {
 	char			**result;
-	char			*str;
 	int				len;
+	t_cmd			cmd;
 
-	str = argv[0];
-	len = count_arguments_lexer(str);
-	if (len == -1)
+	int	i;
+	int	j;
+	len = 0;
+	i = 0;
+	j = 0;
+	if (ft_check_argument(str) == -1)
 		return (NULL);
-	result = malloc(sizeof(char *) * (len + 1));
-	if (!result)
-		return (NULL);
-	result[len] = NULL;
-	ft_parse_arguments(&result, str, len);
-	if (!result)
-		return (NULL);
+	ft_init_cmd(&cmd);
+	while (!j)
+	{
+		j = ft_check_char(&cmd, str[i]);
+		if (j == 2)
+			printf("%c", str[i]);
+		i++;
+	}
+	while (str[i] && j >= 0)
+	{
+		while (j > 0)
+		{
+			j = ft_check_char(&cmd, str[i]);
+			if (j == 2)
+				printf("%c", str[i]);
+			i++;
+		}
+		ft_init_cmd(&cmd);
+		while (!j)
+		{
+			j = ft_check_char(&cmd, str[i]);
+			i++;
+		}
+	}
 	result = ft_split(str, ' ');
 	return (result);
 	str = NULL;
@@ -506,7 +448,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (0);
 	//printf("%d", ft_check_argument(*(argv + 1)));
-	ft_lexer(argv + 1);
+	ft_lexer(*(argv + 1));
 	
 	return (0);
 	argc = 0;
