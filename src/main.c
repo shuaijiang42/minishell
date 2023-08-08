@@ -6,17 +6,11 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/08 17:21:19 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:26:12 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include <minishell.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 void	*ft_free(void **str)
 {
@@ -154,7 +148,6 @@ void	*ft_print_error(char *str)
 
 int ft_get_next_command(char *str)
 {
-<<<<<<< HEAD
 	int				i;
 	int				command;
 	int				n_commands;
