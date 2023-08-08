@@ -6,11 +6,18 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/04 19:40:05 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 12:39:47 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void ft_pwd(void)
+{
+	char buf[4096];
+
+	printf("%s\n", getcwd(buf, sizeof(buf)));
+}
 
 void ft_echo(char    **input)
 {
@@ -55,10 +62,10 @@ int	ft_built_in(char **input)
 	if (input && ft_strcmp(input[0], "echo") == 0)
 		ft_echo (input);
 	/* else if (ft_strcmp(input[0], "cd") == 0)
-		ft_cd (input);
+		ft_cd (input);*/
 	else if (ft_strcmp(input[0], "pwd") == 0)
-		ft_pwd (input);
-	else if (ft_strcmp(input[0], "export") == 0)
+		ft_pwd ();
+	/* else if (ft_strcmp(input[0], "export") == 0)
 		ft_export (input);
 	else if (ft_strcmp(input[0], "unset") == 0)
 		ft_unset (input);
