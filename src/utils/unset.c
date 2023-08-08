@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:34:55 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/08 17:06:13 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:08:53 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 /* void    ft_unset(char **input)
 {
-    if(input[1] == NULL)
-    {
-        
-    }
+	if(input[1] == NULL)
+	{
+		
+	}
 } */
+	
