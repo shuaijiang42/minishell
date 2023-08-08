@@ -6,9 +6,11 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/08 17:14:14 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:21:19 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include <minishell.h>
 #include <stdio.h>
@@ -24,6 +26,19 @@ void	*ft_free(void **str)
 		*str = NULL;
 	}
 	return (0);
+}
+
+void	ft_free_input(char **input)
+{
+	int i;
+	
+	i = 0;
+	while (input[i])
+	{
+		free(input[i]);
+		i++;
+	}
+	free (input);
 }
 
 int	count_arguments(char *str)
@@ -119,6 +134,7 @@ int	ft_lexer_check_status(t_command *cmd, char *str, int *i)
 	return (0);
 }
 
+//Free the parsed input list
 void	*ft_print_error(char *str)
 {
 	write(2, "minishell: ", 11);
@@ -138,6 +154,7 @@ void	*ft_print_error(char *str)
 
 int ft_get_next_command(char *str)
 {
+<<<<<<< HEAD
 	int				i;
 	int				command;
 	int				n_commands;
@@ -609,7 +626,8 @@ int	main(int argc, char **argv)
 }
 #endif
 
-#if 1
+/* #if 1
+
 int main(int argc, char **argv, char **env)
 {
 	char *input;
@@ -632,15 +650,6 @@ int main(int argc, char **argv, char **env)
 			free (input);
 			exit (0);
 		}
-		/*
-		if (ft_strncmp(input, "echo", 4) == 0)
-		{
-			printf("%s\n", input);
-			//this is a built in, i will comment this because i need try the "" and ', 
-			//so if u like you can implement the echo built in 
-		
-		}
-		*/
 		else if (!(input && !count_arguments(input)))
 		{
 			pid = fork_with_error_check();
@@ -654,4 +663,30 @@ int main(int argc, char **argv, char **env)
 	}
 	return (0);
 }
-#endif
+#endif */
+
+
+
+//Shuai: This is main for testing ft_excuter
+int main(int argc, char **argv, char **env)
+{
+	char **input;
+	char *line;
+	(void)argv;
+	
+	line = NULL;
+	input = NULL;
+	if (argc != 1)
+		return (0);
+	env_copy(env);
+	while (1)
+	{
+		line = readline("minishell$ ");
+		if (line != NULL)
+			add_history(line);
+		input = ft_split(line, ' ');
+		free (line);
+		ft_excuter(input, env);
+	}
+	return (0);
+}

@@ -6,10 +6,11 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/08 16:58:30 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:19:06 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "pipex.h"
+
+#include <pipex.h>
 #include <ft_lexer.h>
 
 void	wait_all_children(void)
