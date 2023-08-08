@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/08 17:51:23 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 21:25:09 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -422,9 +422,12 @@ int	ft_lexer_len_argument(char *str)
 	ft_init_cmd(&cmd);
 	while (!j)
 	{
+		printf("%c\n", str[i]);
 		j = ft_check_char(&cmd, str[i]);
 		if (j == 2)
 			len++;
+		if (j)
+			break ;
 		i++;
 	}
 	while (str[i] && j >= 0)
@@ -434,6 +437,8 @@ int	ft_lexer_len_argument(char *str)
 			j = ft_check_char(&cmd, str[i]);
 			if (j == 2)
 				len++;
+			else if (!j || j == -1)
+				break ;
 			i++;
 		}
 		break ;
@@ -458,36 +463,32 @@ int	ft_lexer_len_n_arguments(char *str)
 	i = 0;
 	j = 0;
 	ft_init_cmd(&cmd);
-	while (!j)
+	while (!j && j != -1)
 	{
 		j = ft_check_char(&cmd, str[i]);
-		//if (j == 2)
-			//	printf("i");
+		if (j || j == -1)
+			break ;
 		i++;
 	}
 	while (str[i] && j >= 0)
 	{
-		printf("hello\n");
-		while (j > 0)
+		while (j > 0 && j != -1)
 		{
-			printf("here\n");
 			j = ft_check_char(&cmd, str[i]);
-			//if (j == 2)
-			//	printf("i");
+			if (j == 0 || j == -1)
+				break ;
 			i++;
 		}
-		printf("hi\n");
 		len++;
 		ft_init_cmd(&cmd);
-		while (!j)
+		while (!j && j != -1)
 		{
-			printf("hoooo\n");
 			j = ft_check_char(&cmd, str[i]);
+			if (j || j == -1)
+				break ;
 			i++;
 		}
-		printf("holaaa\n");
 	}
-	
 	return (len);
 }
 
@@ -509,6 +510,8 @@ void	ft_lexer_fill_str(char *str, char **str2)
 		j = ft_check_char(&cmd, str[i]);
 		if (j == 2)
 			str2[0][x++] = str[i];
+		else if (j || j == -1)
+			break ;
 		i++;
 	}
 	while (str[i] && j >= 0)
@@ -518,6 +521,8 @@ void	ft_lexer_fill_str(char *str, char **str2)
 			j = ft_check_char(&cmd, str[i]);
 			if (j == 2)
 				str2[0][x++] = str[i];
+			else if (j == 0 || j == -1)
+				break ;
 			i++;
 		}
 		break ;
@@ -577,7 +582,6 @@ void	ft_alloc_parse_result(char ***result_ptr ,char *str, int len)
 		str += i;
 		len--;
 	}
-	
 	return ;
 	str = NULL;
 	len = 0;
@@ -594,7 +598,7 @@ char **ft_lexer(char *str)
 		return (NULL);
 	len = ft_lexer_len_n_arguments(str);
 	// y si len da 0 que se hace???
-	result = malloc(sizeof(char *) * len + 1);
+	result = malloc(sizeof(char *) * (len + 1));
 	if (!result)
 		return (NULL);
 	result[len] = NULL;
@@ -682,9 +686,12 @@ int main(int argc, char **argv, char **env)
 		line = readline("minishell$ ");
 		if (line != NULL)
 			add_history(line);
-		input = ft_lexer(line);
-		free (line);
-		ft_excuter(input, env);
+		if (ft_check_argument(line) == 1)
+		{
+			input = ft_lexer(line);
+		//free (line);
+			ft_excuter(input, env);
+		}
 	}
 	return (0);
 }

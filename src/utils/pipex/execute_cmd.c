@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/08 17:19:06 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:25:36 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ void	execve_with_error_check(char **argv, char **env)
 	char	*path;
 	char	**arguments;
 
-	arguments = ft_lexer(*argv);
+	arguments = argv;
 	if (!arguments)
 		exit(0);
 	path = cmd_path(*argv, env);
-	if (execve(path, arguments, env) == -1)
+	if (execve(path, argv, env) == -1)
 	{
 		perror(*argv);
 		exit(1);
