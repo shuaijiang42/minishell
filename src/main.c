@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/08 17:26:12 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:51:23 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,7 +400,6 @@ int	ft_check_char(t_cmd *cmd, char c)
 		return (ft_lex_space(cmd, c));
 	else
 		return (ft_lex_chars(cmd, c));
-	cmd = NULL;
 }
 
 void	ft_init_cmd(t_cmd *cmd)
@@ -468,21 +467,27 @@ int	ft_lexer_len_n_arguments(char *str)
 	}
 	while (str[i] && j >= 0)
 	{
+		printf("hello\n");
 		while (j > 0)
 		{
+			printf("here\n");
 			j = ft_check_char(&cmd, str[i]);
 			//if (j == 2)
 			//	printf("i");
 			i++;
 		}
+		printf("hi\n");
 		len++;
 		ft_init_cmd(&cmd);
 		while (!j)
 		{
+			printf("hoooo\n");
 			j = ft_check_char(&cmd, str[i]);
 			i++;
 		}
+		printf("holaaa\n");
 	}
+	
 	return (len);
 }
 
@@ -677,7 +682,7 @@ int main(int argc, char **argv, char **env)
 		line = readline("minishell$ ");
 		if (line != NULL)
 			add_history(line);
-		input = ft_split(line, ' ');
+		input = ft_lexer(line);
 		free (line);
 		ft_excuter(input, env);
 	}
