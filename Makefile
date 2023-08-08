@@ -6,9 +6,10 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/08 16:53:56 by shujiang         ###   ########.fr        #
+#    Updated: 2023/08/08 17:29:52 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME	= minishell
 CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ -fsanitize=address -g3
