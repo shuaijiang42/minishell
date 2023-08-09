@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/09 17:58:32 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:20:02 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,8 +345,12 @@ int	ft_lex_space(t_cmd *cmd, char c)
 		else
 		{
 			if (cmd->quotes == d_q)
+			{
 				cmd->dollar_status = q_close;
-			return (2);
+				return (2);
+			}
+			else
+				return (2);
 		}
 	}
 	c = 0;
@@ -492,47 +496,22 @@ char	*ft_dollar_split_fill(char *str)
 	return (result);
 }
 
-int	ft_one_dollar_len(char *str)
-{
-	t_list	*env;
-	int		i;
-
-	str++;
-	env = env_cpy;
-	i = 0;
-	while (env)
-	{
-		if(!ft_strncmp(str, (char *)env->content, ft_strlen(str)))
-		{
-			i = 1;
-			break ;
-		}
-		env = env->next;
-	}
-	if (i)
-		return (ft_strlen((char *)env->content) - (ft_strlen(str) + 1));
-	return (0);
-}
 
 int	ft_get_dollar_len(char *str)
 {
 	char	*str_split;
 	char	**split;
 	int		len;
-	int		i;
 
 	len = 0;
-	i = 0;
 	str_split = ft_dollar_split_fill(str);
 	if (!str_split)
 		return (0);
 	split = ft_split(str_split, ' ');
-	while (split[i])
-		len += ft_one_dollar_len(split[i++]);
-	printf("les:%d\n", len);
-	ft_free_split_2(&split);
-	ft_free((void *)&str_split);
-	return (len);
+	while 
+	printf("%s\n", str_split);
+	return (0);
+	str = NULL;
 }
 
 int	ft_lexer_len_argument(char *str)
@@ -574,8 +553,7 @@ int	ft_lexer_len_argument(char *str)
 		}
 	}
 	if (dollar > 0)
-		len += ft_get_dollar_len(str);
-	printf("len:%d\n", len);
+		ft_get_dollar_len(str);
 	return (len);
 }
 
@@ -620,63 +598,6 @@ int	ft_lexer_len_n_arguments(char *str)
 	return (len);
 }
 
-int	ft_one_dollar_fill(char *str, char **str2, int *now)
-{
-	t_list	*env;
-	int		i;
-	int		j;
-	char	*c;
-
-	str++;
-	env = env_cpy;
-	i = 0;
-	j = 0;
-	while (env)
-	{
-		if(!ft_strncmp(str, (char *)env->content, ft_strlen(str)))
-		{
-			i = 1;
-			break ;
-		}
-		env = env->next;
-	}
-	if (i)
-	{
-		j = ft_strlen(str) + 1; 
-		c = (char *)env->content + j;
-		while (*c)
-		{
-			str2[0][*now] = *c;
-			j++;
-			*now += 1;
-			c = (char *)env->content + j;
-		}
-	}
-	return (0);
-}
-
-void	ft_fill_dollar(char *str, char **str2, int z, int *now)
-{
-	char	*str_split;
-	char	**split;
-	int		i;
-
-	i = 0;
-	str_split = ft_dollar_split_fill(str);
-	if (!str_split)
-		return ;
-	split = ft_split(str_split, ' ');
-	if (!split)
-	{
-		ft_free((void *)&str_split);
-		return ;
-	}
-	if (split[z])
-		ft_one_dollar_fill(split[z], str2, now);
-	ft_free_split_2(&split);
-	ft_free((void *)&str_split);
-}
-
 void	ft_lexer_fill_str(char *str, char **str2)
 {
 	t_cmd			cmd;
@@ -684,21 +605,17 @@ void	ft_lexer_fill_str(char *str, char **str2)
 	int				i;
 	int				j;
 	int				x;
-	int				z;
 
 	len = 0;
 	i = 0;
 	j = 0;
 	x = 0;
-	z = 0;
 	ft_init_cmd(&cmd);
 	while (!j && str[i])
 	{
 		j = ft_check_char(&cmd, str[i]);
 		if (j == 2)
 			str2[0][x++] = str[i];
-		else if (str[i] == '$' && cmd.quotes != s_q && cmd.dollar_status == q_open)
-			ft_fill_dollar(str, str2, z++, &x);
 		i++;
 	}
 	if (str[i] && j >= 0)
