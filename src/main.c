@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/08 21:25:09 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/09 10:21:50 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -420,33 +420,19 @@ int	ft_lexer_len_argument(char *str)
 	i = 0;
 	j = 0;
 	ft_init_cmd(&cmd);
-	while (!j)
+	while (!j && str[i])
 	{
-		printf("%c\n", str[i]);
-		j = ft_check_char(&cmd, str[i]);
+		j = ft_check_char(&cmd, str[i++]);
 		if (j == 2)
 			len++;
-		if (j)
-			break ;
-		i++;
 	}
-	while (str[i] && j >= 0)
+	if (str[i] && j >= 0)
 	{
-		while (j > 0)
+		while (str[i] && j > 0)
 		{
-			j = ft_check_char(&cmd, str[i]);
+			j = ft_check_char(&cmd, str[i++]);
 			if (j == 2)
 				len++;
-			else if (!j || j == -1)
-				break ;
-			i++;
-		}
-		break ;
-		ft_init_cmd(&cmd);
-		while (!j)
-		{
-			j = ft_check_char(&cmd, str[i]);
-			i++;
 		}
 	}
 	return (len);
@@ -463,31 +449,16 @@ int	ft_lexer_len_n_arguments(char *str)
 	i = 0;
 	j = 0;
 	ft_init_cmd(&cmd);
-	while (!j && j != -1)
-	{
-		j = ft_check_char(&cmd, str[i]);
-		if (j || j == -1)
-			break ;
-		i++;
-	}
+	while (str[i] && !j && j != -1)
+		j = ft_check_char(&cmd, str[i++]);
 	while (str[i] && j >= 0)
 	{
-		while (j > 0 && j != -1)
-		{
-			j = ft_check_char(&cmd, str[i]);
-			if (j == 0 || j == -1)
-				break ;
-			i++;
-		}
+		while (str[i] && j > 0 && j != -1)
+			j = ft_check_char(&cmd, str[i++]);
 		len++;
 		ft_init_cmd(&cmd);
-		while (!j && j != -1)
-		{
-			j = ft_check_char(&cmd, str[i]);
-			if (j || j == -1)
-				break ;
-			i++;
-		}
+		while (str[i] && !j && j != -1)
+			j = ft_check_char(&cmd, str[i++]);
 	}
 	return (len);
 }
@@ -505,27 +476,22 @@ void	ft_lexer_fill_str(char *str, char **str2)
 	j = 0;
 	x = 0;
 	ft_init_cmd(&cmd);
-	while (!j)
+	while (!j && str[i])
 	{
 		j = ft_check_char(&cmd, str[i]);
 		if (j == 2)
 			str2[0][x++] = str[i];
-		else if (j || j == -1)
-			break ;
 		i++;
 	}
-	while (str[i] && j >= 0)
+	if (str[i] && j >= 0)
 	{
-		while (j > 0)
+		while (str[i] && j > 0)
 		{
 			j = ft_check_char(&cmd, str[i]);
 			if (j == 2)
 				str2[0][x++] = str[i];
-			else if (j == 0 || j == -1)
-				break ;
 			i++;
 		}
-		break ;
 	}
 }
 
@@ -540,35 +506,30 @@ int	ft_lexer_get_next_argument(char *str)
 	i = 0;
 	j = 0;
 	ft_init_cmd(&cmd);
-	while (!j)
-	{
-		j = ft_check_char(&cmd, str[i]);
-		i++;
-	}
+	while (str[i] && !j)
+		j = ft_check_char(&cmd, str[i++]);
 	while (str[i] && j >= 0)
 	{
-		while (j > 0)
-		{
-			j = ft_check_char(&cmd, str[i]);
-			i++;
-		}
+		while (str[i] && j > 0)
+			j = ft_check_char(&cmd, str[i++]);
 		return (i);
 	}
 	return (ft_strlen(str));
 }
 
 
-void	ft_alloc_parse_result(char ***result_ptr ,char *str, int len)
+void	ft_alloc_parse_result(char ***result_ptr, char *str, int len)
 {
-	char **result;
-	int	i;
-	int	arg_len;
+	char	**result;
+	int		i;
+	int		arg_len;
 	char	*str2;
 	int		x;
 
 	i = 0;
 	x = 0;
 	result = *result_ptr;
+	arg_len = 0;
 	while (len)
 	{
 		arg_len = ft_lexer_len_argument(str);
