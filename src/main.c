@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/09 10:21:50 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/09 11:02:33 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,18 +444,34 @@ int	ft_lexer_len_n_arguments(char *str)
 	int				len;
 	int				i;
 	int				j;
+	int				x;
 
 	len = 0;
 	i = 0;
 	j = 0;
+	x = 0;
 	ft_init_cmd(&cmd);
 	while (str[i] && !j && j != -1)
+	{
 		j = ft_check_char(&cmd, str[i++]);
+		if (j > 0)
+		{
+			len++;
+			x = 1;
+		}
+	}
 	while (str[i] && j >= 0)
 	{
 		while (str[i] && j > 0 && j != -1)
+		{
 			j = ft_check_char(&cmd, str[i++]);
-		len++;
+			if (j > 0 && x != 1)
+			{
+				len++;
+				x = 1;
+			}
+		}
+		x = 0;
 		ft_init_cmd(&cmd);
 		while (str[i] && !j && j != -1)
 			j = ft_check_char(&cmd, str[i++]);
@@ -650,8 +666,11 @@ int main(int argc, char **argv, char **env)
 		if (ft_check_argument(line) == 1)
 		{
 			input = ft_lexer(line);
+			if (*input)
+			{
 		//free (line);
 			ft_excuter(input, env);
+			}
 		}
 	}
 	return (0);
