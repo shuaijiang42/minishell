@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/08 16:32:49 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/09 14:47:09 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ void    ft_excuter(char **input, char **env);
 void    env_copy(char **env);
 void    print_env_cpy(void);
 void    ft_env(char **input);
+void    ft_unset(char **input);
 #endif
