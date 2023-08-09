@@ -6,11 +6,18 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:53:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/08 16:58:32 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/09 19:11:51 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void init_global(void)
+{
+    g = malloc(sizeof(t_global *));
+    if(!g)
+        perror("malloc: ");
+}
 
 void env_copy(char **env)
 {
@@ -26,8 +33,8 @@ void env_copy(char **env)
        printf("Error: No env\n");
        exit (1);
     }
-    env_cpy = ft_lstnew(env[0]);
-    temp = env_cpy;
+    g->env_cpy = ft_lstnew(env[0]);
+    temp = g->env_cpy;
     while(env[i])
     {
         new = ft_lstnew(env[i]);
@@ -42,7 +49,7 @@ void    print_env_cpy(void)
     t_list *temp;
     
     i = 0;
-    temp = env_cpy;
+    temp = g->env_cpy;
     while(temp)
     {
         printf("%s\n", temp->content);

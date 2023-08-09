@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:34:55 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/09 17:33:39 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/09 19:10:07 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_var(char *str)
 	char *str_env;
 
 	index = 0;
-	temp = env_cpy;
+	temp = g->env_cpy;
 	len = ft_strlen(str);
 	str_env = temp->content;
 	while(temp)
@@ -43,7 +43,7 @@ void	unset_var(int index)
 	t_list *node_to_remove;
 	
 	node_to_remove = NULL;
-	ptr = &env_cpy;
+	ptr = &(g->env_cpy);
 	while(index > 0 && *ptr != NULL)
 	{   
 		ptr = &((*ptr)->next);

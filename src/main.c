@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/09 18:40:50 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/09 19:12:43 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -511,7 +511,7 @@ int	ft_one_dollar_len(char *str)
 	int		i;
 
 	str++;
-	env = env_cpy;
+	env = g->env_cpy;
 	i = 0;
 	while (env)
 	{
@@ -536,7 +536,7 @@ int	ft_get_dollar_len(char *str)
 
 	len = 0;
 	i = 0;
-	str_split = ft_dollar_split_len(str);
+	str_split = ft_dollar_split_fill(str);
 	if (!str_split)
 		return (0);
 	split = ft_split(str_split, ' ');
@@ -639,7 +639,7 @@ int	ft_one_dollar_fill(char *str, char **str2, int *now)
 	char	*c;
 
 	str++;
-	env = env_cpy;
+	env = g->env_cpy;
 	i = 0;
 	j = 0;
 	while (env)
@@ -912,6 +912,7 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	input = NULL;
 	history = NULL;
+	init_global();
 	env_copy(env);
 	while (1)
 	{
