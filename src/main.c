@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/09 11:02:33 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/09 12:58:19 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -645,31 +645,74 @@ int main(int argc, char **argv, char **env)
 #endif */
 
 
+void	ft_get_old_history(char **env, int *fd)
+{
+	int		i;
+	char	*str;
+	char	*str2;
+	char	*str3;
+
+	i = 0;
+	if (!env)
+		return ;
+	while (env[i])
+	{
+		if (!ft_strncmp("HOME=", env[i], 5))
+			break ;
+		i++;
+	}
+	if (!env[i])
+		return ;
+	str = *(env + i);
+	str += 5;
+	str2 = ft_strjoin(str, "/.minishell_history");
+	*fd = open(str2, O_CREAT | O_RDWR | O_APPEND, 0644);
+	ft_free((void *)&str2);
+	if (*fd < 0)
+		return ;
+	str3 = get_next_line(*fd);
+	while(str3)
+	{
+		str3[ft_strlen(str3) - 1] = '\0';
+		if (str3)
+			add_history(str3);
+		ft_free((void *)&str3);
+		str3 = get_next_line(*fd);
+	}
+}
+
 
 //Shuai: This is main for testing ft_excuter
 int main(int argc, char **argv, char **env)
 {
 	char **input;
 	char *line;
+	int		fd_mini_history;
+	t_list	*history;
+	(void)argc;
 	(void)argv;
 	
+	fd_mini_history = 0;
+	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
 	input = NULL;
-	if (argc != 1)
-		return (0);
+	history = NULL;
 	env_copy(env);
 	while (1)
 	{
 		line = readline("minishell$ ");
 		if (line != NULL)
+		{
 			add_history(line);
+			ft_lstadd_back(&history, ft_lstnew((void *)line));
+		}
 		if (ft_check_argument(line) == 1)
 		{
 			input = ft_lexer(line);
 			if (*input)
 			{
 		//free (line);
-			ft_excuter(input, env);
+				ft_excuter(input, env);
 			}
 		}
 	}
