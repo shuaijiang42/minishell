@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/09 16:50:17 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/09 14:46:42 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ int	ft_built_in(char **input)
 	else if (ft_strcmp(input[0], "pwd") == 0)
 		ft_pwd ();
 	/* else if (ft_strcmp(input[0], "export") == 0)
-		ft_export (input);
+		ft_export (input); */
 	else if (ft_strcmp(input[0], "unset") == 0)
-		ft_unset (input); */
+		ft_unset (input);
 	else if (ft_strcmp(input[0], "env") == 0)
 		ft_env (input);
 	else if (ft_strcmp(input[0], "exit") == 0)
