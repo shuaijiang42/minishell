@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/09 17:58:32 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/09 18:40:50 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,7 @@ int	ft_lex_quotes(t_cmd *cmd, char c)
 int	ft_lex_delimiters(t_cmd *cmd, char c)
 {
 	cmd->dollar_status = q_close;
+	cmd->dollar_space = 0;
 	if (cmd->status == q_close)
 		return (-1);
 	else
@@ -339,13 +340,17 @@ int	ft_lex_space(t_cmd *cmd, char c)
 		{
 			cmd->status = q_close;
 			cmd->dollar_status = q_close;
+			cmd->dollar_space = 0;
 			cmd->dollar = funtional;
 			return (0);
 		}
 		else
 		{
 			if (cmd->quotes == d_q)
+			{
 				cmd->dollar_status = q_close;
+				cmd->dollar_space = 0;
+			}
 			return (2);
 		}
 	}
@@ -357,7 +362,10 @@ int	ft_lex_chars(t_cmd *cmd, char c)
 	if (cmd->status == q_close)
 		cmd->status = q_open;
 	if (cmd->dollar_status == q_open)
+	{
+		cmd->dollar_space = 1;
 		return (1);
+	}
 	return (2);
 	c = 0;
 }
@@ -369,11 +377,15 @@ int	ft_lex_dollar(t_cmd *cmd, char c)
 		if (cmd->dollar_status == q_close)
 		{
 			cmd->dollar_status = q_open;
+			cmd->dollar_space = 0;
 			return (1);
 		}
 		else
 		{
-			cmd->dollar_status = q_close;
+			if (!cmd->dollar_space)
+				cmd->dollar_status = q_close;
+			else
+				cmd->dollar_status = q_open;
 			return (1);
 		}
 	}
@@ -406,6 +418,7 @@ void	ft_init_cmd(t_cmd *cmd)
 	cmd->quotes = no_q;
 	cmd->dollar_status = q_close;
 	cmd->status = q_close;
+	cmd->dollar_space = 0;
 }
 
 
@@ -469,7 +482,7 @@ char	*ft_dollar_split_fill(char *str)
 		j = ft_check_char(&cmd, str[i]);
 		if (cmd.dollar_status == q_open)
 			result[dollar++] = str[i];
-		else if (str[i] == '$' && cmd.quotes != s_q)
+		else if (str[i] == '$' && cmd.quotes != s_q && cmd.dollar_space)
 			result[dollar++] = str[i];
 		else
 			result[dollar++] = ' ';
@@ -482,7 +495,7 @@ char	*ft_dollar_split_fill(char *str)
 			j = ft_check_char(&cmd, str[i]);
 			if (cmd.dollar_status == q_open)
 				result[dollar++] = str[i];
-			else if (str[i] == '$' && cmd.quotes != s_q)
+			else if (str[i] == '$' && cmd.quotes != s_q && cmd.dollar_space)
 				result[dollar++] = str[i];
 			else
 				result[dollar++] = ' ';
@@ -523,13 +536,12 @@ int	ft_get_dollar_len(char *str)
 
 	len = 0;
 	i = 0;
-	str_split = ft_dollar_split_fill(str);
+	str_split = ft_dollar_split_len(str);
 	if (!str_split)
 		return (0);
 	split = ft_split(str_split, ' ');
 	while (split[i])
 		len += ft_one_dollar_len(split[i++]);
-	printf("les:%d\n", len);
 	ft_free_split_2(&split);
 	ft_free((void *)&str_split);
 	return (len);
@@ -575,7 +587,6 @@ int	ft_lexer_len_argument(char *str)
 	}
 	if (dollar > 0)
 		len += ft_get_dollar_len(str);
-	printf("len:%d\n", len);
 	return (len);
 }
 
@@ -708,6 +719,8 @@ void	ft_lexer_fill_str(char *str, char **str2)
 			j = ft_check_char(&cmd, str[i]);
 			if (j == 2)
 				str2[0][x++] = str[i];
+			else if (str[i] == '$' && cmd.quotes != s_q && cmd.dollar_status == q_open)
+				ft_fill_dollar(str, str2, z++, &x);
 			i++;
 		}
 	}
