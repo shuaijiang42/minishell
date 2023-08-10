@@ -6,17 +6,19 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:53:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/09 19:11:51 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:25:38 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void init_global(void)
+void init_global(char **env)
 {
-    g = malloc(sizeof(t_global *));
+    g = malloc(sizeof(*g));
     if(!g)
         perror("malloc: ");
+    env_copy(env);
+    creat_exp_list(env);
 }
 
 void env_copy(char **env)

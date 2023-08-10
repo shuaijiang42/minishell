@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/09 19:12:43 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:31:14 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -912,8 +912,7 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	input = NULL;
 	history = NULL;
-	init_global();
-	env_copy(env);
+	init_global(env);
 	while (1)
 	{
 		line = readline("minishell$ ");

@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/08 21:16:48 by samusanc         ###   ########.fr        #
+#    Updated: 2023/08/10 18:22:11 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS	= $(MAIN) \
 		$(UTILS)built_in.c \
 		$(UTILS)unset.c \
 		$(UTILS)env.c \
+		$(UTILS)export.c \
 
 O_DIR	= ./objects/
 OBJS	= $(addprefix $(O_DIR)/, $(SRCS:.c=.o))
