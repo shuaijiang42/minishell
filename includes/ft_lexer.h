@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/08 16:11:12 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/12 20:18:56 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FT_LEXER_H
@@ -45,6 +45,7 @@ typedef struct s_cmd{
 	t_qts		quotes;
 	t_dollar	dollar;
 	t_quotes	dollar_status;
+	int			spaces;
 	t_quotes	status;
 }				t_cmd;
 

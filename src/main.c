@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/09 12:58:19 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/13 19:03:10 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -358,7 +358,10 @@ int	ft_lex_chars(t_cmd *cmd, char c)
 	if (cmd->status == q_close)
 		cmd->status = q_open;
 	if (cmd->dollar_status == q_open)
-		return (1);
+	{
+		cmd->spaces = 1;
+		return (3);
+	}
 	return (2);
 	c = 0;
 }
@@ -367,20 +370,26 @@ int	ft_lex_dollar(t_cmd *cmd, char c)
 {
 	if (cmd->quotes != s_q)
 	{
-		if (cmd->dollar_status == q_close)
+		if (cmd->spaces)
 		{
 			cmd->dollar_status = q_open;
-			return (1);
+			cmd->spaces = 0;
+			//printf("new_dollar\n");
+			return (4);
 		}
 		else
 		{
 			cmd->dollar_status = q_close;
-			return (1);
+			cmd->spaces = 0;
+			//printf("dollar_ugly\n");
+			return (3);
 		}
 	}
 	else
 	{
 		cmd->dollar_status = q_close;
+		cmd->spaces = 0;
+		//printf("not_valid_dollar\n");
 		return (2);
 	}
 	c = 0;
@@ -407,8 +416,97 @@ void	ft_init_cmd(t_cmd *cmd)
 	cmd->quotes = no_q;
 	cmd->dollar_status = q_close;
 	cmd->status = q_close;
+	cmd->spaces = 1;
 }
 
+int	ft_dollar_len(char *str, t_cmd cmd)
+{
+	int	j;
+	int	i;
+	char	*str2;
+	t_list	*tmp;
+
+	j = 4;
+	i = 0;
+	if (!str)
+		return (0);
+	if (!str[0])
+		return (1);
+	j = ft_check_char(&cmd, str[i++]);
+	while (j == 3)
+		j = ft_check_char(&cmd, str[i++]);
+	if (i == 1)
+		return (1);
+	str2 = malloc(sizeof(char) * (i + 1));
+	if (!str2)
+		return (0);
+	ft_strlcpy(str2, str, i);
+	str2[i] = '\0';
+	tmp = env_cpy;
+	while (tmp)
+	{
+		if (!ft_strncmp((char *)tmp->content, str2, ft_strlen(str2)))
+			break ;
+		tmp = tmp->next;
+	}
+	ft_free((void **)&str2);
+	if (!tmp)
+		return (1);
+	return (ft_strlen(((char *)tmp->content + i)) + 1);
+}
+
+void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
+{
+	int	j;
+	int	i;
+	int	z;
+	char	*str2;
+	char	*str3;
+	t_list	*tmp;
+
+	j = 4;
+	i = 0;
+	z = 0;
+	if (!str)
+		return ;
+	if (!str[0])
+	{
+		dst[0] = '$';
+		return ;
+	}
+	j = ft_check_char(&cmd, str[i++]);
+	while (j == 3)
+		j = ft_check_char(&cmd, str[i++]);
+	if (i == 1)
+	{
+		dst[0] = '$';
+		return ;
+	}
+	str2 = malloc(sizeof(char) * (i + 1));
+	if (!str2)
+		return ;
+	ft_strlcpy(str2, str, i);
+	str2[i] = '\0';
+	tmp = env_cpy;
+	while (tmp)
+	{
+		if (!ft_strncmp((char *)tmp->content, str2, ft_strlen(str2)))
+			break ;
+		tmp = tmp->next;
+	}
+	if (!tmp)
+	{
+		ft_free((void **)&str2);
+		dst[0] = ' ';
+		return ;
+	}
+	str3 = (char *)tmp->content + i;
+	ft_strlcpy(dst, str3, ft_strlen(str3) + 1);
+	*x += ft_strlen(str3);
+	return ;
+}
+
+//	this funtions count how many numbers need per argument
 int	ft_lexer_len_argument(char *str)
 {
 	t_cmd			cmd;
@@ -422,17 +520,23 @@ int	ft_lexer_len_argument(char *str)
 	ft_init_cmd(&cmd);
 	while (!j && str[i])
 	{
-		j = ft_check_char(&cmd, str[i++]);
+		j = ft_check_char(&cmd, str[i]);
 		if (j == 2)
 			len++;
+		if (j == 4)
+			len += ft_dollar_len(str + i + 1, cmd);
+		i++;
 	}
 	if (str[i] && j >= 0)
 	{
 		while (str[i] && j > 0)
 		{
-			j = ft_check_char(&cmd, str[i++]);
+			j = ft_check_char(&cmd, str[i]);
 			if (j == 2)
 				len++;
+			if (j == 4)
+				len += ft_dollar_len(str + i + 1, cmd);
+			i++;
 		}
 	}
 	return (len);
@@ -495,8 +599,11 @@ void	ft_lexer_fill_str(char *str, char **str2)
 	while (!j && str[i])
 	{
 		j = ft_check_char(&cmd, str[i]);
+		printf("[%d] = '%c', j = %d\n", i, str[i], j);
 		if (j == 2)
 			str2[0][x++] = str[i];
+		if (j == 4)
+			ft_dollar_fill(str + i + 1, cmd, &x, str2[0] + x);
 		i++;
 	}
 	if (str[i] && j >= 0)
@@ -504,8 +611,11 @@ void	ft_lexer_fill_str(char *str, char **str2)
 		while (str[i] && j > 0)
 		{
 			j = ft_check_char(&cmd, str[i]);
+			printf("[%d] = '%c', j = %d\n", i, str[i], j);
 			if (j == 2)
 				str2[0][x++] = str[i];
+			if (j == 4)
+				ft_dollar_fill(str + i + 1, cmd, &x, str2[0] + x);
 			i++;
 		}
 	}
@@ -549,7 +659,7 @@ void	ft_alloc_parse_result(char ***result_ptr, char *str, int len)
 	while (len)
 	{
 		arg_len = ft_lexer_len_argument(str);
-		str2 = malloc(sizeof(char) * arg_len + 1);
+		str2 = ft_calloc(sizeof(char) , arg_len + 1);
 		if (!str2)
 			return ;
 		str2[arg_len] = '\0';
