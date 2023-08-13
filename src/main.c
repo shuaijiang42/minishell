@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/13 19:03:10 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/13 20:51:18 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,6 +258,7 @@ int	ft_lex_quotes(t_cmd *cmd, char c)
 		{
 			cmd->dollar_status = q_close;
 			cmd->quotes = s_q;
+			cmd->spaces = 3;
 		}
 		else
 			cmd->quotes = d_q;
@@ -271,11 +272,13 @@ int	ft_lex_quotes(t_cmd *cmd, char c)
 			{
 				cmd->quotes = s_q;
 				cmd->dollar_status = q_close;
+				cmd->spaces = 3;
 			}
 			else
 			{
 				cmd->dollar_status = q_close;
 				cmd->quotes = d_q;
+				cmd->spaces = 3;
 			}
 			return (1);
 		}
@@ -287,6 +290,7 @@ int	ft_lex_quotes(t_cmd *cmd, char c)
 				{
 					cmd->dollar_status = q_close;
 					cmd->quotes = no_q;
+					cmd->spaces = 3;
 					return (1);
 				}
 				else
@@ -298,6 +302,7 @@ int	ft_lex_quotes(t_cmd *cmd, char c)
 				{
 					cmd->quotes = no_q;
 					cmd->dollar_status = q_close;
+					cmd->spaces = 3;
 					return (1);
 				}
 				else
@@ -380,7 +385,7 @@ int	ft_lex_dollar(t_cmd *cmd, char c)
 		else
 		{
 			cmd->dollar_status = q_close;
-			cmd->spaces = 0;
+			cmd->spaces = 3;
 			//printf("dollar_ugly\n");
 			return (3);
 		}
@@ -392,6 +397,27 @@ int	ft_lex_dollar(t_cmd *cmd, char c)
 		//printf("not_valid_dollar\n");
 		return (2);
 	}
+	c = 0;
+}
+
+int	ft_lex_interrogation(t_cmd *cmd, char c)
+{
+	if (cmd->dollar_status == q_open)
+	{
+		cmd->dollar_status = q_close;
+		if (cmd->spaces)
+		{
+			cmd->spaces = 3;
+			return (2);
+		}
+		else
+		{
+			cmd->spaces = 3;
+			return (3);
+		}
+	}
+	else
+		return (2);
 	c = 0;
 }
 
@@ -407,6 +433,8 @@ int	ft_check_char(t_cmd *cmd, char c)
 		return (-1);
 	else if (c == ' ')
 		return (ft_lex_space(cmd, c));
+	else if (c == '?')
+		return (ft_lex_interrogation(cmd, c));
 	else
 		return (ft_lex_chars(cmd, c));
 }
@@ -449,9 +477,20 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 			break ;
 		tmp = tmp->next;
 	}
-	ft_free((void **)&str2);
 	if (!tmp)
+	{
+		if (str2[0] == '?')
+		{
+			ft_free((void **)&str2);
+			str2 = ft_itoa(42);
+			i = ft_strlen(str2);
+			ft_free((void **)&str2);
+			return (i);
+		}
+		ft_free((void **)&str2);
 		return (1);
+	}
+	ft_free((void **)&str2);
 	return (ft_strlen(((char *)tmp->content + i)) + 1);
 }
 
@@ -472,6 +511,7 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 	if (!str[0])
 	{
 		dst[0] = '$';
+		*x += 1;
 		return ;
 	}
 	j = ft_check_char(&cmd, str[i++]);
@@ -480,6 +520,7 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 	if (i == 1)
 	{
 		dst[0] = '$';
+		*x += 1;
 		return ;
 	}
 	str2 = malloc(sizeof(char) * (i + 1));
@@ -496,8 +537,19 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 	}
 	if (!tmp)
 	{
+		if (str2[0] == '?')
+		{
+			str3 = ft_itoa(42);
+			ft_strlcpy(dst, str3, ft_strlen(str3) + 1);
+			i = ft_strlen(str3);
+			*x += i;
+			ft_free((void **)&str3);
+			ft_free((void **)&str2);
+			return ;
+		}
+		else
+			dst[0] = '\0';
 		ft_free((void **)&str2);
-		dst[0] = ' ';
 		return ;
 	}
 	str3 = (char *)tmp->content + i;
@@ -599,7 +651,7 @@ void	ft_lexer_fill_str(char *str, char **str2)
 	while (!j && str[i])
 	{
 		j = ft_check_char(&cmd, str[i]);
-		printf("[%d] = '%c', j = %d\n", i, str[i], j);
+		//printf("[%d] = '%c', j = %d\n", i, str[i], j);
 		if (j == 2)
 			str2[0][x++] = str[i];
 		if (j == 4)
@@ -611,7 +663,7 @@ void	ft_lexer_fill_str(char *str, char **str2)
 		while (str[i] && j > 0)
 		{
 			j = ft_check_char(&cmd, str[i]);
-			printf("[%d] = '%c', j = %d\n", i, str[i], j);
+			//printf("[%d] = '%c', j = %d\n", i, str[i], j);
 			if (j == 2)
 				str2[0][x++] = str[i];
 			if (j == 4)
