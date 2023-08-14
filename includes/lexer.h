@@ -6,19 +6,14 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 15:20:08 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:40:08 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LEXER_H
 # define LEXER_H
 # include <libft.h>
+# include <ft_global.h>
 # include <memhandl.h>
-
-typedef struct s_static
-{
-    t_list *env_cpy;
-    t_list *exp;
-} t_static;
 
 typedef enum e_bool{
 	false = 0,

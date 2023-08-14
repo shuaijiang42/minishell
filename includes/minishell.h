@@ -6,13 +6,14 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 15:06:25 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:39:19 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <ft_global.h>
 # include <memhandl.h>
 # include <lexer.h>
 # include <libft.h>
@@ -26,15 +27,6 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-typedef struct s_static
-{
-    t_list *env_cpy;
-    t_list *exp;
-} t_static;
-
-
-
 
 void	rl_replace_line(const char *text, int clear_undo);
 void	execve_with_error_check(char **argv, char **env);
