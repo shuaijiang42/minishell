@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 14:57:38 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:07:02 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ void	*ft_free(void **str)
 		*str = NULL;
 	}
 	return (0);
+}
+
+void	ft_free_input(char **input)
+{
+	int i;
+	i = 0;
+	while (input[i])
+	{
+		free(input[i]);
+		i++;
+	}
+	free (input);
 }
 
 void	*ft_print_error(char *str)
@@ -80,7 +92,7 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	input = NULL;
 	history = NULL;
-	env_copy(env);
+	ft_put_static(init_struct(env));
 	while (1)
 	{
 		line = readline("minishell$ ");

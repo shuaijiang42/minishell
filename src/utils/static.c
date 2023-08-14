@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   static.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 15:44:59 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/10 17:11:39 by shujiang         ###   ########.fr       */
+/*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
+/*   Updated: 2023/08/14 14:05:22 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <minishell.h>
 
-int	ft_isalnum(int c)
+t_static *ft_static(int modify, t_static *new)
 {
-	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z'))
-		return (1);
-	else
-		return (0);
+	static t_static *s = NULL;
+	if (modify == 1)
+		s = new;
+	return (s);
 }
+
+t_static	*ft_get_static(void)
+{
+	return (ft_static(0, NULL));
+}
+
+t_static	*ft_put_static(t_static *new)
+{
+	return (ft_static(1, new));
+}
+

@@ -6,10 +6,9 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/14 14:21:23 by samusanc         ###   ########.fr        #
+#    Updated: 2023/08/14 15:07:40 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 NAME	= minishell
 CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ -fsanitize=address -g3
@@ -33,6 +32,8 @@ SRCS	= $(MAIN) \
 		$(LEX)checker/check_input.c \
 		$(LEX)checker/ft_lexer_check_status.c \
 		$(LEX)checker/ft_get_next_command.c \
+		$(UTILS)export.c \
+		$(UTILS)static.c \
 
 O_DIR	= ./objects/
 OBJS	= $(addprefix $(O_DIR)/, $(SRCS:.c=.o))
