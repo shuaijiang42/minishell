@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 14:47:40 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:11:10 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	ft_parsing(char	*str)
 
 	i = 0;
 	while (str[i])
-	{
+	{	
 		if ((!ft_isalnum((int)str[i])) 
-			&& ((i = 0 && str[i] != '_') || (i != 0 && str[i] != '=')))
+			&& ((i == 0 && str[i] != '_') || (i != 0 && str[i] != '=')))
 		{
 			printf("minishell: export: %c: not a valid identifier\n", str[i]);
 			//free;
@@ -71,6 +71,7 @@ int	ft_parsing(char	*str)
 	}
 	return (1);
 }
+
 int	var_existed(char *str)
 {
 	int i;
@@ -85,13 +86,19 @@ int	var_existed(char *str)
     temp = s->exp;
 	while(str[i] && str[i] != '=')
 		i++;
-	len = i - 1;
+	len = i;
 	var = ft_substr(str, 0, len);
+	
     while(temp)
     {
+		//printf("here\n");
 		exp = temp->content;
+		//printf("exp+10: %s var:%s, len:%d\n", exp + 10, var, len);
         if(ft_strncmp(exp + 11, var, len) == 0)
+		{
+			
 			return (1);	
+		}
         temp = temp->next;
     }
 	return (0);
@@ -106,7 +113,6 @@ void add_new_var_exp(char *str)
 	temp = ft_lstlast(s->exp);
 	new = ft_lstnew(ft_strjoin("declare -x ", str));
     ft_lstadd_back(&temp, new);
-	printf("222222222\n");
 }
 
 void add_new_var_env(char *str)
@@ -131,7 +137,6 @@ void add_new_var_env(char *str)
 	temp = ft_lstlast(s->exp);
 	new = ft_lstnew(new2);
     ft_lstadd_back(&temp, new);
-	printf("333333333\n");
 }
 
 void	modify_exp(char *str)
@@ -180,35 +185,22 @@ void	ft_export(char **input)
 		print_exp();	
 		return ;
 	}
-	printf("nahhhhhhh\n");
 	while (input[i])
 	{
-		printf("i= %d, input: %s\n", i, input[i]);
-		printf("%d\n", ft_parsing(input[i]));
 		if (ft_parsing(input[i]) == 1)
 		{
-			printf("%d\n", ft_parsing(input[i]));
 			if (!var_existed(input[i]))
 			{
-				printf("hiiiiiiii\n");
 				if(ft_strchr(input[i], '='))
-				{
-					printf("holaaaa\n");
 					add_new_var_env(input[i]);
-				}
-				printf("ciaoooooo\n");
 				add_new_var_exp(input[i]);
 			}
 			else
 			{
-				printf("11111111\n");
 				modify_exp(input[i]);
 				modify_env(input[i]);
 			}
 		}
-		printf("i = %d\n", i);
-		if (i > 100)
-			break ;
 		i++;		
 	}
 }

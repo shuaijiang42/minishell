@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 14:05:22 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:57:33 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,3 @@ t_static	*ft_put_static(t_static *new)
 {
 	return (ft_static(1, new));
 }
-
