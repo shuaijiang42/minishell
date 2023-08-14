@@ -6,14 +6,15 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/09 14:47:09 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:53:59 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <ft_lexer.h>
+# include <memhandl.h>
+# include <lexer.h>
 # include <libft.h>
 # include <sys/errno.h>
 # include <pipex.h>

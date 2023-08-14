@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:09:21 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/03 16:27:10 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:54:17 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	*ft_free_split(void **strings)
 //get cmd, remove flags
 char	*get_cmd(char *argv)
 {
+	/*
 	char	**temp;
 	char	*cmd;
 
@@ -58,6 +59,9 @@ char	*get_cmd(char *argv)
 		print_error(" : command not found");
 	cmd = ft_strdup(temp[0]);
 	ft_free_split((void **)temp);
+	*/
+	char *cmd;
+	cmd = ft_strdup(argv);
 	return (cmd);
 }
 

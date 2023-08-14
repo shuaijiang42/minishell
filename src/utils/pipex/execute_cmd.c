@@ -6,12 +6,12 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/08 19:25:36 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/14 11:41:15 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pipex.h>
-#include <ft_lexer.h>
+#include <lexer.h>
 
 void	wait_all_children(void)
 {
