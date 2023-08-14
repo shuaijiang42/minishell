@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/08 21:16:48 by samusanc         ###   ########.fr        #
+#    Updated: 2023/08/14 14:21:23 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME	= minishell
 CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ -fsanitize=address -g3
 CC		= gcc $(CFLAGS)
 UTILS	= ./src/utils/
+LEX		= $(UTILS)lexer/
 LIBFT	= -L./libft/ -lft 
 LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 
@@ -27,6 +28,11 @@ SRCS	= $(MAIN) \
 		$(UTILS)built_in.c \
 		$(UTILS)unset.c \
 		$(UTILS)env.c \
+		$(LEX)ft_lexer.c \
+		$(LEX)utils/ft_lexer_utils.c \
+		$(LEX)checker/check_input.c \
+		$(LEX)checker/ft_lexer_check_status.c \
+		$(LEX)checker/ft_get_next_command.c \
 
 O_DIR	= ./objects/
 OBJS	= $(addprefix $(O_DIR)/, $(SRCS:.c=.o))

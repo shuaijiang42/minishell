@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/03 17:18:55 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 10:55:05 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include <libft.h>
 # include <sys/wait.h>
-# include <ft_lexer.h>
+# include <lexer.h>
 
 # ifndef READ
 #  define READ 0
