@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 16:18:08 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/14 16:45:47 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <lexer.h>
@@ -598,7 +598,14 @@ int	ft_lexer_len_n_arguments(char *str)
 		x = 0;
 		ft_init_cmd(&cmd);
 		while (str[i] && !j && j != -1)
+		{
 			j = ft_check_char(&cmd, str[i++]);
+			if (j > 0 && x != 1)
+			{
+				len++;
+				x = 1;
+			}
+		}
 	}
 	return (len);
 }
