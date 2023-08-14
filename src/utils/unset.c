@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 15:34:55 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/09 19:10:07 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:25:52 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	is_var(char *str)
 	t_list *temp;
 	int index;
 	char *str_env;
+	t_static *g;
 
+	g = ft_get_static();
 	index = 0;
 	temp = g->env_cpy;
 	len = ft_strlen(str);
@@ -41,7 +43,9 @@ void	unset_var(int index)
 {
 	t_list **ptr;
 	t_list *node_to_remove;
-	
+	t_static *g;
+
+	g = ft_get_static();
 	node_to_remove = NULL;
 	ptr = &(g->env_cpy);
 	while(index > 0 && *ptr != NULL)

@@ -6,13 +6,13 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/10 20:33:42 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:47:40 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	creat_exp_list(char **env)
+void	creat_exp_list(char **env, t_static *s)
 {	
 	int i;
 	t_list *new;
@@ -26,8 +26,8 @@ void	creat_exp_list(char **env)
        printf("Error: No env\n");
        exit (1);
     }
-    g->exp = ft_lstnew(ft_strjoin("declare -x ", env[0]));
-    temp = g->exp;
+    s->exp = ft_lstnew(ft_strjoin("declare -x ", env[0]));
+    temp = s->exp;
     while(env[i])
     {
         new = ft_lstnew(ft_strjoin("declare -x ", env[i]));
@@ -40,9 +40,11 @@ void    print_exp(void)
 {
     int i;
     t_list *temp;
-    
+    t_static *s;
+
+	s = ft_get_static();
     i = 0;
-    temp = g->exp;
+    temp = s->exp;
     while(temp)
     {
         printf("%s\n", temp->content);
@@ -76,9 +78,11 @@ int	var_existed(char *str)
 	int len;
 	char *var;
 	char *exp;
-    
+    t_static *s;
+
+	s = ft_get_static();
     i = 0;
-    temp = g->exp;
+    temp = s->exp;
 	while(str[i] && str[i] != '=')
 		i++;
 	len = i - 1;
@@ -96,8 +100,10 @@ void add_new_var_exp(char *str)
 {
 	t_list *new;
 	t_list *temp;
-	
-	temp = ft_lstlast(g->exp);
+	t_static *s;
+
+	s = ft_get_static();
+	temp = ft_lstlast(s->exp);
 	new = ft_lstnew(ft_strjoin("declare -x ", str));
     ft_lstadd_back(&temp, new);
 	printf("222222222\n");
@@ -109,9 +115,11 @@ void add_new_var_env(char *str)
 	t_list *temp;
 	char *new1;
 	char *new2;
+	t_static *s;
 
+	s = ft_get_static();
 	new2 = NULL;
-	temp = ft_lstlast(g->env_cpy);
+	temp = ft_lstlast(s->env_cpy);
 	if (ft_strlen(ft_strchr(str, '=')) == 1)
 		ft_strjoin(str, "\"\"");
 	else
@@ -120,7 +128,7 @@ void add_new_var_env(char *str)
 		new2 = ft_strjoin(new1, "\"");
 		free(new1);
 	}	
-	temp = ft_lstlast(g->exp);
+	temp = ft_lstlast(s->exp);
 	new = ft_lstnew(new2);
     ft_lstadd_back(&temp, new);
 	printf("333333333\n");
@@ -130,8 +138,10 @@ void	modify_exp(char *str)
 {
 	t_list *temp;
 	char *old;
-	
-	temp = g->exp->content;
+	t_static *s;
+
+	s = ft_get_static();
+	temp = s->exp->content;
 	while(temp)
 	{
 		old = temp->content;
@@ -146,8 +156,10 @@ void	modify_env(char *str)
 {
 	t_list *temp;
 	char *old;
-	
-	temp = g->env_cpy->content;
+	t_static *s;
+
+	s = ft_get_static();
+	temp = s->env_cpy->content;
 	while(temp)
 	{
 		old = temp->content;

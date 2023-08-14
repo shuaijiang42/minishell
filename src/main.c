@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/10 18:31:14 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/14 14:46:42 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -509,9 +509,11 @@ int	ft_one_dollar_len(char *str)
 {
 	t_list	*env;
 	int		i;
-
+	t_static *s;
+	
 	str++;
-	env = g->env_cpy;
+	s = ft_get_static();
+	env = s->env_cpy;
 	i = 0;
 	while (env)
 	{
@@ -637,9 +639,11 @@ int	ft_one_dollar_fill(char *str, char **str2, int *now)
 	int		i;
 	int		j;
 	char	*c;
-
+	t_static *s;
+	
 	str++;
-	env = g->env_cpy;
+	s = ft_get_static();
+	env = s->env_cpy;
 	i = 0;
 	j = 0;
 	while (env)
@@ -912,7 +916,7 @@ int main(int argc, char **argv, char **env)
 	line = NULL;
 	input = NULL;
 	history = NULL;
-	init_global(env);
+	ft_put_static(init_struct(env));
 	while (1)
 	{
 		line = readline("minishell$ ");
