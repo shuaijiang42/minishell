@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/14 15:07:40 by shujiang         ###   ########.fr        #
+#    Updated: 2023/08/14 16:15:38 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,13 @@ SRCS	= $(MAIN) \
 		$(UTILS)built_in.c \
 		$(UTILS)unset.c \
 		$(UTILS)env.c \
-		$(LEX)ft_lexer.c \
-		$(LEX)utils/ft_lexer_utils.c \
+		$(UTILS)export.c \
+		$(UTILS)static.c \
+		$(LEX)holaaaa.c \
+		#$(LEX)utils/ft_lexer_utils.c \
 		$(LEX)checker/check_input.c \
 		$(LEX)checker/ft_lexer_check_status.c \
 		$(LEX)checker/ft_get_next_command.c \
-		$(UTILS)export.c \
-		$(UTILS)static.c \
 
 O_DIR	= ./objects/
 OBJS	= $(addprefix $(O_DIR)/, $(SRCS:.c=.o))
