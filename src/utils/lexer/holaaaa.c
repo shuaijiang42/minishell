@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 16:45:47 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:12:18 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <lexer.h>
@@ -542,7 +542,7 @@ int	ft_lexer_len_argument(char *str)
 	{
 		j = ft_check_char(&cmd, str[i]);
 		if (j == 2)
-			len++;
+			len += 1;
 		if (j == 4)
 			len += ft_dollar_len(str + i + 1, cmd);
 		i++;
@@ -553,7 +553,7 @@ int	ft_lexer_len_argument(char *str)
 		{
 			j = ft_check_char(&cmd, str[i]);
 			if (j == 2)
-				len++;
+				len += 1;
 			if (j == 4)
 				len += ft_dollar_len(str + i + 1, cmd);
 			i++;
@@ -689,8 +689,8 @@ void	ft_alloc_parse_result(char ***result_ptr, char *str, int len)
 		str2 = ft_calloc(sizeof(char) , arg_len + 1);
 		if (!str2)
 			return ;
-		str2[arg_len] = '\0';
 		ft_lexer_fill_str(str, &str2);
+		str2[arg_len] = '\0';
 		result[x++] = str2;
 		i = ft_lexer_get_next_argument(str);
 		str += i;
