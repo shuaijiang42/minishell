@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 10:43:39 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 11:31:39 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/14 15:20:46 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <lexer.h>
 
 //	1 si no es imprimible, 2 si es imprimible, 0 si es espacio y -1 es que ha acabado
-
+#include <lexer.h>
 //+++++++++++++++++++++++++LEXER CORE++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 int	ft_lex_quotes(t_cmd *cmd, char c)
 {
@@ -236,7 +235,7 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 		return (0);
 	ft_strlcpy(str2, str, i);
 	str2[i] = '\0';
-	tmp = env_cpy;
+	tmp = (ft_get_static())->env_cpy;
 	while (tmp)
 	{
 		if (!ft_strncmp((char *)tmp->content, str2, ft_strlen(str2)))
@@ -294,7 +293,7 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 		return ;
 	ft_strlcpy(str2, str, i);
 	str2[i] = '\0';
-	tmp = env_cpy;
+	tmp = (ft_get_static())->env_cpy;
 	while (tmp)
 	{
 		if (!ft_strncmp((char *)tmp->content, str2, ft_strlen(str2)))
