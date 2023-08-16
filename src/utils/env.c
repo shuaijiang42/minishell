@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:53:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 14:47:07 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:35:55 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void    print_env_cpy(void)
     temp = s->env_cpy;
     while(temp)
     {
-        printf("%s\n", temp->content);
+        if (temp->content)
+            printf("%s\n", temp->content);
         temp = temp->next;
     }
 }

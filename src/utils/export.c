@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/16 16:30:14 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:29:30 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_parsing(char	*str)
 		if ((!ft_isalnum((int)str[i])) 
 			&& ((i == 0 && str[i] != '_') || (i != 0 && str[i] != '=')))
 		{
-			printf("minishell: export: %c: not a valid identifier\n", str[i]);
+			printf("minishell: export: %s: not a valid identifier\n", str);
 			//free;
 			return (0);
 		}
@@ -73,6 +73,15 @@ int	ft_parsing(char	*str)
 	return (1);
 }
 
+int var_len(char *str)
+{
+	int i;
+	
+	i = 0;
+	while(str[i] && str[i] != '=')
+		i++;
+	return (i);
+}
 int	var_existed(char *str)
 {
 	int i;
@@ -85,9 +94,7 @@ int	var_existed(char *str)
 	s = ft_get_static();
     i = 0;
     temp = s->exp;
-	while(str[i] && str[i] != '=')
-		i++;
-	len = i;
+	len = var_len(str);
 	var = ft_substr(str, 0, len);
     while(temp)
     {
@@ -95,24 +102,12 @@ int	var_existed(char *str)
         if(exp && ft_strncmp(exp + 11, var, len) == 0)
 		{
 			
-			return (len);	
+			return (1);	
 		}
         temp = temp->next;
     }
 	return (0);
 }
-
-/* void add_new_var_exp(char *str)
-{
-	t_list *new;
-	t_list *temp;
-	t_static *s;
-
-	s = ft_get_static();
-	temp = s->exp;
-	new = ft_lstnew(ft_strjoin("declare -x ", str));
-    ft_lstadd_back(&temp, new);
-} */
 
 void add_new_var_exp(char *str)
 {
@@ -139,17 +134,17 @@ void add_new_var_exp(char *str)
 			new2 = ft_strjoin("declare -x ", str);
 		else
 		{
-			new1= ft_substr(str, 0, var_existed(str) + 1);
+			new1= ft_substr(str, 0, var_len(str) + 1);
 			new2 = ft_strjoin("declare -x ", new1);
 			free (new1);
 			new1 = ft_strjoin(new2, "\"");
 			free (new2);
-			new2 = ft_substr(str, var_existed(str) + 2, ft_strlen(str) - var_existed(str) + 1);
+			new2 = ft_substr(str, var_len(str) + 1, ft_strlen(str) - var_len(str) + 1);
 			new3 = ft_strjoin(new2, "\"");
 			free (new2);
 			new2 = ft_strjoin(new1 , new3);
 		}
-	}	
+	}
 	temp = s->exp;
 	new = ft_lstnew(new2);
     ft_lstadd_back(&temp, new);
@@ -239,7 +234,6 @@ void	ft_export(char **input)
 		if (ft_parsing(input[i]) == 1)
 		{
 			var = ft_lexer(input[i])[0];
-			printf("var: %s\n", var);
 			if (!var_existed(var))
 			{
 				if (ft_strchr(var, '='))
