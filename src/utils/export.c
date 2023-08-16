@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 18:11:10 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:35:00 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void    print_exp(void)
     temp = s->exp;
     while(temp)
     {
-        printf("%s\n", temp->content);
+		if (temp->content)
+        	printf("%s\n", temp->content);
         temp = temp->next;
     }
 }
@@ -88,30 +89,64 @@ int	var_existed(char *str)
 		i++;
 	len = i;
 	var = ft_substr(str, 0, len);
-	
     while(temp)
     {
-		//printf("here\n");
 		exp = temp->content;
-		//printf("exp+10: %s var:%s, len:%d\n", exp + 10, var, len);
-        if(ft_strncmp(exp + 11, var, len) == 0)
+        if(exp && ft_strncmp(exp + 11, var, len) == 0)
 		{
 			
-			return (1);	
+			return (len);	
 		}
         temp = temp->next;
     }
 	return (0);
 }
-void add_new_var_exp(char *str)
+
+/* void add_new_var_exp(char *str)
 {
 	t_list *new;
 	t_list *temp;
 	t_static *s;
 
 	s = ft_get_static();
-	temp = ft_lstlast(s->exp);
+	temp = s->exp;
 	new = ft_lstnew(ft_strjoin("declare -x ", str));
+    ft_lstadd_back(&temp, new);
+} */
+
+void add_new_var_exp(char *str)
+{
+	t_list *new;
+	t_list *temp;
+	char *new1;
+	char *new2;
+	char *new3;
+	t_static *s;
+
+	s = ft_get_static();
+	new1 = NULL;
+	new2 = NULL;
+	new3 = NULL;
+	if (ft_strlen(ft_strchr(str, '=')) == 1)
+	{
+		new1 = ft_strjoin("declare -x ", str);
+		new2 = ft_strjoin(new1, "\"\"");
+		free (new1);
+	}
+	else
+	{
+		new1= ft_substr(str, 0, var_existed(str) + 1);
+		new2 = ft_strjoin("declare -x ", new1);
+		free (new1);
+		new1 = ft_strjoin(new2, "\"");
+		free (new2);
+		new2 = ft_substr(str, var_existed(str) + 2, ft_strlen(str) - var_existed(str) + 1);
+		new3 = ft_strjoin(new2, "\"");
+		free (new2);
+		new2 = ft_strjoin(new1 , new3);
+	}	
+	temp = s->exp;
+	new = ft_lstnew(new2);
     ft_lstadd_back(&temp, new);
 }
 
@@ -124,18 +159,10 @@ void add_new_var_env(char *str)
 	t_static *s;
 
 	s = ft_get_static();
+	new1 = NULL;
 	new2 = NULL;
-	temp = ft_lstlast(s->env_cpy);
-	if (ft_strlen(ft_strchr(str, '=')) == 1)
-		ft_strjoin(str, "\"\"");
-	else
-	{
-		new1 = ft_strjoin("\"", str);
-		new2 = ft_strjoin(new1, "\"");
-		free(new1);
-	}	
-	temp = ft_lstlast(s->exp);
-	new = ft_lstnew(new2);
+	temp = s->env_cpy;
+	new = ft_lstnew(str);
     ft_lstadd_back(&temp, new);
 }
 
@@ -144,42 +171,59 @@ void	modify_exp(char *str)
 	t_list *temp;
 	char *old;
 	t_static *s;
-
+	char *new1;
+	char *new2;
+	char *new3;
+	
 	s = ft_get_static();
-	temp = s->exp->content;
+	temp = s->exp;
+	new1 = NULL;
+	new2 = NULL;
+	new3 = NULL;
 	while(temp)
 	{
 		old = temp->content;
-		if(ft_strcmp(old + 11, str) == 0)
+		if (ft_strncmp(old + 11, str, 5) == 0)
 			break ;
 		temp = temp->next;
 	}
-	temp->content = ft_strjoin("declare -x ", str);
-	free(old);
+	if (temp)
+	{
+		new1= ft_substr(old, 0, 11 + var_existed(str) + 1);
+		new2 = ft_strjoin(new1, "\"");
+		free (new1);
+		new1 = ft_strjoin(str + var_existed(str) + 1, "\"");
+		temp->content = ft_strjoin(new2, new1);
+		free (new1);
+		free (new2);
+	}
 }
+		
 void	modify_env(char *str)
 {
 	t_list *temp;
 	char *old;
 	t_static *s;
-
+	
 	s = ft_get_static();
-	temp = s->env_cpy->content;
+	temp = s->env_cpy;
 	while(temp)
 	{
 		old = temp->content;
-		if(ft_strcmp(old, str) == 0)
+		if(ft_strncmp(old, str, 5) == 0)
 			break ;
 		temp = temp->next;
 	}
-	temp->content = str;
-	free(old);
+	if (temp)
+		temp->content = str;
 }
 void	ft_export(char **input)
 {
 	int i;
+	char *var;
 	
 	i = 1;
+	var = NULL;
 	if (!input[i])
 	{
 		print_exp();	
@@ -189,18 +233,19 @@ void	ft_export(char **input)
 	{
 		if (ft_parsing(input[i]) == 1)
 		{
-			if (!var_existed(input[i]))
+			var = ft_lexer(input[i])[0];
+			if (!var_existed(var))
 			{
-				if(ft_strchr(input[i], '='))
-					add_new_var_env(input[i]);
-				add_new_var_exp(input[i]);
+				if (ft_strchr(var, '='))
+					add_new_var_env(var);
+				add_new_var_exp(var);
 			}
 			else
 			{
-				modify_exp(input[i]);
-				modify_env(input[i]);
+				modify_exp(var);
+				modify_env(var);
 			}
 		}
-		i++;		
+		i++;
 	}
 }
