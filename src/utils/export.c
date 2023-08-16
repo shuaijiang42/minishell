@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/16 15:35:00 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:30:14 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void add_new_var_exp(char *str)
 	new1 = NULL;
 	new2 = NULL;
 	new3 = NULL;
-	if (ft_strlen(ft_strchr(str, '=')) == 1)
+	if (str && ft_strchr(str, '=') && ft_strlen(ft_strchr(str, '=')) == 1)
 	{
 		new1 = ft_strjoin("declare -x ", str);
 		new2 = ft_strjoin(new1, "\"\"");
@@ -135,15 +135,20 @@ void add_new_var_exp(char *str)
 	}
 	else
 	{
-		new1= ft_substr(str, 0, var_existed(str) + 1);
-		new2 = ft_strjoin("declare -x ", new1);
-		free (new1);
-		new1 = ft_strjoin(new2, "\"");
-		free (new2);
-		new2 = ft_substr(str, var_existed(str) + 2, ft_strlen(str) - var_existed(str) + 1);
-		new3 = ft_strjoin(new2, "\"");
-		free (new2);
-		new2 = ft_strjoin(new1 , new3);
+		if(!ft_strchr(str, '='))
+			new2 = ft_strjoin("declare -x ", str);
+		else
+		{
+			new1= ft_substr(str, 0, var_existed(str) + 1);
+			new2 = ft_strjoin("declare -x ", new1);
+			free (new1);
+			new1 = ft_strjoin(new2, "\"");
+			free (new2);
+			new2 = ft_substr(str, var_existed(str) + 2, ft_strlen(str) - var_existed(str) + 1);
+			new3 = ft_strjoin(new2, "\"");
+			free (new2);
+			new2 = ft_strjoin(new1 , new3);
+		}
 	}	
 	temp = s->exp;
 	new = ft_lstnew(new2);
@@ -234,6 +239,7 @@ void	ft_export(char **input)
 		if (ft_parsing(input[i]) == 1)
 		{
 			var = ft_lexer(input[i])[0];
+			printf("var: %s\n", var);
 			if (!var_existed(var))
 			{
 				if (ft_strchr(var, '='))
