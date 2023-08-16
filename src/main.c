@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 18:12:21 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:11:47 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,6 @@ int main(int argc, char **argv, char **env)
 			input = ft_lexer(line);
 			if (*input)
 			{
-				int x;
-
-				
-				x = 0;
-				while (input[1][x])
-				{
-					printf("%c\n", input[1][x]);
-					x++;
-				}
 		//free (line);
 				ft_excuter(input, env);
 			}
