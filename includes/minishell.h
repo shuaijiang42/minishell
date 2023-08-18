@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/15 18:20:45 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:28:20 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <readline/history.h>
 
 void	rl_replace_line(const char *text, int clear_undo);
-void	execve_with_error_check(char **argv, char **env);
+int		execve_with_error_check(char **argv, char **env);
 int     ft_built_in(char **input);
 void	ft_free_input(char **input);
 void    ft_excuter(char **input, char **env);

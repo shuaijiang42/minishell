@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 11:41:15 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:27:32 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	child_execute_preparation(int i, int *end, int argc, char **argv)
 	}
 }
 
-void	execve_with_error_check(char **argv, char **env)
+int	execve_with_error_check(char **argv, char **env)
 {
 	char	*path;
 	char	**arguments;
@@ -59,11 +59,13 @@ void	execve_with_error_check(char **argv, char **env)
 	if (!arguments)
 		exit(0);
 	path = cmd_path(*argv, env);
+	printf("path:%s\n", path);
 	if (execve(path, argv, env) == -1)
 	{
 		perror(*argv);
-		exit(1);
+		exit(errno);
 	}
+	return (errno);
 }
 
 int	execute_cmd(t_var5 var)

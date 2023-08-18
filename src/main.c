@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:15:09 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/18 18:15:19 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:38:51 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ void	ft_free_input(char **input)
 	free (input);
 }
 
-void	*ft_print_error(char *str)
+void	*ft_print_error(char *str, int error)
 {
-	write(2, "minishell: ", 11);
+	write(2, "\7minishell: ", 12);
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
+	errno = error;
 	return (NULL);
 }
 
@@ -78,9 +79,49 @@ void	ft_get_old_history(char **env, int *fd)
 	}
 }
 
-int main(int argc, char **argv, char **env)
+size_t	count_pipes(char *cmd)
+{
+	return (1);
+	cmd = NULL;
+}
+
+void	executer(char *cmd, char **env)
+{
+	//this executer need to be improved, it does not count with the redirections
+	char **input;
+
+	input = ft_lexer(cmd);
+	if (!input[0][0])
+	{
+		ft_print_error(": command not found", 127);
+		return ;
+	}
+	else
+		ft_excuter(input, env);
+}
+
+void	pipex(char *cmd, char **env)
+{
+	executer(cmd, env);
+}
+
+void	ft_procces_maker(char *cmd, char **env)
 {
 	char **input;
+
+	input = ft_lexer(cmd);
+	if (input && *input)
+	{
+		ft_free_split_2(&input);
+		if (count_pipes(cmd) > 0)
+			pipex(cmd, env);
+		else
+			executer(cmd, env);
+	}
+}
+
+int main(int argc, char **argv, char **env)
+{
 	char *line;
 	int		fd_mini_history;
 	t_list	*history;
@@ -90,11 +131,11 @@ int main(int argc, char **argv, char **env)
 	fd_mini_history = 0;
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
-	input = NULL;
 	history = NULL;
 	ft_put_static(init_struct(env));
 	while (1)
 	{
+		printf("errno:%d\n", errno);
 		line = readline("minishell$ ");
 		if (line != NULL)
 		{
@@ -103,12 +144,14 @@ int main(int argc, char **argv, char **env)
 		}
 		if (ft_check_argument(line) == 1)
 		{
-			input = ft_lexer(line);
+			ft_procces_maker(line, env);
+			/*
 			if (*input)
 			{
 		//free (line);
 				ft_excuter(input, env);
 			}
+			*/
 		}
 	}
 	return (0);

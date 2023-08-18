@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 15:38:33 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:16:25 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef FT_GLOBAL_H
@@ -14,8 +14,8 @@
 # include <libft.h>
 typedef struct s_static
 {
-    t_list *env_cpy;
-    t_list *exp;
+    t_list	*env_cpy;
+    t_list	*exp;
 } t_static;
 
 //+++++++++++++++++++++ env ++++++++++++++++++++++++++

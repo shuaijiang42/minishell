@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/16 12:23:45 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:48:14 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,12 @@ void ft_excuter(char **input, char **env)
 	{
 		pid = fork_with_error_check();
 		if (pid == 0)
-			execve_with_error_check(input, env);
+			errno = execve_with_error_check(input, env);
 		wait(&status);
 	}
+	errno = status;
+	printf("status:%d", errno);
+	perror(NULL);
 	rl_replace_line(*input, 1);
 	rl_redisplay();
 	//ft_free_input(input);

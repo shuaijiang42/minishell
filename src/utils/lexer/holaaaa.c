@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/18 18:16:19 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:20:31 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ int ft_get_next_command(char *str)
 		i++;
 	if (str[i] == '|')
 	{
-		ft_print_error("syntax error near unexpected token `|'");
+		ft_print_error("syntax error near unexpected token `|'", 258);
 		return (-1);
 	}
 	if (str[i])
@@ -172,7 +172,7 @@ int ft_get_next_command(char *str)
 		status.status = q_close;
 	if (status.status == q_open)
 	{
-		ft_print_error("syntax error unclosed quotes");
+		ft_print_error("syntax error unclosed quotes", 69);
 		return (-1);
 	}
 	return (-3);
@@ -450,7 +450,7 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 		if (str2[0] == '?')
 		{
 			ft_free((void **)&str2);
-			str2 = ft_itoa(42);
+			str2 = ft_itoa(errno);
 			i = ft_strlen(str2);
 			ft_free((void **)&str2);
 			return (i);
@@ -507,7 +507,7 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 	{
 		if (str2[0] == '?')
 		{
-			str3 = ft_itoa(42);
+			str3 = ft_itoa(errno);
 			ft_strlcpy(dst, str3, ft_strlen(str3) + 1);
 			i = ft_strlen(str3);
 			*x += i;

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 15:40:08 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:15:40 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LEXER_H
@@ -14,6 +14,7 @@
 # include <libft.h>
 # include <ft_global.h>
 # include <memhandl.h>
+# include <sys/errno.h>
 
 typedef enum e_bool{
 	false = 0,
@@ -61,7 +62,7 @@ t_static	*init_struct(char **env);
 int			count_arguments(char *str);
 int			dollar_delimiter(char c);
 int			ft_lexer_check_status(t_command *cmd, char *str, int *i);
-void		*ft_print_error(char *str);
+void		*ft_print_error(char *str, int error);
 int			ft_get_next_command(char *str);
 int			ft_check_argument(char *str);
 void		*ft_free_split_2(char ***split);
