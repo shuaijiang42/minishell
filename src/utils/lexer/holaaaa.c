@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 17:18:39 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:16:19 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -542,7 +542,7 @@ int	ft_lexer_len_argument(char *str)
 	{
 		j = ft_check_char(&cmd, str[i]);
 		if (j == 2)
-			len++;
+			len += 1;
 		if (j == 4)
 			len += ft_dollar_len(str + i + 1, cmd);
 		i++;
@@ -553,7 +553,7 @@ int	ft_lexer_len_argument(char *str)
 		{
 			j = ft_check_char(&cmd, str[i]);
 			if (j == 2)
-				len++;
+				len += 1;
 			if (j == 4)
 				len += ft_dollar_len(str + i + 1, cmd);
 			i++;
@@ -598,7 +598,14 @@ int	ft_lexer_len_n_arguments(char *str)
 		x = 0;
 		ft_init_cmd(&cmd);
 		while (str[i] && !j && j != -1)
+		{
 			j = ft_check_char(&cmd, str[i++]);
+			if (j > 0 && x != 1)
+			{
+				len++;
+				x = 1;
+			}
+		}
 	}
 	return (len);
 }
@@ -682,8 +689,8 @@ void	ft_alloc_parse_result(char ***result_ptr, char *str, int len)
 		str2 = ft_calloc(sizeof(char) , arg_len + 1);
 		if (!str2)
 			return ;
-		str2[arg_len] = '\0';
 		ft_lexer_fill_str(str, &str2);
+		str2[arg_len] = '\0';
 		result[x++] = str2;
 		i = ft_lexer_get_next_argument(str);
 		str += i;
