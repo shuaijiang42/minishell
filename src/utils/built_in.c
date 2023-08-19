@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/19 17:36:58 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 19:32:57 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,5 @@ void ft_excuter(char **input, char **env)
 	ft_put_error(WEXITSTATUS(status));
 	rl_replace_line(*input, 1);
 	rl_redisplay();
-	//ft_free_input(input);
+	ft_free_split_2(&input);
 }

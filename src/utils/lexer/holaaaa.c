@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/19 17:32:38 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:00:15 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,8 +207,9 @@ void	*ft_free_split_2(char ***split)
 	i = 0;
 	while (split[0][i])
 	{
-		if (split[0][i++])
+		if (split[0][i])
 			ft_free((void *)&split[0][i]);
+		i++;
 	}
 	ft_free((void *)&split[0]);
 	*split = NULL;
@@ -704,7 +705,6 @@ void	ft_alloc_parse_result(char ***result_ptr, char *str, int len)
 char **ft_lexer(char *str)
 {
 	char			**result;
-	//t_cmd			cmd;
 	int				len;
 	int				i;
 

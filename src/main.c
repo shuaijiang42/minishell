@@ -6,11 +6,16 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:15:09 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/19 17:31:43 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:05:53 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	leaks()
+{
+	system("leaks -q minishell");
+}
 
 void	*ft_free(void **str)
 {
@@ -79,10 +84,32 @@ void	ft_get_old_history(char **env, int *fd)
 	}
 }
 
-size_t	count_pipes(char *cmd)
+size_t	count_pipes(char *str)
 {
-	return (1);
-	cmd = NULL;
+	int	j;
+	int	i;
+	int	n;
+	t_cmd	cmd;
+
+	j = 4;
+	i = 0;
+	n = 0;
+	ft_init_cmd(&cmd);
+	while (str[i])
+	{
+		j = ft_check_char(&cmd, str[i]);
+		if (j == -1)
+		{
+			if (str[i] == '<' || str[i] == '>')
+				ft_init_cmd(&cmd);
+			else if (!str[i])
+				break ;
+			else
+				n += 1;
+		}
+		i++;
+	}
+	return (n);
 }
 
 void	executer(char *cmd, char **env)
@@ -91,6 +118,7 @@ void	executer(char *cmd, char **env)
 	char **input;
 
 	input = ft_lexer(cmd);
+	//this code belong to other place, i think the execute cmd, so maybe u can try to move it there?
 	if (!input[0][0])
 	{
 		ft_print_error(": command not found", 127);
@@ -102,6 +130,14 @@ void	executer(char *cmd, char **env)
 
 void	pipex(char *cmd, char **env)
 {
+	int	n;
+
+	n = count_pipes(cmd);
+	//pipe = 
+	//execute the first child,
+	//execute the midle childs
+	//execute the last child
+	printf("this is the pipex way\n");
 	executer(cmd, env);
 }
 
@@ -118,6 +154,10 @@ void	ft_procces_maker(char *cmd, char **env)
 		else
 			executer(cmd, env);
 	}
+	else
+		ft_free_split_2(&input);
+	return ;
+	env = NULL;
 }
 
 int main(int argc, char **argv, char **env)
@@ -129,6 +169,7 @@ int main(int argc, char **argv, char **env)
 	(void)argv;
 	
 	fd_mini_history = 0;
+	//atexit(leaks);
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
 	history = NULL;
@@ -139,19 +180,12 @@ int main(int argc, char **argv, char **env)
 		if (line != NULL)
 		{
 			add_history(line);
-			ft_lstadd_back(&history, ft_lstnew((void *)line));
+			ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		}
 		if (ft_check_argument(line) == 1)
-		{
 			ft_procces_maker(line, env);
-			/*
-			if (*input)
-			{
-		//free (line);
-				ft_excuter(input, env);
-			}
-			*/
-		}
+		ft_free((void *)&line);
+		//leaks();
 	}
 	return (0);
 }
