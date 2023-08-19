@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:15:09 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/19 20:05:53 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:58:43 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,16 +128,51 @@ void	executer(char *cmd, char **env)
 		ft_excuter(input, env);
 }
 
+void	ft_first_child(char *cmd)
+{
+	close(pipex->pipe[0]);
+	dup2_with_error_check(STDOUT_FILENO, pipex->pipe[1]);
+	executer(cmd, env);
+}
+
+void	ft_mid_child(char *cmd)
+{
+	dup2_with_error_check(pipex->pipe[0], STDIN_FILENO);
+	dup2_with_error_check(STDOUT_FILENO, pipex->pipe[1]);
+	executer(cmd, env);
+}
+
+void	ft_last_child(char *cmd)
+{
+	close(pipex->pipe[1]);
+	dup2_with_error_check(pipex->pipe[0], 0);
+	executer(cmd, env);
+}
+
 void	pipex(char *cmd, char **env)
 {
 	int	n;
+	int	i;
 
+	i = 1;
 	n = count_pipes(cmd);
+	pipe();
+	fork();
+	ft_first_child();
+	while (i < n)
+	{
+		fork();
+		ft_mid_child();
+		i++;
+	}
+	fork();
+	ft_last_child();
 	//pipe = 
 	//execute the first child,
 	//execute the midle childs
 	//execute the last child
-	printf("this is the pipex way\n");
+	close(pipex->pipe[0]);
+	close(pipex->pipe[1]);
 	executer(cmd, env);
 }
 
