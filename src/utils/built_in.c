@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/18 21:48:14 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:36:58 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,19 @@ void ft_cd(char *path)
 	if (dir)
 	{
 		if (access(path, X_OK) == -1)
+		{
 			printf("minishell: cd: %s: Permission denied\n", path);
+			ft_put_error(1);
+		}
 		else
 			chdir(path);
 		closedir(dir);
 	}
 	else
+	{
 		printf("minishell: cd: %s: No such file or directory\n", path);
+		ft_put_error(1);
+	}
 }
 
 void ft_pwd(void)
@@ -75,6 +81,7 @@ void ft_exit(char    **input)
 	if (input[1] != NULL)
 	{
 		printf("minishell: exit: %s: numeric argument required\n", input[1]);
+		ft_put_error(255);
 	}
 	ft_free_input(input);
 	exit (0);
@@ -114,12 +121,10 @@ void ft_excuter(char **input, char **env)
 	{
 		pid = fork_with_error_check();
 		if (pid == 0)
-			errno = execve_with_error_check(input, env);
+			execve_with_error_check(input, env);
 		wait(&status);
 	}
-	errno = status;
-	printf("status:%d", errno);
-	perror(NULL);
+	ft_put_error(WEXITSTATUS(status));
 	rl_replace_line(*input, 1);
 	rl_redisplay();
 	//ft_free_input(input);

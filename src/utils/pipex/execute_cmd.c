@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/18 21:27:32 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:10:59 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,12 @@ int	execve_with_error_check(char **argv, char **env)
 	if (!arguments)
 		exit(0);
 	path = cmd_path(*argv, env);
-	printf("path:%s\n", path);
 	if (execve(path, argv, env) == -1)
 	{
 		perror(*argv);
-		exit(errno);
+		exit(-1);
 	}
-	return (errno);
+	return (0);
 }
 
 int	execute_cmd(t_var5 var)

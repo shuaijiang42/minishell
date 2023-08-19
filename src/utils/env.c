@@ -6,24 +6,12 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:53:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/18 21:20:50 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:24:14 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_static *init_struct(char **env)
-{
-	t_static *s;
-	
-	s = NULL;
-    s = calloc(1, sizeof(*s));
-    if(!s)
-        perror("calloc: ");
-    env_copy(env, s);
-    creat_exp_list(env, s);
-	return (s);
-}
 
 void env_copy(char **env, t_static *s)
 {

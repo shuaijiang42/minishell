@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:15:09 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/18 21:38:51 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:31:43 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	*ft_print_error(char *str, int error)
 	write(2, "\7minishell: ", 12);
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
-	errno = error;
+	ft_put_error(error);
 	return (NULL);
 }
 
@@ -135,7 +135,6 @@ int main(int argc, char **argv, char **env)
 	ft_put_static(init_struct(env));
 	while (1)
 	{
-		printf("errno:%d\n", errno);
 		line = readline("minishell$ ");
 		if (line != NULL)
 		{

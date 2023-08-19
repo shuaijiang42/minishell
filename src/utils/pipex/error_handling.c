@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 12:21:27 by shujiang          #+#    #+#             */
-/*   Updated: 2023/05/09 16:27:48 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:12:20 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ void	exit_cmd_not_found(char *path, char *temp, char *cmd)
 	free(temp);
 	ft_putstr_fd(cmd, 2);
 	ft_putendl_fd(": command not found", 2);
+	errno = 127;
 	exit(127);
 }

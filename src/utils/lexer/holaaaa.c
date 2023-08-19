@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/18 21:20:31 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 17:32:38 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -450,7 +450,7 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 		if (str2[0] == '?')
 		{
 			ft_free((void **)&str2);
-			str2 = ft_itoa(errno);
+			str2 = ft_itoa(ft_get_error());
 			i = ft_strlen(str2);
 			ft_free((void **)&str2);
 			return (i);
@@ -507,7 +507,7 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 	{
 		if (str2[0] == '?')
 		{
-			str3 = ft_itoa(errno);
+			str3 = ft_itoa(ft_get_error());
 			ft_strlcpy(dst, str3, ft_strlen(str3) + 1);
 			i = ft_strlen(str3);
 			*x += i;
