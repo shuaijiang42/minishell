@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/19 19:32:57 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:43:03 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	ft_built_in(char **input)
 	return (true);
 }
 
-void ft_excuter(char **input, char **env)
+int	ft_excuter(char **input, char **env)
 {
 	t_bool	built_in;
 	int	pid;
@@ -122,10 +122,13 @@ void ft_excuter(char **input, char **env)
 		pid = fork_with_error_check();
 		if (pid == 0)
 			execve_with_error_check(input, env);
-		wait(&status);
+		waitpid(-1, &status, 0);
+		ft_free_split_2(&input);
+		return (WEXITSTATUS(status));
 	}
-	ft_put_error(WEXITSTATUS(status));
-	rl_replace_line(*input, 1);
-	rl_redisplay();
-	ft_free_split_2(&input);
+	else
+	{
+		ft_free_split_2(&input);
+		return (errno);
+	}
 }

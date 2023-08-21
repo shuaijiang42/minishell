@@ -6,13 +6,14 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/18 21:28:20 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:41:55 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <struct_utils.h>
 # include <ft_global.h>
 # include <memhandl.h>
 # include <lexer.h>
@@ -32,7 +33,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 int		execve_with_error_check(char **argv, char **env);
 int     ft_built_in(char **input);
 void	ft_free_input(char **input);
-void    ft_excuter(char **input, char **env);
+int    ft_excuter(char **input, char **env);
 void env_copy(char **env, t_static *s);
 void    print_env_cpy(void);
 void    ft_env(char **input);

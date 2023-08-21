@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/19 17:10:59 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:41:23 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	execve_with_error_check(char **argv, char **env)
 		perror(*argv);
 		exit(-1);
 	}
+	exit (0);
 	return (0);
 }
 
