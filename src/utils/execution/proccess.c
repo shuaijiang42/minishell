@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/21 16:56:00 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:00:35 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <minishell.h>
@@ -231,6 +231,7 @@ void	ft_procces_maker(char *cmd, char **env)
 		if (count_pipes(cmd) > 0)
 		{
 			pid = fork_with_error_check();
+			ft_put_proccess(1);
 			if (!pid)
 				pipex(cmd, env);
 			waitpid(-1, &status, 0);
