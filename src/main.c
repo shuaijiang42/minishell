@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 18:15:09 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/21 15:15:57 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:10:38 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,13 @@ int main(int argc, char **argv, char **env)
 			ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		}
 		if (ft_check_argument(line) == 1)
+		{
 			ft_procces_maker(line, env);
+			rl_redisplay();
+		}
 		else
 			rl_on_new_line();
 		ft_free((void *)&line);
-		rl_redisplay();
 	}
 	return (0);
 }
