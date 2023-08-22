@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 15:39:19 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/22 12:03:15 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 void	rl_replace_line(const char *text, int clear_undo);
 void	execve_with_error_check(char **argv, char **env);
@@ -45,4 +46,7 @@ t_static	*ft_get_static(void);
 t_static	*ft_put_static(t_static *new);
 t_static *init_struct(char **env);
 void	creat_exp_list(char **env, t_static *s);
+
+void    ft_sigaction(void);
+
 #endif

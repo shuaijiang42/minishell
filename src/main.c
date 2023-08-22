@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/15 17:11:47 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/22 12:19:26 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int main(int argc, char **argv, char **env)
 	input = NULL;
 	history = NULL;
 	ft_put_static(init_struct(env));
+	ft_sigaction();
 	while (1)
 	{
 		line = readline("minishell$ ");
