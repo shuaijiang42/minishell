@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 16:53:40 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:02:57 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,18 @@ void	ft_exc_out_redir()
 	return ;
 }
 
-char	*ft_exc_make_cmd()
+char	*ft_exc_make_cmd(char *cmd)
 {
+	return (cmd);
 	//make the entire cmd with arguments
 	//	new_cmd = ft_get_cmd();
 }
 
 int		ft_exc_execution(char *cmd, char **env)
 {
-	input = ft_lexer(new_cmd);
+	char **input;
+
+	input = ft_lexer(cmd);
 	if (!input[0][0])
 	{
 		ft_print_error(": command not found", 127);
@@ -50,9 +53,10 @@ int		ft_exc_execution(char *cmd, char **env)
 		return (ft_excuter(input, env));
 }
 
-t_list	ft_exc_lex_input(char *cmd)
+t_list	*ft_exc_lex_input(char *cmd)
 {
-
+	return (NULL);
+	cmd = NULL;
 }
 
 int ft_exc_make_redir(char *cmd, char **env)
@@ -67,7 +71,7 @@ int ft_exc_make_redir(char *cmd, char **env)
 	//  ft_exc_out_redir
 	ft_exc_out_redir();
 	//	ft_exc_make_cmd
-	new_cmd = ft_exc_make_cmd();
+	new_cmd = ft_exc_make_cmd(cmd);
 	//	ft_exc_execution
 	result = ft_exc_execution(new_cmd, env);
 	return (result);
@@ -87,7 +91,7 @@ int	executer(char *cmd, char **env)
 	
 	cloud[0] = dup(0);
 	cloud[1] = dup(1);
-	value = ft_exc_make_redir();
+	value = ft_exc_make_redir(cmd, env);
 	dup2_with_error_check(cloud[1], 1);
 	close(cloud[1]);
 	dup2_with_error_check(cloud[0], 0);

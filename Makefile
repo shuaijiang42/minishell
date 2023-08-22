@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/22 12:29:14 by samusanc         ###   ########.fr        #
+#    Updated: 2023/08/22 16:59:09 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS	= $(MAIN) \
 		$(UTILS)static.c \
 		$(LEX)holaaaa.c \
 		$(UTILS)execution/proccess.c \
+		$(UTILS)execution/executer.c \
 		#$(LEX)utils/ft_lexer_utils.c \
 		$(LEX)checker/check_input.c \
 		$(LEX)checker/ft_lexer_check_status.c \
