@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/19 20:00:15 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/22 12:42:28 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ int ft_get_next_command(char *str)
 	n_commands = 0;
 	command = 0;
 	end = 0;
+	if (!str)
+		return (-1);
 	while (str[i] == ' ')
 		i++;
 	if (str[i] == '|')
