@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/21 19:57:33 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:52:53 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 void	rl_replace_line(const char *text, int clear_undo);
 int		execve_with_error_check(char **argv, char **env);
@@ -39,13 +40,14 @@ void    print_env_cpy(void);
 void    ft_env(char **input);
 void    ft_unset(char **input);
 int	ft_parsing(char	*str);
-void    print_exp(void);
-void	ft_export(char **input);
-t_static *ft_static(int modify, t_static *new);
+void		 print_exp(void);
+void		ft_export(char **input);
+t_static 	*ft_static(int modify, t_static *new);
 t_static	*ft_get_static(void);
 t_static	*ft_put_static(t_static *new);
-t_static *init_struct(char **env);
-void	creat_exp_list(char **env, t_static *s);
-void	ft_procces_maker(char *cmd, char **env);
-void	ft_get_old_history(char **env, int *fd);
+t_static 	*init_struct(char **env);
+void		creat_exp_list(char **env, t_static *s);
+int			executer(char *cmd, char **env);
+void		ft_procces_maker(char *cmd, char **env);
+void		ft_get_old_history(char **env, int *fd);
 #endif

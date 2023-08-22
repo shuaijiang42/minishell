@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 12:54:10 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:51:49 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <minishell.h>
@@ -67,21 +67,6 @@ size_t	count_pipes(char *str)
 	return (n);
 }
 
-int	executer(char *cmd, char **env)
-{
-	//this executer need to be improved, it does not count with the redirections
-	char **input;
-
-	input = ft_lexer(cmd);
-	//this code belong to other place, i think the execute cmd, so maybe u can try to move it there?
-	if (!input[0][0])
-	{
-		ft_print_error(": command not found", 127);
-		return (127);
-	}
-	else
-		return (ft_excuter(input, env));
-}
 
 int	ft_first_child(char *cmd, char **env, int pipe[2])
 {
@@ -247,5 +232,3 @@ void	ft_procces_maker(char *cmd, char **env)
 		ft_free_split_2(&input);
 	//exit(0);
 }
-
-
