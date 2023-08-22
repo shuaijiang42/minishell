@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/17 17:25:31 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:34:18 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int var_len(char *str)
 	int i;
 	
 	i = 0;
+	if(!str)
+		return (0);
 	while(str[i] && str[i] != '=')
 		i++;
 	return (i);
@@ -95,15 +97,15 @@ char	*var_existed(char *str)
 	s = ft_get_static();
     i = 0;
     temp = s->exp;
+	if (!str)
+		return (NULL);
 	len = var_len(str);
 	var = ft_substr(str, 0, len);
     while(temp)
     {
 		exp = temp->content;
-		/* printf("len: %d, var: %s, str: %s\n", len, var, str); */
         if(exp && ft_strncmp(exp + 11, var, len) == 0 && ((exp + 11)[len] == '\0' || (exp + 11)[len] == '=' ))
 		{
-			/* printf("len: %d, exp: %s\n", len, exp); */
 			return (exp);
 		}		
         temp = temp->next;
@@ -124,7 +126,9 @@ void add_new_var_exp(char *str)
 	new1 = NULL;
 	new2 = NULL;
 	new3 = NULL;
-	if (str && ft_strchr(str, '=') && ft_strlen(ft_strchr(str, '=')) == 1)
+	if (!str)
+		return ;
+	if (ft_strchr(str, '=') && ft_strlen(ft_strchr(str, '=')) == 1)
 	{
 		new1 = ft_strjoin("declare -x ", str);
 		new2 = ft_strjoin(new1, "\"\"");
@@ -246,7 +250,7 @@ void	ft_export(char **input)
 			old = var_existed(var);
 			if (!old)
 			{
-				if (ft_strchr(var, '='))
+				if (var && ft_strchr(var, '='))
 					add_new_var_env(var);
 				add_new_var_exp(var);
 			}
