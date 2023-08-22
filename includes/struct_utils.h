@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memhandl.h                                         :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/19 19:35:33 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:55:57 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#ifndef STRUCT_UTILS_H
+# define STRUCT_UTILS_H
 
-#ifndef MEMHANDL_H
-# define MEMHANDL_H
-# include <libft.h>
+typedef	struct s_pipes{
+	int	start_pipe[2];
+}				t_pipes;
 
-void	*ft_free(void **str);
-void	*ft_print_error(char *str, int error);
-void	leaks();
+typedef	struct s_pipstr{
+	char	*cmd_cpy;
+	int		n;
+	int		i;
+	t_pipes	pipes;
+	int		*tmp_pipe;
+	int		status;
+	char	*cmd;
+}				t_pipstr;
+
 #endif

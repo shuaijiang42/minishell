@@ -6,9 +6,10 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/22 11:58:33 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/22 13:25:51 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <minishell.h>
 
@@ -26,13 +27,19 @@ void ft_cd(char *path)
 	if (dir)
 	{
 		if (access(path, X_OK) == -1)
+		{
 			printf("minishell: cd: %s: Permission denied\n", path);
+			ft_put_error(1);
+		}
 		else
 			chdir(path);
 		closedir(dir);
 	}
 	else
+	{
 		printf("minishell: cd: %s: No such file or directory\n", path);
+		ft_put_error(1);
+	}
 }
 
 void ft_pwd(void)
@@ -75,8 +82,12 @@ void ft_exit(char    **input)
 	if (input[1] != NULL)
 	{
 		printf("minishell: exit: %s: numeric argument required\n", input[1]);
+		ft_put_error(255);
 	}
 	ft_free_input(input);
+	if (!ft_get_proccess())
+		printf("yeah closing!!\n");
+		//ft_save_history(ft_get_history());
 	exit (0);
 }
 
@@ -101,7 +112,7 @@ int	ft_built_in(char **input)
 	return (true);
 }
 
-void ft_excuter(char **input, char **env)
+int	ft_excuter(char **input, char **env)
 {
 	t_bool	built_in;
 	int	pid;
@@ -116,12 +127,14 @@ void ft_excuter(char **input, char **env)
 	{
 		pid = fork_with_error_check();
 		if (pid == 0)
-		{
 			execve_with_error_check(input, env);
-		}
-		wait(&status);
+		waitpid(-1, &status, 0);
+		ft_free_split_2(&input);
+		return (WEXITSTATUS(status));
 	}
-	rl_replace_line(*input, 1);
-	rl_redisplay();
-	ft_free_input(input);
+	else
+	{
+		ft_free_split_2(&input);
+		return (errno);
+	}
 }

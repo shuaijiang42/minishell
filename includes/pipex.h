@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 10:55:05 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/19 20:58:50 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	pipe_with_error_check(int *fd);
 void	dup2_with_error_check(int fd1, int fd2);
 void	close_with_error_check(int fd);
 int		open_with_error_check(const char *path, int oflag);
-void	execve_with_error_check(char **argv, char **env);
+int		execve_with_error_check(char **argv, char **env);
 int		fork_with_error_check(void);
 void	exit_cmd_not_found(char *path, char *temp, char *cmd);
 void	print_error(char *str);

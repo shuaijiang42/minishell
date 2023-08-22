@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   holaaaa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/14 18:12:18 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/22 12:42:28 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include <lexer.h>
 
+#include <lexer.h>
 int	count_arguments(char *str)
 {
 	int				i;
@@ -130,11 +130,13 @@ int ft_get_next_command(char *str)
 	n_commands = 0;
 	command = 0;
 	end = 0;
+	if (!str)
+		return (-1);
 	while (str[i] == ' ')
 		i++;
 	if (str[i] == '|')
 	{
-		ft_print_error("syntax error near unexpected token `|'");
+		ft_print_error("syntax error near unexpected token `|'", 258);
 		return (-1);
 	}
 	if (str[i])
@@ -172,7 +174,7 @@ int ft_get_next_command(char *str)
 		status.status = q_close;
 	if (status.status == q_open)
 	{
-		ft_print_error("syntax error unclosed quotes");
+		ft_print_error("syntax error unclosed quotes", 69);
 		return (-1);
 	}
 	return (-3);
@@ -207,8 +209,9 @@ void	*ft_free_split_2(char ***split)
 	i = 0;
 	while (split[0][i])
 	{
-		if (split[0][i++])
+		if (split[0][i])
 			ft_free((void *)&split[0][i]);
+		i++;
 	}
 	ft_free((void *)&split[0]);
 	*split = NULL;
@@ -450,7 +453,7 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 		if (str2[0] == '?')
 		{
 			ft_free((void **)&str2);
-			str2 = ft_itoa(42);
+			str2 = ft_itoa(ft_get_error());
 			i = ft_strlen(str2);
 			ft_free((void **)&str2);
 			return (i);
@@ -507,7 +510,7 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 	{
 		if (str2[0] == '?')
 		{
-			str3 = ft_itoa(42);
+			str3 = ft_itoa(ft_get_error());
 			ft_strlcpy(dst, str3, ft_strlen(str3) + 1);
 			i = ft_strlen(str3);
 			*x += i;
@@ -704,7 +707,6 @@ void	ft_alloc_parse_result(char ***result_ptr, char *str, int len)
 char **ft_lexer(char *str)
 {
 	char			**result;
-	//t_cmd			cmd;
 	int				len;
 	int				i;
 
