@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 13:28:41 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/22 13:47:31 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ t_static	*ft_get_static(void);
 t_static	*ft_put_static(t_static *new);
 t_static *init_struct(char **env);
 void	creat_exp_list(char **env, t_static *s);
-<<<<<<< HEAD
 
-void    ft_sigaction(void);
+void    handler(int signal);
 
-=======
 void	ft_procces_maker(char *cmd, char **env);
 void	ft_get_old_history(char **env, int *fd);
->>>>>>> dmerge
+
 #endif

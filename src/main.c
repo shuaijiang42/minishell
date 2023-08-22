@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 13:27:05 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:34:05 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,21 @@ int main(int argc, char **argv, char **env)
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
 	ft_put_static(init_struct(env));
-	ft_sigaction();
+	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_DFL);
 	history = (ft_get_static())->history;
 	while (1)
 	{
 		line = readline("minishell$ ");
-		if (line != NULL)
+		if (!line)
 		{
-			add_history(line);
-			ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
+			printf("exit\n");
+			ft_free((void *)&line);
+			exit(0);
 		}
+			
+		add_history(line);
+		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		if (ft_check_argument(line) == 1)
 		{
 			ft_procces_maker(line, env);
