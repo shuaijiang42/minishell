@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 15:34:05 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:46:48 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,29 @@ int main(int argc, char **argv, char **env)
 	history = (ft_get_static())->history;
 	while (1)
 	{
+		flag = 0;
 		line = readline("minishell$ ");
 		if (!line)
 		{
+			//rl_redisplay();
 			printf("exit\n");
 			ft_free((void *)&line);
 			exit(0);
 		}
-			
 		add_history(line);
 		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		if (ft_check_argument(line) == 1)
 		{
 			ft_procces_maker(line, env);
 			ft_put_proccess(0);
-			rl_redisplay();
+			//rl_redisplay(); //not needed
 		}
 		else
-			rl_on_new_line();
-		ft_free((void *)&line);
+		{
+			//rl_on_new_line(); not needed
+			ft_free((void *)&line);
+		}
 	}
 	return (0);
 }
+

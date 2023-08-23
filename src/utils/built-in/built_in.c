@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/22 16:03:16 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:47:35 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void ft_cd(char *path)
 		{
 			printf("minishell: cd: %s: Permission denied\n", path);
 			ft_put_error(1);
+			
 		}
 		else
 			chdir(path);
@@ -120,17 +121,15 @@ int	ft_excuter(char **input, char **env)
 	
 	pid = 0;
 	status = 0;
+	
 	built_in = ft_built_in(input);
 	if (built_in == false)
 	{
 		
+		flag = 1;
 		pid = fork_with_error_check();
 		if (pid == 0)
-		{
-			signal(SIGINT, SIG_IGN);
 			execve_with_error_check(input, env);
-		}
-		
 		waitpid(-1, &status, 0);
 		ft_free_split_2(&input);
 		return (WEXITSTATUS(status));
