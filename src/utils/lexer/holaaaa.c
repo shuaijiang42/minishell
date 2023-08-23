@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 17:17:32 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:33:01 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,9 +467,9 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 
 void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 {
-	int	j;
-	int	i;
-	int	z;
+	int		j;
+	int		i;
+	int		z;
 	char	*str2;
 	char	*str3;
 	t_list	*tmp;

@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 17:02:57 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:50:28 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@ int		ft_exc_execution(char *cmd, char **env)
 
 t_list	*ft_exc_lex_input(char *cmd)
 {
+	/*
+	int	i;
+	int	j;
+
+	i = 0;
+	ft_init_cmd(&cmd);
+	while (cmd[i])
+	{
+		j = ft_check_char(&cmd, str[i]);
+		if (!j)
+		{
+			ft_init_cmd(&cmd);
+		
+		}
+	}
+	*/
 	return (NULL);
 	cmd = NULL;
 }
@@ -83,11 +99,6 @@ int	executer(char *cmd, char **env)
 	//this executer need to be improved, it does not count with the redirections
 	int		cloud[2];
 	int		value;
-
-
-	
-	//this code belong to other place, i think the execute cmd, so maybe u can try to move it there?
-	//-----------------------------------------------------------//
 	
 	cloud[0] = dup(0);
 	cloud[1] = dup(1);
