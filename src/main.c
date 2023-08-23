@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/23 14:53:41 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:23:04 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int main(int argc, char **argv, char **env)
 	t_list	*history;
 	(void)argc;
 	(void)argv;
-	
 	fd_mini_history = 0;
+	
 	//atexit(leaks);
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
@@ -73,7 +73,7 @@ int main(int argc, char **argv, char **env)
 		{
 			//rl_redisplay();
 			printf("exit\n");
-			ft_free((void *)&line);
+			ft_free((void *)&line);env
 			exit(0);
 		}
 		add_history(line);
@@ -87,8 +87,8 @@ int main(int argc, char **argv, char **env)
 		else
 		{
 			//rl_on_new_line(); not needed
-			ft_free((void *)&line);
 		}
+		ft_free((void *)&line);
 	}
 	return (0);
 }
