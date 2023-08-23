@@ -8,6 +8,8 @@
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
 #    Updated: 2023/08/22 13:26:15 by shujiang         ###   ########.fr        #
 #                                                                            #
+#    Updated: 2023/08/22 16:59:09 by samusanc         ###   ########.fr        #
+#                                                                              #
 # **************************************************************************** #
 
 NAME	= minishell
@@ -35,6 +37,7 @@ SRCS	= $(MAIN) \
 		$(SIGNAL)signal.c \
 		$(LEX)holaaaa.c \
 		$(UTILS)execution/proccess.c \
+		$(UTILS)execution/executer.c \
 		#$(LEX)utils/ft_lexer_utils.c \
 		$(LEX)checker/check_input.c \
 		$(LEX)checker/ft_lexer_check_status.c \

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 12:42:28 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:33:01 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,9 +467,9 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 
 void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 {
-	int	j;
-	int	i;
-	int	z;
+	int		j;
+	int		i;
+	int		z;
 	char	*str2;
 	char	*str3;
 	t_list	*tmp;
@@ -694,7 +694,15 @@ void	ft_alloc_parse_result(char ***result_ptr, char *str, int len)
 			return ;
 		ft_lexer_fill_str(str, &str2);
 		str2[arg_len] = '\0';
-		result[x++] = str2;
+		if (*str2)
+			result[x++] = str2;
+		else
+		{
+			if (*str != '$')
+				result[x++] = str2;
+			else
+				ft_free((void **)&str2);
+		}
 		i = ft_lexer_get_next_argument(str);
 		str += i;
 		len--;
@@ -714,7 +722,7 @@ char **ft_lexer(char *str)
 		return (NULL);
 	len = ft_lexer_len_n_arguments(str);
 	// y si len da 0 que se hace???
-	result = malloc(sizeof(char *) * (len + 1));
+	result = ft_calloc(sizeof(char *), (len + 1));
 	if (!result)
 		return (NULL);
 	result[len] = NULL;
