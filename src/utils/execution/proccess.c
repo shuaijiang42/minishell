@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   procces.c                                          :+:      :+:    :+:   */
+/*   proccess.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/22 15:51:49 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/23 14:58:26 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <minishell.h>
 
 size_t	get_next_index_pipex(char *str)
@@ -215,6 +216,7 @@ void	ft_procces_maker(char *cmd, char **env)
 		ft_free_split_2(&input);
 		if (count_pipes(cmd) > 0)
 		{
+			flag = 1;
 			pid = fork_with_error_check();
 			ft_put_proccess(1);
 			if (!pid)

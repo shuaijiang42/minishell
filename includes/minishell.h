@@ -6,13 +6,10 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/08/23 14:39:07 by shujiang         ###   ########.fr       */
-=======
-/*   Updated: 2023/08/22 15:52:53 by samusanc         ###   ########.fr       */
->>>>>>> redir
+/*   Updated: 2023/08/23 14:56:12 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 # ifndef MINISHELL_H
@@ -51,20 +48,15 @@ void		ft_export(char **input);
 t_static 	*ft_static(int modify, t_static *new);
 t_static	*ft_get_static(void);
 t_static	*ft_put_static(t_static *new);
-<<<<<<< HEAD
-t_static *init_struct(char **env);
+
 void	creat_exp_list(char **env, t_static *s);
 
 void    handler(int signal);
 
-void	ft_procces_maker(char *cmd, char **env);
-void	ft_get_old_history(char **env, int *fd);
-
-=======
 t_static 	*init_struct(char **env);
 void		creat_exp_list(char **env, t_static *s);
 int			executer(char *cmd, char **env);
 void		ft_procces_maker(char *cmd, char **env);
 void		ft_get_old_history(char **env, int *fd);
->>>>>>> redir
+
 #endif
