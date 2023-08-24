@@ -6,11 +6,14 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 17:17:25 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:16:23 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+char *ft_find_home()
+
 
 void ft_cd(char *path)
 {
@@ -19,7 +22,6 @@ void ft_cd(char *path)
 	if (!path)
 	{
 		chdir("$HOME");
-		printf("Pls check the code. Here we need $ done\n");
 		return ;
 	}
 	dir = opendir(path);
