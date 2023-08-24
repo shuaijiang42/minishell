@@ -6,22 +6,40 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 18:16:23 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 18:36:36 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char *ft_find_home()
-
+char *ft_get_var(char *var)
+{
+	t_static *s;
+	char *env_var;
+	
+	s = ft_get_static();
+	
+	while (s->env_cpy)
+	{
+		env_var = s->env_cpy->content;
+		if(!ft_strncmp(env_var, var, ft_strlen(var)) 
+			&& env_var[ft_strlen(var)]== '=')
+			return (env_var + ft_strlen(var) + 1);
+		s->env_cpy = s->env_cpy->next;
+	}
+	return (NULL);
+}
 
 void ft_cd(char *path)
 {
 	DIR *dir;
-
+	char *route;
+	
+	route = NULL;
 	if (!path)
 	{
-		chdir("$HOME");
+		route = ft_get_var("HOME");
+		chdir(route);
 		return ;
 	}
 	dir = opendir(path);
