@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 18:36:36 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:15:17 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,13 @@ void ft_cd(char *path)
 
 void ft_pwd(void)
 {
-	char buf[4096];
+	t_static *s;
 
-	printf("%s\n", getcwd(buf, sizeof(buf)));
+	s = ft_get_static();
+	printf("%s\n", s->pwd);
+	/* char buf[4096];
+
+	printf("%s\n", getcwd(buf, sizeof(buf))); */
 }
 int	check_only_n(char *str)
 {

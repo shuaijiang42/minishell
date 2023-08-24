@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 16:25:42 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:11:26 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ t_static *init_struct(char **env)
 {
 	t_static *s;
 	int			*i;
-	
+	char buf[4096];
+
 	s = NULL;
     s = calloc(1, sizeof(*s));
     if(!s)
@@ -98,6 +99,7 @@ t_static *init_struct(char **env)
         perror("calloc: ");
 		return (NULL);
 	}
+	s->pwd = ft_strdup(getcwd(buf, sizeof(buf)));
     env_copy(env, s);
     creat_exp_list(env, s);
 	i = malloc(sizeof(int));

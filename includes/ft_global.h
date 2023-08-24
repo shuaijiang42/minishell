@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/22 13:28:30 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:09:35 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_static
     t_list	*exp;
 	t_list	*error;
 	t_list	*history;
+    char    *pwd;  
 } t_static;
 
 //+++++++++++++++++++++ env ++++++++++++++++++++++++++

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:53:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/22 13:27:22 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:06:40 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ void env_copy(char **env, t_static *s)
     temp = s->env_cpy;
     while(env[i])
     {
-        new = ft_lstnew(env[i]);
+        if (!ft_strncmp(env[i], "PWD", 3))
+            new = ft_lstnew(ft_strjoin("PWD=", s->pwd));
+        else
+            new = ft_lstnew(env[i]);
         ft_lstadd_back(&temp, new);
         i++;
     }
