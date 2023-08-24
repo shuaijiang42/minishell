@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 14:58:07 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:17:25 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,20 +103,59 @@ void ft_echo(char    **input)
 		printf("%s\n", input[i]);
 }
 
+int check_digit(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 48 && str[i] <= 57)
+			i++;
+		break ;
+	}
+	if (i != (int)ft_strlen(str))
+		return (0);
+	return (1);
+}
+
+void ft_free_exit(char **input, int n)
+{
+	ft_free_input(input);
+	exit (n);
+}
+
 void ft_exit(char    **input)
 {
+	int i;
+
+	i = 0; 
 	printf("exit\n");
-	if (input[1] != NULL)
+	if (input && input[1] == NULL)
+		ft_free_exit(input, 0);
+	if (input[2] != NULL)
 	{
-		printf("minishell: exit: %s: numeric argument required\n", input[1]);
+		printf("minishell: exit: too many arguments\n");
 		ft_put_error(255);
 	}
-	ft_free_input(input);
+	else if (input[1] != NULL)
+	{
+		if(!check_digit(input[1])) 
+		{
+			printf("minishell: exit: %s: numeric argument required\n", input[1]);
+			ft_put_error(255);
+		}
+		else
+		{
+			i = ft_atoi(input[1]);
+			ft_free_exit(input, i);
+		}	
+	}
 	if (!ft_get_proccess())
 		printf("yeah closing!!\n");
 		//ft_save_history(ft_get_history());
-	exit (0);
 }
+
 
 int	ft_built_in(char **input)
 {
