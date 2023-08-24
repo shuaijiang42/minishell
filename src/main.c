@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/23 17:23:04 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:05:42 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int main(int argc, char **argv, char **env)
 		{
 			//rl_redisplay();
 			printf("exit\n");
-			ft_free((void *)&line);env
+			ft_free((void *)&line);
 			exit(0);
 		}
 		add_history(line);

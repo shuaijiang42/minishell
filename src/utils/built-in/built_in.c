@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/23 16:02:11 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:53:48 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,26 @@ void ft_pwd(void)
 
 	printf("%s\n", getcwd(buf, sizeof(buf)));
 }
+int	check_only_n(char *str)
+{
+	int i;
+
+	i = 0;
+	if (str[i] != '-')
+		return (0);
+	i++;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			break ;
+		i++;
+	}
+	if (str[i] == '\0')
+	{
+		return (1);
+	}
+	return (0);	
+}
 
 void ft_echo(char    **input)
 {
@@ -58,6 +78,11 @@ void ft_echo(char    **input)
 	{
 		printf("\n");
 		return ;
+	}
+	if (check_only_n(input[i]))
+	{
+		free(input[i]);
+		input[i] = ft_strdup("-n");
 	}
 	while (ft_strcmp(input[i], "-n") == 0)
 	{
