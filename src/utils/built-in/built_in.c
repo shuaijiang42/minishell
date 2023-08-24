@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 14:53:48 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:58:07 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,13 @@ void ft_echo(char    **input)
 		printf("\n");
 		return ;
 	}
-	if (check_only_n(input[i]))
+	while (input[i] && check_only_n(input[i]))
 	{
 		free(input[i]);
 		input[i] = ft_strdup("-n");
+		i++;
 	}
+	i = 1;
 	while (ft_strcmp(input[i], "-n") == 0)
 	{
 		i++;
