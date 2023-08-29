@@ -6,11 +6,12 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/28 15:47:06 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:27:49 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
 
 char *ft_get_var(char *var)
 {
@@ -43,12 +44,14 @@ void ft_cd(char *path)
 	DIR *dir;
 	char *route;
 	
-	route = NULL;
 	if (!path)
 	{
 		route = ft_get_var("HOME");
 		printf("%s\n", route);
 		ft_cd(route);
+		chdir("$HOME");
+		return ;
+
 	}
 	dir = opendir(path);
 	if (dir)

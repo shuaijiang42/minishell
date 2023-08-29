@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   old_version_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/29 18:04:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/29 18:24:42 by shujiang         ###   ########.fr       */
+/*   Created: 2023/08/08 16:53:35 by shujiang          #+#    #+#             */
+/*   Updated: 2023/08/29 18:18:43 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void    get_default_env()
-{
-    
-}
-void ft_copy_env(char **env)
+
+void env_copy(char **env, t_static *s)
 {
     int i;
     t_list *new;
     t_list *temp;
-    t_static *s;
-
-    s = ft_get_static();
+    
     i = 1;
     new = NULL;
     temp = NULL;
@@ -40,7 +35,7 @@ void ft_copy_env(char **env)
             new = ft_lstnew(ft_strjoin("PWD=", s->pwd));
         else
             new = ft_lstnew(env[i]);
-        add_list_and_sort(&temp, new);
+        ft_lstadd_back(&temp, new);
         i++;
     }
 }
@@ -71,4 +66,3 @@ void    ft_env(char **input)
 	}
     print_env_cpy();
 }
-

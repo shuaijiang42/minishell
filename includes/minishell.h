@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/28 18:16:48 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:19:50 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,8 @@ int			executer(char *cmd, char **env);
 void		ft_procces_maker(char *cmd, char **env);
 void		ft_get_old_history(char **env, int *fd);
 char        *get_var_info(char *var_name);
+
+
+void    add_list_and_sort(t_list **list, t_list *new)
 
 #endif

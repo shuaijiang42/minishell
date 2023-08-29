@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/29 15:13:00 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:51:57 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,9 @@ t_static *init_struct(char **env)
 	
 	if (!env)
 	{
-		s->env_cpy = ft_lstnew(s->pwd);
-		ft_lstadd_back(&(s->env_cpy), ft_lstnew(shlvl));
-		ft_lstadd_back(&(s->env_cpy), ft_lstnew("_=./minishell"));
+		s->env = ft_lstnew(s->pwd);
+		ft_lstadd_back(&(s->env), ft_lstnew(shlvl));
+		ft_lstadd_back(&(s->env), ft_lstnew("_=./minishell"));
 		creat_exp_list(s);
 		return (s);
 	}

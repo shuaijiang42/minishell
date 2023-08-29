@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/28 18:22:17 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:10:24 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 # define FT_GLOBAL_H
 # include <libft.h>
 
+
 typedef struct s_static
 {
-    t_list	*env_cpy;
+    t_list	*env;
     t_list	*exp;
 	t_list	*error;
 	t_list	*history;
-    char    *pwd; 
-    int     shlvl; 
+    char    *pwd;
+    char    *oldpwd; 
+    int     shlvl;
+    char    *last_cmd;
 } t_static;
 
 //+++++++++++++++++++++ env ++++++++++++++++++++++++++
