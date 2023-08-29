@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/08 16:53:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 20:06:40 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:10:23 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,11 @@ void    ft_env(char **input)
         return ;
 	}
     print_env_cpy();
+}
+
+void    initiate_default_env()
+{
+    t_static    *s;
+
+    s = ft_get_static();
 }

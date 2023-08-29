@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 19:15:17 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:47:06 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,23 @@ char *ft_get_var(char *var)
 {
 	t_static *s;
 	char *env_var;
+	size_t len;
 	
+	printf("here\n");
 	s = ft_get_static();
-	
+	len = ft_strlen(var);
+	printf("s->env_cpy %p", s->env_cpy);
 	while (s->env_cpy)
 	{
+		printf("ciao\n");
 		env_var = s->env_cpy->content;
-		if(!ft_strncmp(env_var, var, ft_strlen(var)) 
+		printf("env_var: %s, len: %zu\n", env_var, len);
+		if(env_var && var && !ft_strncmp(env_var, var, len) 
 			&& env_var[ft_strlen(var)]== '=')
-			return (env_var + ft_strlen(var) + 1);
+		{
+			printf("env_var: %s\n", env_var);
+			return (env_var + len + 1);
+		}	
 		s->env_cpy = s->env_cpy->next;
 	}
 	return (NULL);
@@ -39,8 +47,8 @@ void ft_cd(char *path)
 	if (!path)
 	{
 		route = ft_get_var("HOME");
-		chdir(route);
-		return ;
+		printf("%s\n", route);
+		ft_cd(route);
 	}
 	dir = opendir(path);
 	if (dir)

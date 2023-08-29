@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 20:11:26 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:13:00 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ t_static *init_struct(char **env)
 	t_static *s;
 	int			*i;
 	char buf[4096];
+	const char *pwd;
+	char *shlvl;
 
+	
 	s = NULL;
     s = calloc(1, sizeof(*s));
     if(!s)
@@ -99,7 +102,50 @@ t_static *init_struct(char **env)
         perror("calloc: ");
 		return (NULL);
 	}
-	s->pwd = ft_strdup(getcwd(buf, sizeof(buf)));
+	
+	i = malloc(sizeof(int));
+	if (!i)
+	{
+        perror("malloc: ");
+		return (NULL);
+	}
+	*i = 0;
+	s->error = ft_lstnew((void *)i);
+	s->history = NULL;
+	pwd = getcwd(buf, sizeof(buf));
+	s->pwd = ft_strdup(pwd);
+	s->shlvl = 1;
+	shlvl = ft_strjoin("SHLVL=", ft_itoa(s->shlvl));
+	
+	if (!env)
+	{
+		s->env_cpy = ft_lstnew(s->pwd);
+		ft_lstadd_back(&(s->env_cpy), ft_lstnew(shlvl));
+		ft_lstadd_back(&(s->env_cpy), ft_lstnew("_=./minishell"));
+		creat_exp_list(s);
+		return (s);
+	}
+    env_copy(env, s);
+    creat_exp_list(s);
+	return (s);
+}
+
+/* t_static *init_struct(char **env)
+{
+	t_static *s;
+	int			*i;
+	char buf[4096];
+
+	
+	s = NULL;
+    s = calloc(1, sizeof(*s));
+    if(!s)
+	{
+        perror("calloc: ");
+		return (NULL);
+	}
+	const char *pwd = getcwd(buf, sizeof(buf));
+	s->pwd = ft_strdup(pwd);
     env_copy(env, s);
     creat_exp_list(env, s);
 	i = malloc(sizeof(int));
@@ -112,7 +158,7 @@ t_static *init_struct(char **env)
 	s->error = ft_lstnew((void *)i);
 	s->history = NULL;
 	return (s);
-}
+} */
 
 int	ft_get_error(void)
 {

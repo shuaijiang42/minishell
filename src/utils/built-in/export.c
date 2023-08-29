@@ -6,13 +6,33 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/24 14:18:31 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:17:19 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	creat_exp_list(char **env, t_static *s)
+void	creat_exp_list(t_static *s)
+{	
+	int i;
+	t_list *new;
+    t_list *temp;
+    
+    i = 1;
+    new = NULL;
+    temp = NULL;
+    
+    s->exp = ft_lstnew(ft_strjoin("declare -x ", s->env_cpy->content));
+    temp = s->exp;
+    while(s->env_cpy)
+    {
+        new = ft_lstnew(ft_strjoin("declare -x ", s->env_cpy->content));
+        ft_lstadd_back(&temp, new);
+        s->env_cpy = s->env_cpy->next;
+    }
+}
+
+/* void	creat_exp_list(char **env, t_static *s)
 {	
 	int i;
 	t_list *new;
@@ -34,7 +54,7 @@ void	creat_exp_list(char **env, t_static *s)
         ft_lstadd_back(&temp, new);
         i++;
     }
-}
+} */
 
 void    print_exp(void)
 {

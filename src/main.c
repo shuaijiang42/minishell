@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/24 14:05:42 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:16:35 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,16 @@ int main(int argc, char **argv, char **env)
 	t_list	*history;
 	(void)argc;
 	(void)argv;
+	char buf[4096];
 	fd_mini_history = 0;
-	
 	//atexit(leaks);
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
 	ft_put_static(init_struct(env));
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_DFL);
-	history = (ft_get_static())->history;
+	t_static *s = ft_get_static();
+	history = s->history;
 	while (1)
 	{
 		flag = 0;
@@ -81,6 +82,10 @@ int main(int argc, char **argv, char **env)
 		if (ft_check_argument(line) == 1)
 		{
 			ft_procces_maker(line, env);
+			const char *pwd = getcwd(buf, sizeof(buf));
+			free(s->pwd);
+			s->pwd = ft_strdup(pwd);
+			printf("here pwd: %s\n", s->pwd);			
 			ft_put_proccess(0);
 			//rl_redisplay(); //not needed
 		}
