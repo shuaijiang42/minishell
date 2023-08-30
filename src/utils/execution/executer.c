@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/30 16:15:45 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:19:25 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,16 +196,18 @@ int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 	if(pipe(pipes))
 		return (-1);
 	content->type = ft_strdup("hre");
-	write(STDIN_FILENO, ">", 1);
-	str = get_next_line(STDIN_FILENO);
+	write((int)((ft_get_static())->here), ">", 1);
+	str = get_next_line((int)((ft_get_static())->here));
 	if (!str)
 		return (-1);
 	while (ft_strncmp(content->str, str, ft_strlen2(content->str)) && str)
 	{
-		write(STDIN_FILENO, ">", 1);
+		write((int)((ft_get_static())->here), ">", 1);
+	//	write(STDIN_FILENO, ">", 1);
 		ft_putstr_fd(str, pipes[1]);
 		free(str);
-		str = get_next_line(STDIN_FILENO);
+	//	str = get_next_line(STDIN_FILENO);
+		str = get_next_line((int)((ft_get_static())->here));
 		if (!str)
 			return (-1);
 	}
@@ -227,9 +229,7 @@ int	ft_exc_open_fd(t_argument *content, t_redir type, t_exc_lex *lex)
 		fd = 0;
 	}
 	else if (type == hre)
-	{
 		return (ft_exc_here_doc(content, lex));
-	}
 	else if (type == trc)
 	{
 		printf("this is a >\n");
@@ -296,40 +296,84 @@ int	ft_exc_lex_word(t_list **result, t_exc_lex *lex)
 	result = NULL;
 }
 
-t_list	*ft_exc_lex_input(char *input, int std[2])
+void	*ft_error_make_list(t_list **result, t_exc_lex *lex, int error)
+{
+	ft_init_exc_lex(lex);
+	*result = NULL;//here i should free the list
+	if (error)
+		ft_error_exc_unexpected_token(0, 0, 0);
+	return (NULL);
+}
+
+t_list	*ft_make_list(t_exc_lex *lex)
+{
+	t_list		*result;
+	char		*input;
+
+	result = NULL;
+	input = lex->input;
+	while (input[lex->i])
+	{
+		lex->j = ft_check_char(&lex->cmd, input[lex->i]);
+		if (!lex->j || lex->j == -1)
+			ft_put_status_redir(lex, NULL);
+		else
+		{
+			if (lex->word == INACTIVE)
+			{
+				if (ft_exc_lex_word(&result, lex) == -1)
+					return (ft_error_make_list(&result, lex, 0));
+				lex->word = ACTIVE;
+			}
+		}
+		lex->i += 1;
+	}
+	if (lex->status)
+		return (ft_error_make_list(&result, lex, 1));
+	return(result);
+}
+
+void *ft_not_closed_pipe(char **env)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	write((int)((ft_get_static())->here), ">", 1);
+	str = get_next_line((int)((ft_get_static())->here));
+	if (!str)
+	{
+		ft_print_error("syntax error: unexpected end of file", 258);
+		return (NULL);
+	}
+	while (str[i] != '\n')
+		i++;
+	if (!i)
+	{
+		free(str);
+		return (ft_not_closed_pipe(env));
+	}
+	str[i] = '\0';
+	if (ft_check_argument(str) == 1)
+		ft_procces_maker(str, env);
+	free(str);
+	return (NULL);
+}
+
+t_list	*ft_exc_lex_input(char *input, int std[2], char **env)
 {
 	t_exc_lex	lex;
 	t_list		*result;
 
 	lex.input = input;
-	result = NULL;
 	ft_init_exc_lex(&lex);
-	if (ft_check_dup_redir(input) == -1)
+	if (!input)
+		return (ft_not_closed_pipe(env)); // aqui si hay un pipe de mas
+	else if (ft_check_dup_redir(input) == -1)
 		return (NULL);
-	while (input[lex.i])
-	{
-		lex.j = ft_check_char(&lex.cmd, input[lex.i]);
-		if (!lex.j || lex.j == -1)
-			ft_put_status_redir(&lex, NULL);
-		else
-		{
-			if (lex.word == INACTIVE)
-			{
-				if (ft_exc_lex_word(&result, &lex) == -1)
-					return (NULL);
-				lex.word = ACTIVE;
-			}
-		}
-		//printf("cmd[%d]:%c[%d]\n", lex.i, input[lex.i], lex.j);
-		lex.i += 1;
-	}
-	if (lex.status)
-	{
-		ft_error_exc_unexpected_token(0, 0, 0);
-		return (NULL);
-	}
+	result = ft_make_list(&lex);
 	std[0] = lex.in;
-	return (ft_lstnew(NULL));
+	return (result);
 }
 
 int ft_exc_make_redir(char *cmd, char **env)
@@ -341,7 +385,7 @@ int ft_exc_make_redir(char *cmd, char **env)
 
 	std[0] = STDIN_FILENO;
 	std[1] = STDOUT_FILENO;
-	input = ft_exc_lex_input(cmd, std);
+	input = ft_exc_lex_input(cmd, std, env);
 	if (!input)
 		return (errno);
 	dup2_with_error_check(std[0], STDIN_FILENO);

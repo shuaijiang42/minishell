@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/29 17:54:28 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:44:49 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ char	*ft_strndup(const char *s1, size_t n)
 	return (str);
 }
 
-
 char	*ft_get_cmd_pipex(char **cmd)
 {
 	size_t	nxt_cmd;
@@ -160,10 +159,9 @@ char	*ft_get_cmd_pipex(char **cmd)
 void	pipex(char *cmd, char **env)
 {
 	t_pipstr	pipex;
-
-	int pid;
-	int	status;
-	int	fd;
+	int			pid;
+	int			status;
+	int			fd;
 
 	status = 0;
 	fd = 0;
@@ -208,8 +206,8 @@ void	ft_procces_maker(char *cmd, char **env)
 {
 	char **input;
 	int		pid;
-
 	int		status;
+
 	input = ft_lexer(cmd);
 	if (input /*&& *input*/)
 	{
