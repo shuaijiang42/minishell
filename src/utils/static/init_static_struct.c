@@ -6,32 +6,38 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:34:53 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/29 16:15:06 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:34:37 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-t_static *init_static_struct(char **env)
+t_static *init_static_struct(void)
 {
     t_static *s;
+    int *i;
     char pwd[4096];
     
-    s = malloc(sizeof(t_static));
-    if (!s)
-        return (NULL);
-    
+    s = calloc(1, sizeof(t_static));
+    if(!s)
+	{
+        perror("calloc: ");
+		return (NULL);
+	}
+    i = malloc(sizeof(int));
+	if (!i)
+	{
+        perror("malloc: ");
+		return (NULL);
+	}
+	*i = 0;
+	s->error = ft_lstnew((void *)i);
+	s->history = NULL;
     getcwd(pwd, sizeof(pwd));
-    s->oldpwd = NULL;
-    s->pwd = ft_strjoin("PWD=ft_strdup(pwd); 
-    s->last_cmd = "./minishell";
-    s->shlvl = 1 
-    if(!env)
-    {
-        s->env = get_default_env();
-        s->exp = get_default_exp();
+    s->oldpwd = ft_strjoin("OLDPWD=", NULL); 
+    s->pwd = ft_strjoin("PWD=", pwd); 
+    s->last_cmd = ft_strjoin("_=", "./minishell");
+    return (s);
 }
-    }
-    else
-        s->env = get_env_cpy(env);
-    
+   
+   

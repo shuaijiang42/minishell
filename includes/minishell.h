@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/29 18:19:50 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:27:45 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,16 @@ t_static	*ft_put_static(t_static *new);
 void	creat_exp_list(t_static *s);
 void    handler(int signal);
 
-t_static 	*init_struct(char **env);
+
+t_static *init_static_struct();
 
 int			executer(char *cmd, char **env);
 void		ft_procces_maker(char *cmd, char **env);
 void		ft_get_old_history(char **env, int *fd);
 char        *get_var_info(char *var_name);
 
+void    ft_copy_env(char **env);
+void    add_list_and_sort(t_list **list, t_list *new);
 
-void    add_list_and_sort(t_list **list, t_list *new)
 
 #endif

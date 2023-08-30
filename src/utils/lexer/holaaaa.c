@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/23 14:33:01 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/30 11:32:09 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,7 +441,7 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 		return (0);
 	ft_strlcpy(str2, str, i);
 	str2[i] = '\0';
-	tmp = (ft_get_static())->env_cpy;
+	tmp = (ft_get_static())->env;
 	while (tmp)
 	{
 		if (!ft_strncmp((char *)tmp->content, str2, ft_strlen(str2)))
@@ -499,7 +499,7 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 		return ;
 	ft_strlcpy(str2, str, i);
 	str2[i] = '\0';
-	tmp = (ft_get_static())->env_cpy;
+	tmp = (ft_get_static())->env;
 	while (tmp)
 	{
 		if (!ft_strncmp((char *)tmp->content, str2, ft_strlen(str2)))

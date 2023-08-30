@@ -33,7 +33,9 @@ SRCS	= $(MAIN) \
 		$(BUILT_IN)unset.c \
 		$(BUILT_IN)env.c \
 		$(BUILT_IN)export.c \
+		$(BUILT_IN)list.c \
 		$(STATIC)static.c \
+		$(STATIC)init_static_struct.c \
 		$(SIGNAL)signal.c \
 		$(LEX)holaaaa.c \
 		$(UTILS)execution/proccess.c \
@@ -53,7 +55,7 @@ $(O_DIR)/%.o: %.c
 all: $(NAME) $(SRCS)
 
 $(NAME): $(OBJS)
-	@make -sC ./libft/
+	@make -sC ./libft/ bonus
 	@$(CC) $(OBJS) $(LIBFT) $(LDFLAGS)  -o $(NAME)
 
 re: fclean all

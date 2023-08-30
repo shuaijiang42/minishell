@@ -28,7 +28,7 @@ $(NAME): $(OBJECTS)
 
 # creat the static library ar: archive r: replace c: creat s: index; so this command creates or update
 
-bonus: $(BONUS_OBJECTS)
+bonus: $(NAME) $(BONUS_OBJECTS)
 	ar rcs $(NAME) $(BONUS_OBJECTS)
 
 clean:
@@ -36,4 +36,4 @@ clean:
 fclean:
 	rm -f $(NAME) $(OBJECTS) main.c main.o main
 
-re: fclean all 
+re: fclean all bonus

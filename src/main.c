@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/28 16:16:35 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:38:50 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,18 +54,21 @@ int main(int argc, char **argv, char **env)
 	char *line;
 	int		fd_mini_history;
 	t_list	*history;
+	t_static *s;
 	(void)argc;
 	(void)argv;
-	char buf[4096];
+	
 	fd_mini_history = 0;
 	//atexit(leaks);
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
-	ft_put_static(init_struct(env));
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_DFL);
-	t_static *s = ft_get_static();
+	ft_put_static(init_static_struct());
+	s = ft_get_static();
 	history = s->history;
+	ft_copy_env(env);
+    //creat_exp_list(s);
 	while (1)
 	{
 		flag = 0;
@@ -82,10 +85,9 @@ int main(int argc, char **argv, char **env)
 		if (ft_check_argument(line) == 1)
 		{
 			ft_procces_maker(line, env);
-			const char *pwd = getcwd(buf, sizeof(buf));
-			free(s->pwd);
-			s->pwd = ft_strdup(pwd);
-			printf("here pwd: %s\n", s->pwd);			
+			char pwd[4096];
+			s->oldpwd = ft_strjoin("OLDPWD=", ft_strdup(s->pwd));
+			s->pwd = ft_strjoin("PWD=", getcwd(pwd, sizeof(pwd)));  		
 			ft_put_proccess(0);
 			//rl_redisplay(); //not needed
 		}
@@ -98,3 +100,44 @@ int main(int argc, char **argv, char **env)
 	return (0);
 }
 
+//This is a main to test the fuction add_list_and_sort
+/* int main()
+{
+    t_list *list;
+    char pwd[4096];
+
+    t_list *temp;
+
+    getcwd(pwd, sizeof(pwd));
+    list = malloc(sizeof(t_list));
+    list = ft_lstnew(ft_strjoin("PWD=",pwd));
+	add_list_and_sort(&list, ft_lstnew("Bpple="));
+    add_list_and_sort(&list, ft_lstnew("_=./minishell"));
+    add_list_and_sort(&list, ft_lstnew("SHLVL=1"));
+	add_list_and_sort(&list, ft_lstnew("Aanana"));
+	add_list_and_sort(&list, ft_lstnew("Bpple=9"));
+	add_list_and_sort(&list, ft_lstnew("AAA=9"));
+	add_list_and_sort(&list, ft_lstnew("Aanana = BANANA"));
+    
+    temp = list;
+    while(temp)
+    {
+        printf("%s\n", temp->content);
+        temp = temp->next;
+    }
+    return (0);
+}  */
+
+/* This main is for testing env
+int main(int argc, char **argv, char **env)
+{
+	(void)argc;
+	(void)argv;
+	
+	t_static *s;
+    ft_put_static(init_static_struct());
+	s = ft_get_static();
+	ft_copy_env(env);
+	print_env_cpy();
+    return (0);
+} */

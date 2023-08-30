@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/28 18:17:19 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/30 11:31:05 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	creat_exp_list(t_static *s)
     new = NULL;
     temp = NULL;
     
-    s->exp = ft_lstnew(ft_strjoin("declare -x ", s->env_cpy->content));
+    s->exp = ft_lstnew(ft_strjoin("declare -x ", s->env->content));
     temp = s->exp;
-    while(s->env_cpy)
+    while(s->env)
     {
-        new = ft_lstnew(ft_strjoin("declare -x ", s->env_cpy->content));
+        new = ft_lstnew(ft_strjoin("declare -x ", s->env->content));
         ft_lstadd_back(&temp, new);
-        s->env_cpy = s->env_cpy->next;
+        s->env = s->env->next;
     }
 }
 
@@ -187,7 +187,7 @@ void add_new_var_env(char *str)
 	s = ft_get_static();
 	new1 = NULL;
 	new2 = NULL;
-	temp = s->env_cpy;
+	temp = s->env;
 	new = ft_lstnew(str);
     ft_lstadd_back(&temp, new);
 }
@@ -236,7 +236,7 @@ void	modify_env(char *str)
 	t_static *s;
 	
 	s = ft_get_static();
-	temp = s->env_cpy;
+	temp = s->env;
 	while(temp)
 	{
 		old = temp->content;

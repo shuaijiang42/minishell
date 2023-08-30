@@ -6,41 +6,37 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 18:04:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/29 18:24:42 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:24:27 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void    get_default_env()
+void    get_default_env(t_static *s)
 {
-    
+    s->env= ft_lstnew(s->pwd);
+	add_list_and_sort(&(s->env),ft_lstnew(s->last_cmd));
+	add_list_and_sort(&(s->env),ft_lstnew(s->oldpwd));
+	add_list_and_sort(&(s->env),ft_lstnew("SHLVL=1"));
 }
 void ft_copy_env(char **env)
 {
     int i;
     t_list *new;
-    t_list *temp;
     t_static *s;
 
     s = ft_get_static();
     i = 1;
     new = NULL;
-    temp = NULL;
-    if (env == NULL)
-    {
-       printf("Error: No env\n");
-       exit (1);
-    }
+    if (*env == NULL)
+	{
+		get_default_env(s);
+		return ;
+	}	
     s->env = ft_lstnew(env[0]);
-    temp = s->env;
-    while(env[i])
+    while (env[i])
     {
-        if (!ft_strncmp(env[i], "PWD", 3))
-            new = ft_lstnew(ft_strjoin("PWD=", s->pwd));
-        else
-            new = ft_lstnew(env[i]);
-        add_list_and_sort(&temp, new);
+        add_list_and_sort(&(s->env), ft_lstnew(env[i]));
         i++;
     }
 }
@@ -56,7 +52,7 @@ void    print_env_cpy(void)
     temp = s->env;
     while(temp)
     {
-        if (temp->content)
+        if (temp->content && *(ft_strchr(temp->content, '=') + 1))
             printf("%s\n", temp->content);
         temp = temp->next;
     }

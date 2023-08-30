@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/29 15:51:57 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/30 12:48:19 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_put_proccess(int n)
 	ft_static_history(n, 0);
 }
 
-t_static *init_struct(char **env)
+/* t_static *init_struct(char **env)
 {
 	t_static *s;
 	int			*i;
@@ -125,12 +125,12 @@ t_static *init_struct(char **env)
 		creat_exp_list(s);
 		return (s);
 	}
-    env_copy(env, s);
+    ft_copy_env(env);
     creat_exp_list(s);
 	return (s);
-}
+} */
 
-/* t_static *init_struct(char **env)
+t_static *init_struct(char **env)
 {
 	t_static *s;
 	int			*i;
@@ -146,8 +146,8 @@ t_static *init_struct(char **env)
 	}
 	const char *pwd = getcwd(buf, sizeof(buf));
 	s->pwd = ft_strdup(pwd);
-    env_copy(env, s);
-    creat_exp_list(env, s);
+    ft_copy_env(env);
+    creat_exp_list(s);
 	i = malloc(sizeof(int));
 	if (!i)
 	{
@@ -158,7 +158,7 @@ t_static *init_struct(char **env)
 	s->error = ft_lstnew((void *)i);
 	s->history = NULL;
 	return (s);
-} */
+}
 
 int	ft_get_error(void)
 {

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/29 15:27:49 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/30 11:29:15 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ char *ft_get_var(char *var)
 	printf("here\n");
 	s = ft_get_static();
 	len = ft_strlen(var);
-	printf("s->env_cpy %p", s->env_cpy);
-	while (s->env_cpy)
+	printf("s->env %p", s->env);
+	while (s->env)
 	{
 		printf("ciao\n");
-		env_var = s->env_cpy->content;
+		env_var = s->env->content;
 		printf("env_var: %s, len: %zu\n", env_var, len);
 		if(env_var && var && !ft_strncmp(env_var, var, len) 
 			&& env_var[ft_strlen(var)]== '=')
@@ -34,7 +34,7 @@ char *ft_get_var(char *var)
 			printf("env_var: %s\n", env_var);
 			return (env_var + len + 1);
 		}	
-		s->env_cpy = s->env_cpy->next;
+		s->env = s->env->next;
 	}
 	return (NULL);
 }
