@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/23 14:58:26 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:54:28 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ void	ft_procces_maker(char *cmd, char **env)
 
 	int		status;
 	input = ft_lexer(cmd);
-	if (input && *input)
+	if (input /*&& *input*/)
 	{
 		ft_free_split_2(&input);
 		if (count_pipes(cmd) > 0)
@@ -231,6 +231,9 @@ void	ft_procces_maker(char *cmd, char **env)
 		}
 	}
 	else
+	{
+		printf("executing the lexer\n");
 		ft_free_split_2(&input);
+	}
 	//exit(0);
 }

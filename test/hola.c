@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   hola.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 15:38:06 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/28 18:10:49 by samusanc         ###   ########.fr       */
+/*   Created: 2023/08/29 15:21:10 by samusanc          #+#    #+#             */
+/*   Updated: 2023/08/29 15:26:10 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
 
-#include "libft.h"
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
+int	main()
 {
-	void	*ptr;
-
-	ptr = dest;
-	if (!dest && !src)
-		return (0);
-	while (n > 0)
-	{
-		*(char *)dest = *(char *)src;
-		dest++;
-		src++;
-		n--;
-	}
-	return (ptr);
+	int	pipex[2];
+	char	str[100];
+	
+	pipe(pipex);
+	write(pipex[1], "hola mundo\n", 11);
+	read(pipex[0], &str, 50);
+	printf("str:%s|\n", str);
 }
