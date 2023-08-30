@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/30 18:44:49 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:44:56 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ int	ft_first_child(char *cmd, char **env, int pipe[2])
 		exit(executer(cmd, env));
 	}
 	// i think i shuld close the write pipe here, but idk
-	waitpid(-1, &status, 0);
 	close(pipe[1]);
+	waitpid(-1, &status, 0);
 	return (pipe[0]);
 }
 
@@ -104,8 +104,9 @@ int	ft_mid_child(char *cmd, char **env, int fd)
 		close(pipe[1]);
 		exit(executer(cmd, env));
 	}
-	waitpid(-1, &status, 0);
+	close(fd);
 	close(pipe[1]);
+	waitpid(-1, &status, 0);
 	return (pipe[0]);
 }
 
@@ -121,8 +122,8 @@ void	ft_last_child(char *cmd, char **env, int fd)
 		close(fd);
 		exit(executer(cmd, env));
 	}
-	waitpid(-1, &status, 0);
 	close(fd);
+	waitpid(-1, &status, 0);
 	return ;
 }
 
@@ -195,7 +196,9 @@ void	pipex(char *cmd, char **env)
 		close(pipex.pipes.start_pipe[1]);
 		close(pipex.pipes.start_pipe[0]);
 		close(fd);
+		close(0);
 		waitpid(-1, &pipex.status, 0);
+		//printf("here!!%d\n", status);
 		exit (WEXITSTATUS(pipex.status));
 	}
 	waitpid(-1, &status, 0);
@@ -229,9 +232,6 @@ void	ft_procces_maker(char *cmd, char **env)
 		}
 	}
 	else
-	{
-		printf("executing the lexer\n");
 		ft_free_split_2(&input);
-	}
 	//exit(0);
 }

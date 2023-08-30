@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/30 19:19:25 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:43:54 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,32 +217,53 @@ int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 	return (pipes[0]);
 }
 
-int	ft_exc_open_fd(t_argument *content, t_redir type, t_exc_lex *lex)
+int	ft_exc_change_input(t_argument *content, t_exc_lex *lex)
 {
 	int	fd;
 
-	fd = -1;
+	content->type = ft_strdup("inp");
+	fd = open(content->str, O_RDONLY);
+	if (fd == -1)
+		return (-1);
+	lex->in = fd;
+	return (fd);
+}
+
+int	ft_exc_change_output_trc(t_argument *content, t_exc_lex *lex)
+{
+	int	fd;
+
+	content->type = ft_strdup("trc");
+	fd = open(content->str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+		return (-1);
+	lex->out = fd;
+	return (fd);
+}
+
+int	ft_exc_change_output_apd(t_argument *content, t_exc_lex *lex)
+{
+	int	fd;
+
+	content->type = ft_strdup("apd");
+	fd = open(content->str, O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (fd == -1)
+		return (-1);
+	lex->out = fd;
+	return (fd);
+}
+
+int	ft_exc_open_fd(t_argument *content, t_redir type, t_exc_lex *lex)
+{
 	if (type == inp)
-	{
-		printf("this is a <\n");
-		content->type = ft_strdup("inp");
-		fd = 0;
-	}
+		return (ft_exc_change_input(content, lex));
 	else if (type == hre)
 		return (ft_exc_here_doc(content, lex));
 	else if (type == trc)
-	{
-		printf("this is a >\n");
-		fd = 0;
-		content->type = ft_strdup("trc");
-	}
+		return (ft_exc_change_output_trc(content, lex));
 	else if (type == apd)
-	{
-		printf("this is a >>\n");
-		fd = 0;
-		content->type = ft_strdup("apd");
-	}
-	return (fd);
+		return (ft_exc_change_output_apd(content, lex));
+	return (-1);
 }
 
 t_list	*ft_exc_new_node(char *argument, t_redir type, t_exc_lex *lex)
@@ -373,6 +394,7 @@ t_list	*ft_exc_lex_input(char *input, int std[2], char **env)
 		return (NULL);
 	result = ft_make_list(&lex);
 	std[0] = lex.in;
+	std[1] = lex.out;
 	return (result);
 }
 
@@ -394,6 +416,8 @@ int ft_exc_make_redir(char *cmd, char **env)
 	ft_exc_out_redir();
 	new_cmd = ft_exc_make_cmd(cmd);
 	result = ft_exc_execution(new_cmd, env);
+	close(std[0]);
+	close(std[1]);
 	return (result);
 }
 
@@ -409,5 +433,6 @@ int	executer(char *cmd, char **env)
 	close(cloud[1]);
 	dup2_with_error_check(cloud[0], 0);
 	close(cloud[0]);
+	//printf("the value is:%d\n", value);
 	return (value);
 }
