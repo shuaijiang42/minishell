@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/30 20:44:56 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:10:54 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ size_t	count_pipes(char *str)
 	}
 	return (n);
 }
-
 
 int	ft_first_child(char *cmd, char **env, int pipe[2])
 {
@@ -193,10 +192,10 @@ void	pipex(char *cmd, char **env)
 
 		pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
 		ft_last_child(pipex.cmd, env, fd);
+		close(0);
 		close(pipex.pipes.start_pipe[1]);
 		close(pipex.pipes.start_pipe[0]);
 		close(fd);
-		close(0);
 		waitpid(-1, &pipex.status, 0);
 		//printf("here!!%d\n", status);
 		exit (WEXITSTATUS(pipex.status));

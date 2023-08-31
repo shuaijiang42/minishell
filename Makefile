@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/22 13:26:15 by shujiang         ###   ########.fr        #
+#    Updated: 2023/08/31 14:32:46 by samusanc         ###   ########.fr        #
 #                                                                            #
 #    Updated: 2023/08/22 16:59:09 by samusanc         ###   ########.fr        #
 #                                                                              #
@@ -38,6 +38,8 @@ SRCS	= $(MAIN) \
 		$(LEX)holaaaa.c \
 		$(UTILS)execution/proccess.c \
 		$(UTILS)execution/executer.c \
+		$(UTILS)Samu_GNL/get_next_line.c \
+		$(UTILS)Samu_GNL/get_next_line_utils.c \
 		#$(LEX)utils/ft_lexer_utils.c \
 		$(LEX)checker/check_input.c \
 		$(LEX)checker/ft_lexer_check_status.c \

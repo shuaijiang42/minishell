@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/30 18:36:04 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:40:30 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,11 @@ void	*ft_print_error(char *str, int error)
 	return (NULL);
 }
 
-int main(int argc, char **argv, char **env)
+int shell_mode(char **env)
 {
 	char *line;
 	int		fd_mini_history;
 	t_list	*history;
-	(void)argc;
-	(void)argv;
 	
 	fd_mini_history = 0;
 	//atexit(leaks);
@@ -91,5 +89,52 @@ int main(int argc, char **argv, char **env)
 		}
 	}
 	return (0);
+}
+
+int	exc_mode(char *file, char **env)
+{
+	char *str;
+	char *gnl;
+
+	ft_put_static(init_struct(env));
+	int fd = 0;
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		str = ft_strjoin("minishell: ", file);
+		perror(str);
+		ft_free((void **)&str);
+		exit(errno);
+	}
+	size_t	i;
+
+	i = 0;
+	gnl = get_next_line_samu(fd);
+	while (gnl)
+	{
+		i = 0;
+		while (gnl[i])
+		{
+			if (gnl[i] == '\n')
+			{
+				gnl[i] = '\0';
+				break ;
+			}
+			i++;
+		}
+		if (ft_check_argument(gnl) == 1)
+			ft_procces_maker(gnl, env);
+		ft_free((void **)&gnl);
+		gnl = get_next_line_samu(fd);
+	}
+	return ();
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	if (argc == 1)
+		return (shell_mode(env));
+	else 
+		return (exc_mode(argv[1], env));
 }
 

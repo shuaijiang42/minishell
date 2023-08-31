@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/30 20:43:57 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:19:52 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -15,6 +15,7 @@
 # define ACTIVE 1
 # define USED 2
 # define INACTIVE 0
+# include <limits.h>
 
 typedef enum e_redir{
 	non	= 0,
