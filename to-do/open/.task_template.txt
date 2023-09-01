@@ -1,2 +1,0 @@
-[Task] Tener un historial funcional.
-[Example] bash history
