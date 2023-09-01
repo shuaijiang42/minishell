@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/01 19:16:35 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:14:30 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int shell_mode(char **env)
 	}
 	return (0);
 }
+
 # if 0
 int shell_mode(char **env)
 {

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/31 16:07:22 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:26:29 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void ft_cd(char *path)
 		{
 			printf("minishell: cd: %s: Permission denied\n", path);
 			ft_put_error(1);
-			
 		}
 		else
 			chdir(path);
