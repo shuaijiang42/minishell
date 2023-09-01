@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/08 15:34:55 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/14 14:25:52 by shujiang         ###   ########.fr       */
+/*   Created: 2023/09/01 18:05:01 by samusanc          #+#    #+#             */
+/*   Updated: 2023/09/01 18:07:54 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,3 @@ void    ft_unset(char **input)
 		i++;	
 	}	
 }
-	

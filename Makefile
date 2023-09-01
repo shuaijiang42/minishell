@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/31 14:32:46 by samusanc         ###   ########.fr        #
+#    Updated: 2023/09/01 18:32:24 by samusanc         ###   ########.fr        #
 #                                                                            #
 #    Updated: 2023/08/22 16:59:09 by samusanc         ###   ########.fr        #
 #                                                                              #
@@ -56,6 +56,7 @@ all: $(NAME) $(SRCS)
 
 $(NAME): $(OBJS)
 	@make -sC ./libft/
+	@make bonus -sC ./libft/
 	@$(CC) $(OBJS) $(LIBFT) $(LDFLAGS)  -o $(NAME)
 
 re: fclean all

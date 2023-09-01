@@ -6,44 +6,18 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/30 20:43:54 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:49:42 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	ft_exc_in_redir()
-{
-	/*
-	while (list->content == 'inp')
-	
-	while (list->content == 'here doc')
-	*/
-	return ;
-}
-
-void	ft_exc_out_redir()
-{
-	/*
-	while (list->content == 'inp')
-
-	while (list->content == 'here doc')
-	*/
-	return ;
-}
-
-char	*ft_exc_make_cmd(char *cmd)
-{
-	return (cmd);
-	//make the entire cmd with arguments
-	//	new_cmd = ft_get_cmd();
-}
 
 int		ft_exc_execution(char *cmd, char **env)
 {
 	char **input;
 
 	input = ft_lexer(cmd);
+	ft_free((void **)&cmd);
 	if (!*input)
 		return ((int)ft_free_split_2(&input) + 258);
 	if (!input[0][0])
@@ -54,7 +28,6 @@ int		ft_exc_execution(char *cmd, char **env)
 	else
 		return (ft_excuter(input, env));
 }
-
 
 int	ft_error_exc_unexpected_token(int minor, int major, char first)
 {	
@@ -203,10 +176,8 @@ int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 	while (ft_strncmp(content->str, str, ft_strlen2(content->str)) && str)
 	{
 		write((int)((ft_get_static())->here), ">", 1);
-	//	write(STDIN_FILENO, ">", 1);
 		ft_putstr_fd(str, pipes[1]);
 		free(str);
-	//	str = get_next_line(STDIN_FILENO);
 		str = get_next_line((int)((ft_get_static())->here));
 		if (!str)
 			return (-1);
@@ -266,9 +237,28 @@ int	ft_exc_open_fd(t_argument *content, t_redir type, t_exc_lex *lex)
 	return (-1);
 }
 
+void	*ft_exc_free_content(void *cnt_ptr)
+{
+	t_argument	*content;
+
+	content = (t_argument *)cnt_ptr;
+	if (ft_strncmp(content->type, "cmd", 3))
+		close(content->fd);
+	ft_free((void **)&content->str);
+	ft_free((void **)&content->type);
+	return (NULL);
+}
+
+void	*ft_exc_clear_content(t_list **result)
+{
+	ft_lstclear(result, \
+	(void (*)(void *))&ft_exc_free_content);
+	return (NULL);
+}
+
 t_list	*ft_exc_new_node(char *argument, t_redir type, t_exc_lex *lex)
 {
-	t_list	*result;
+	t_list		*result;
 	t_argument	*content;
 
 	content = malloc(sizeof(t_argument));
@@ -284,43 +274,58 @@ t_list	*ft_exc_new_node(char *argument, t_redir type, t_exc_lex *lex)
 	else
 		content->fd = ft_exc_open_fd(content, type, lex);
 	if (!content->str || !content->type || content->fd == -1)
-	{
-		//free content
-		return (NULL);
-	}
+		return (ft_exc_free_content((void *)content));
 	result = ft_lstnew((void *)content);
 	if (!result)
+		return (ft_exc_free_content((void *)content));
+	return (result);
+}
+
+char *ft_exc_make_word(char *input)
+{
+	int		i;
+	int		j;
+	char	*str;
+	char	*result;
+	t_cmd	cmd;
+
+	i = 0;
+	j = 0;
+	ft_init_cmd(&cmd);
+	while (input[i])
 	{
-		//free content
-		return (NULL);
+		j = ft_check_char(&cmd, input[i]);
+		if (!j || j == -1)
+			break ;
+		i += 1;
 	}
+	str = ft_strdup(input);
+	str[i] = '\0';
+	result = ft_strdup(str);
+	ft_free((void **)&str);
 	return (result);
 }
 
 int	ft_exc_lex_word(t_list **result, t_exc_lex *lex)
 {
-	char **split;
 	t_list	*tmp;
+	char	*wrd;
 
-	split = ft_lexer(lex->input + lex->i);
+	wrd = ft_exc_make_word(lex->input + lex->i);
 	tmp = NULL;
-	tmp = ft_exc_new_node(split[0], lex->status, lex);
-	ft_free_split_2(&split);
+	tmp = ft_exc_new_node(wrd, lex->status, lex);
 	lex->status = non;
-	if (!tmp)
-	{
-		//ft_free_node
-		return (-1);
-	}
+	ft_free((void **)&wrd);
 	ft_lstadd_back(result, tmp);
+	if (!tmp)
+		return (-1);
 	return (0);
-	result = NULL;
 }
 
 void	*ft_error_make_list(t_list **result, t_exc_lex *lex, int error)
 {
 	ft_init_exc_lex(lex);
-	*result = NULL;//here i should free the list
+	ft_exc_clear_content(result);
 	if (error)
 		ft_error_exc_unexpected_token(0, 0, 0);
 	return (NULL);
@@ -377,7 +382,6 @@ void *ft_not_closed_pipe(char **env)
 	str[i] = '\0';
 	if (ft_check_argument(str) == 1)
 		ft_procces_maker(str, env);
-	free(str);
 	return (NULL);
 }
 
@@ -389,13 +393,69 @@ t_list	*ft_exc_lex_input(char *input, int std[2], char **env)
 	lex.input = input;
 	ft_init_exc_lex(&lex);
 	if (!input)
-		return (ft_not_closed_pipe(env)); // aqui si hay un pipe de mas
+		return (ft_not_closed_pipe(env));
 	else if (ft_check_dup_redir(input) == -1)
 		return (NULL);
 	result = ft_make_list(&lex);
 	std[0] = lex.in;
 	std[1] = lex.out;
 	return (result);
+}
+
+char	*ft_good_strjoin(char *s1, char*s2)
+{
+	char	*str;
+	char	*ret;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1 && s2)
+		return (ft_strdup(s2));
+	if (s1 && !s2)
+		return (ft_strdup(s1));
+	str = malloc (ft_strlen(s1) + ft_strlen(s2) + 1);
+	ret = str;
+	if (!str)
+		return (NULL);
+	while (*s1)
+		*str++ = *s1++;
+	while (*s2)
+	{
+		*str = *s2;
+		str++;
+		s2++;
+	}
+	*str = '\0';
+	return (ret);
+}
+
+char	*ft_exc_make_cmd(char *cmd, t_list **input)
+{
+	char	*result;
+	char	*tmp1;
+	t_list	*ptr;
+	t_argument	*tmp2;
+
+	result = NULL;
+	tmp1 = NULL;
+	ptr = *input;
+	while (ptr)
+	{
+		tmp2 = (t_argument *)ptr->content;
+		if (!ft_strncmp(tmp2->type, "cmd", 3))
+		{
+			tmp1 = result;
+			result = ft_good_strjoin(result, "   ");
+			ft_free((void **)&tmp1);
+			tmp1 = result;
+			result = ft_good_strjoin(result, tmp2->str);
+			ft_free((void **)&tmp1);
+		}
+		ptr = ptr->next;
+	}
+	ft_exc_clear_content(input);
+	return (result);
+	cmd = NULL;
 }
 
 int ft_exc_make_redir(char *cmd, char **env)
@@ -412,9 +472,7 @@ int ft_exc_make_redir(char *cmd, char **env)
 		return (errno);
 	dup2_with_error_check(std[0], STDIN_FILENO);
 	dup2_with_error_check(std[1], STDOUT_FILENO);
-	ft_exc_in_redir();
-	ft_exc_out_redir();
-	new_cmd = ft_exc_make_cmd(cmd);
+	new_cmd = ft_exc_make_cmd(cmd, &input);
 	result = ft_exc_execution(new_cmd, env);
 	close(std[0]);
 	close(std[1]);
@@ -433,6 +491,6 @@ int	executer(char *cmd, char **env)
 	close(cloud[1]);
 	dup2_with_error_check(cloud[0], 0);
 	close(cloud[0]);
-	//printf("the value is:%d\n", value);
+	ft_free((void **)&cmd);
 	return (value);
 }

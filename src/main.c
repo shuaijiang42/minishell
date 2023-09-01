@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/31 14:40:30 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:16:35 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,58 @@ int shell_mode(char **env)
 	while (1)
 	{
 		flag = 0;
+		//line = readline("minishell$ ");
+		if (isatty(fileno(stdin)))
+			line = readline("minishell$ ");
+		else
+		{
+			char *line2;
+			line2 = get_next_line(fileno(stdin));
+			line = ft_strtrim(line, "\n");
+			free(line2);
+		}
+
+		if (!line)
+		{
+			//rl_redisplay();
+		//	printf("exit\n");
+			ft_free((void *)&line);
+			exit(0);
+		}
+		add_history(line);
+		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
+		if (ft_check_argument(line) == 1)
+		{
+			ft_procces_maker(line, env);
+			ft_put_proccess(0);
+			//rl_redisplay(); //not needed
+		}
+		else
+		{
+			//rl_on_new_line(); not needed
+			ft_free((void *)&line);
+		}
+	}
+	return (0);
+}
+# if 0
+int shell_mode(char **env)
+{
+	char *line;
+	int		fd_mini_history;
+	t_list	*history;
+	
+	fd_mini_history = 0;
+	//atexit(leaks);
+	ft_get_old_history(env, &fd_mini_history);
+	line = NULL;
+	ft_put_static(init_struct(env));
+	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_DFL);
+	history = (ft_get_static())->history;
+	while (1)
+	{
+		flag = 0;
 		line = readline("minishell$ ");
 		if (!line)
 		{
@@ -90,6 +142,7 @@ int shell_mode(char **env)
 	}
 	return (0);
 }
+#endif
 
 int	exc_mode(char *file, char **env)
 {
@@ -127,7 +180,7 @@ int	exc_mode(char *file, char **env)
 		ft_free((void **)&gnl);
 		gnl = get_next_line_samu(fd);
 	}
-	return ();
+	return (0);
 }
 
 int	main(int argc, char **argv, char **env)
