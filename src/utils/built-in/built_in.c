@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/01 20:26:29 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/02 17:58:12 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void ft_exit(char    **input)
 	if (!ft_get_proccess())
 		printf("yeah closing!!\n");
 		//ft_save_history(ft_get_history());
-	exit (0);
+	exit (ft_get_error());
 }
 
 int	ft_built_in(char **input)

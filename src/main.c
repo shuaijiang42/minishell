@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/01 20:14:30 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/02 17:45:58 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,14 @@ int shell_mode(char **env)
 		{
 			char *line2;
 			line2 = get_next_line(fileno(stdin));
-			line = ft_strtrim(line, "\n");
+			line = ft_strtrim(line2, "\n");
 			free(line2);
 		}
-
 		if (!line)
 		{
-			//rl_redisplay();
-		//	printf("exit\n");
+	//		write(STDERR_FILENO, "exit\n", 5);
 			ft_free((void *)&line);
-			exit(0);
+			exit(ft_get_error());
 		}
 		add_history(line);
 		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
@@ -90,15 +88,11 @@ int shell_mode(char **env)
 		{
 			ft_procces_maker(line, env);
 			ft_put_proccess(0);
-			//rl_redisplay(); //not needed
 		}
 		else
-		{
-			//rl_on_new_line(); not needed
 			ft_free((void *)&line);
-		}
 	}
-	return (0);
+	return (ft_get_error());
 }
 
 # if 0
