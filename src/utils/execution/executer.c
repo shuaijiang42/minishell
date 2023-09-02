@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/01 19:49:42 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/02 14:29:58 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int		ft_exc_execution(char *cmd, char **env)
 {
 	char **input;
 
+	if (!cmd)
+		return (0);
 	input = ft_lexer(cmd);
 	ft_free((void **)&cmd);
 	if (!*input)
