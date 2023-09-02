@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/01 19:16:33 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:10:16 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	ft_mid_child(char *cmd, char **env, int fd)
 	return (pipe[0]);
 }
 
-void	ft_last_child(char *cmd, char **env, int fd)
+int	ft_last_child(char *cmd, char **env, int fd)
 {
 	int	pid;
 	int	status;
@@ -123,7 +123,7 @@ void	ft_last_child(char *cmd, char **env, int fd)
 	}
 	close(fd);
 	waitpid(-1, &status, 0);
-	return ;
+	return(WEXITSTATUS(status));
 }
 
 char	*ft_strndup(const char *s1, size_t n)
@@ -191,16 +191,16 @@ void	pipex(char *cmd, char **env)
 		//last child execution
 
 		pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
-		ft_last_child(pipex.cmd, env, fd);
+		pipex.status = ft_last_child(pipex.cmd, env, fd);
 		close(0);
 		close(pipex.pipes.start_pipe[1]);
 		close(pipex.pipes.start_pipe[0]);
 		close(fd);
-		waitpid(-1, &pipex.status, 0);
-		//printf("here!!%d\n", status);
-		exit (WEXITSTATUS(pipex.status));
+		//printf("status before before pipes:%d, %d\n", WEXITSTATUS(pipex.status), pipex.status);
+		exit (pipex.status);
 	}
 	waitpid(-1, &status, 0);
+	//printf("status before pipes:%d, %d\n", WEXITSTATUS(status), status);
 	exit (WEXITSTATUS(status));
 }
 
@@ -211,7 +211,7 @@ void	ft_procces_maker(char *cmd, char **env)
 	int		status;
 
 	input = ft_lexer(cmd);
-	if (input /*&& *input*/)
+	if (input)
 	{
 		ft_free_split_2(&input);
 		if (count_pipes(cmd) > 0)
@@ -225,12 +225,8 @@ void	ft_procces_maker(char *cmd, char **env)
 			ft_put_error(WEXITSTATUS(status));
 		}
 		else
-		{
-			status = executer(cmd, env);
-			ft_put_error(status);
-		}
+			ft_put_error(executer(cmd, env));
 	}
 	else
 		ft_free_split_2(&input);
-	//exit(0);
 }
