@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/09/02 18:22:07 by samusanc         ###   ########.fr        #
+#    Updated: 2023/09/04 17:58:29 by samusanc         ###   ########.fr        #
 #                                                                            #
 #    Updated: 2023/08/22 16:59:09 by samusanc         ###   ########.fr        #
 #                                                                              #
@@ -17,6 +17,7 @@ CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ -fsanitize=address -g3
 CC		= gcc $(CFLAGS)
 UTILS	= ./src/utils/
 LEX		= $(UTILS)lexer/
+LEX_U	= $(LEX)utils/
 BUILT_IN= $(UTILS)built-in/
 STATIC  = $(UTILS)static/
 SIGNAL  = $(UTILS)signal/
@@ -35,11 +36,18 @@ SRCS	= $(MAIN) \
 		$(BUILT_IN)export.c \
 		$(STATIC)static.c \
 		$(SIGNAL)signal.c \
-		$(LEX)holaaaa.c \
 		$(UTILS)execution/proccess.c \
 		$(UTILS)execution/executer.c \
 		$(UTILS)Samu_GNL/get_next_line.c \
 		$(UTILS)Samu_GNL/get_next_line_utils.c \
+		$(LEX)holaaaa.c \
+		$(LEX_U)utils.c $(LEX_U)count_arguments.c $(LEX_U)dollar_delimiter.c \
+		$(LEX_U)ft_lexer_check_status.c $(LEX_U)ft_get_next_command.c $(LEX_U)ft_check_argument.c \
+		$(LEX_U)ft_free_split2.c $(LEX_U)ft_lex_quotes.c $(LEX_U)ft_lex_delimiters.c \
+		$(LEX_U)ft_lex_space.c $(LEX_U)ft_lex_chars.c $(LEX_U)ft_lex_dollar.c \
+		$(LEX_U)ft_lex_interrogation.c $(LEX_U)ft_check_char.c $(LEX_U)ft_init_cmd.c \
+		$(LEX_U)ft_dollar_len.c $(LEX_U)ft_dollar_fill.c $(LEX_U)ft_lexer_utils.c \
+		$(LEX_U)ft_lexer_len.c \
 		#$(LEX)utils/ft_lexer_utils.c \
 		$(LEX)checker/check_input.c \
 		$(LEX)checker/ft_lexer_check_status.c \

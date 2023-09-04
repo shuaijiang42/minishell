@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/01 19:50:46 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/04 18:11:32 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -60,5 +60,18 @@ typedef struct s_exc_lex{
 	char	*input;
 	t_cmd	cmd;
 }				t_exc_lex;
+
+typedef struct s_dollar_fill{
+	int		j;
+	int		i;
+	int		z;
+	char	*str2;
+	char 	*str3;
+	t_list	*tmp;
+	//	external
+	t_cmd	cmd;
+	char	*dst;
+	int		*x;
+}				t_dollar_fill;
 
 #endif
