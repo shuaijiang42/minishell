@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/02 14:29:58 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/02 18:41:50 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,10 @@ int	ft_exc_change_input(t_argument *content, t_exc_lex *lex)
 	content->type = ft_strdup("inp");
 	fd = open(content->str, O_RDONLY);
 	if (fd == -1)
+	{
+		perror("minishell: ");
 		return (-1);
+	}
 	lex->in = fd;
 	return (fd);
 }

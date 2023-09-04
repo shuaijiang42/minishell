@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/02 17:34:04 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:29:44 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ size_t	count_pipes(char *str)
 int	ft_first_child(char *cmd, char **env, int pipe[2])
 {
 	int	pid;
-	int	status;
+//	int	status;
 
 	pid = fork_with_error_check();
 	if(!pid)
@@ -81,9 +81,8 @@ int	ft_first_child(char *cmd, char **env, int pipe[2])
 		close(pipe[1]);
 		exit(executer(cmd, env));
 	}
-	// i think i shuld close the write pipe here, but idk
 	close(pipe[1]);
-	waitpid(-1, &status, 0);
+	//waitpid(-1, &status, 0);
 	return (pipe[0]);
 }
 
@@ -91,7 +90,7 @@ int	ft_mid_child(char *cmd, char **env, int fd)
 {
 	int	pipe[2];
 	int	pid;
-	int	status;
+//	int	status;
 
 	pipe_with_error_check(pipe);
 	pid = fork_with_error_check();
@@ -105,12 +104,50 @@ int	ft_mid_child(char *cmd, char **env, int fd)
 	}
 	close(fd);
 	close(pipe[1]);
-	waitpid(-1, &status, 0);
+	//waitpid(-1, &status, 0);
 	return (pipe[0]);
+}
+
+void	ft_wait_all_children(int pid)
+{
+	int	id;
+	int	status;
+	int	final;
+
+	status = 0;
+	waitpid(pid, &status, 0);
+	final = status;
+	while (1)
+	{
+		id = waitpid(-1, &status, 0);
+		if (id < 0)
+			break ;
+	}
+	exit(WEXITSTATUS(final));
 }
 
 int	ft_last_child(char *cmd, char **env, int fd)
 {
+	int	pipe[2];
+	int	pid;
+
+	pipe_with_error_check(pipe);
+	pid = fork_with_error_check();
+	if(!pid)
+	{
+		close(pipe[1]);
+		dup2_with_error_check(fd, 0);
+		close(fd);
+		exit(executer(cmd, env));
+	}
+	close(fd);
+	close(pipe[1]);
+	ft_wait_all_children(pid);
+	//waitpid(-1, &status, 0);
+	return (0);
+
+
+	/*
 	int	pid;
 	int	status;
 
@@ -123,7 +160,7 @@ int	ft_last_child(char *cmd, char **env, int fd)
 	}
 	close(fd);
 	waitpid(-1, &status, 0);
-	return(WEXITSTATUS(status));
+	*/
 }
 
 char	*ft_strndup(const char *s1, size_t n)
