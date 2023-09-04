@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:34:53 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/30 18:34:37 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 18:07:18 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,9 @@ t_static *init_static_struct(void)
 	}
 	*i = 0;
 	s->error = ft_lstnew((void *)i);
-	s->history = NULL;
-    getcwd(pwd, sizeof(pwd));
-    s->oldpwd = ft_strjoin("OLDPWD=", NULL); 
-    s->pwd = ft_strjoin("PWD=", pwd); 
-    s->last_cmd = ft_strjoin("_=", "./minishell");
+    s->pwd = ft_lstnew((void *)getcwd(pwd, sizeof(pwd)));
+    s->oldpwd = ft_lstnew(NULL);
+    s->last_cmd = ft_lstnew((void *)"./minishell");
     return (s);
 }
    

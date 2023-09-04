@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/30 11:29:15 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:23:16 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,14 @@ char *ft_get_var(char *var)
 	char *env_var;
 	size_t len;
 	
-	printf("here\n");
 	s = ft_get_static();
 	len = ft_strlen(var);
-	printf("s->env %p", s->env);
 	while (s->env)
 	{
-		printf("ciao\n");
 		env_var = s->env->content;
-		printf("env_var: %s, len: %zu\n", env_var, len);
 		if(env_var && var && !ft_strncmp(env_var, var, len) 
 			&& env_var[ft_strlen(var)]== '=')
-		{
-			printf("env_var: %s\n", env_var);
 			return (env_var + len + 1);
-		}	
 		s->env = s->env->next;
 	}
 	return (NULL);
@@ -42,16 +35,19 @@ char *ft_get_var(char *var)
 void ft_cd(char *path)
 {
 	DIR *dir;
-	char *route;
+	t_static *s;
 	
+	s = ft_get_static();
 	if (!path)
 	{
-		route = ft_get_var("HOME");
-		printf("%s\n", route);
-		ft_cd(route);
-		chdir("$HOME");
+		path = ft_get_var("HOME");
+		if (!path)
+		{
+			printf("minishell: cd: HOME not set\n");
+			ft_put_error(1);
+		}	
+		chdir(ft_get_var("HOME"));
 		return ;
-
 	}
 	dir = opendir(path);
 	if (dir)
@@ -60,7 +56,6 @@ void ft_cd(char *path)
 		{
 			printf("minishell: cd: %s: Permission denied\n", path);
 			ft_put_error(1);
-			
 		}
 		else
 			chdir(path);
@@ -78,7 +73,7 @@ void ft_pwd(void)
 	t_static *s;
 
 	s = ft_get_static();
-	printf("%s\n", s->pwd);
+	printf("this: %s\n", s->pwd);
 	/* char buf[4096];
 
 	printf("%s\n", getcwd(buf, sizeof(buf))); */

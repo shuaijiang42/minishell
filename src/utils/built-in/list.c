@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:30:13 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/30 18:08:41 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/31 17:51:54 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int ft_var_len(char *var)
 
 void    ft_node_substitute(t_list **old, t_list **new)
 {
-    (*old)->content = ft_strdup((*new)->content);
+    (*old)->content = ft_strdup((*new)->content); 
 }
 
 void    ft_front_insert(t_list** front_node, t_list **new)
@@ -44,9 +44,14 @@ int   check_put_new_node_first(t_list **list, t_list *new)
 {
 	int  len;
   
-    len = ft_var_len(new->content);
-	
-    if (ft_strncmp((*list)->content, new->content, len) == 0)
+    char *str;
+    char *strnew;
+
+    str = (*list)->content;
+	strnew = new->content;
+    len = ft_var_len(strnew);
+    
+    if (ft_strncmp(str, strnew, len) == 0 && str[len]== '=' && strnew[len] == '=')
     {	  
 		ft_node_substitute(list, &new);
 		return (1);
@@ -65,13 +70,19 @@ void    add_list_and_sort(t_list **list, t_list *new)
     int  len;
     t_list *temp;
     
-    len = ft_var_len(new->content);
+    char *str;
+    char *strnew;
+    
     temp = *list;
+    str = (*list)->content;
+	strnew = new->content;
+    len = ft_var_len(strnew);
+    
     if (check_put_new_node_first(list, new) == 1)
 		return ;
     while (temp)
     {
-        if (temp->next && ft_strncmp(temp->next->content, new->content, len) == 0)
+        if (ft_strncmp(str, strnew, len) == 0 && str[len]== '=' && strnew[len] == '=')
         {
             ft_node_substitute(&(temp->next), &new);
             break ;

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/29 16:10:24 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:36:04 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ typedef struct s_static
     t_list	*exp;
 	t_list	*error;
 	t_list	*history;
-    char    *pwd;
-    char    *oldpwd; 
-    int     shlvl;
-    char    *last_cmd;
+    t_list  *pwd;
+    t_list  *oldpwd; 
+    t_list  *shlvl;
+    t_list  *last_cmd;
 } t_static;
 
 //+++++++++++++++++++++ env ++++++++++++++++++++++++++
