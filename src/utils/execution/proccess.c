@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/23 14:58:26 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:29:44 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,10 @@ size_t	count_pipes(char *str)
 	return (n);
 }
 
-
 int	ft_first_child(char *cmd, char **env, int pipe[2])
 {
 	int	pid;
-	int	status;
+//	int	status;
 
 	pid = fork_with_error_check();
 	if(!pid)
@@ -82,9 +81,8 @@ int	ft_first_child(char *cmd, char **env, int pipe[2])
 		close(pipe[1]);
 		exit(executer(cmd, env));
 	}
-	// i think i shuld close the write pipe here, but idk
-	waitpid(-1, &status, 0);
 	close(pipe[1]);
+	//waitpid(-1, &status, 0);
 	return (pipe[0]);
 }
 
@@ -92,7 +90,7 @@ int	ft_mid_child(char *cmd, char **env, int fd)
 {
 	int	pipe[2];
 	int	pid;
-	int	status;
+//	int	status;
 
 	pipe_with_error_check(pipe);
 	pid = fork_with_error_check();
@@ -104,13 +102,52 @@ int	ft_mid_child(char *cmd, char **env, int fd)
 		close(pipe[1]);
 		exit(executer(cmd, env));
 	}
-	waitpid(-1, &status, 0);
+	close(fd);
 	close(pipe[1]);
+	//waitpid(-1, &status, 0);
 	return (pipe[0]);
 }
 
-void	ft_last_child(char *cmd, char **env, int fd)
+void	ft_wait_all_children(int pid)
 {
+	int	id;
+	int	status;
+	int	final;
+
+	status = 0;
+	waitpid(pid, &status, 0);
+	final = status;
+	while (1)
+	{
+		id = waitpid(-1, &status, 0);
+		if (id < 0)
+			break ;
+	}
+	exit(WEXITSTATUS(final));
+}
+
+int	ft_last_child(char *cmd, char **env, int fd)
+{
+	int	pipe[2];
+	int	pid;
+
+	pipe_with_error_check(pipe);
+	pid = fork_with_error_check();
+	if(!pid)
+	{
+		close(pipe[1]);
+		dup2_with_error_check(fd, 0);
+		close(fd);
+		exit(executer(cmd, env));
+	}
+	close(fd);
+	close(pipe[1]);
+	ft_wait_all_children(pid);
+	//waitpid(-1, &status, 0);
+	return (0);
+
+
+	/*
 	int	pid;
 	int	status;
 
@@ -121,9 +158,9 @@ void	ft_last_child(char *cmd, char **env, int fd)
 		close(fd);
 		exit(executer(cmd, env));
 	}
-	waitpid(-1, &status, 0);
 	close(fd);
-	return ;
+	waitpid(-1, &status, 0);
+	*/
 }
 
 char	*ft_strndup(const char *s1, size_t n)
@@ -143,7 +180,6 @@ char	*ft_strndup(const char *s1, size_t n)
 	return (str);
 }
 
-
 char	*ft_get_cmd_pipex(char **cmd)
 {
 	size_t	nxt_cmd;
@@ -160,10 +196,9 @@ char	*ft_get_cmd_pipex(char **cmd)
 void	pipex(char *cmd, char **env)
 {
 	t_pipstr	pipex;
-
-	int pid;
-	int	status;
-	int	fd;
+	int			pid;
+	int			status;
+	int			fd;
 
 	status = 0;
 	fd = 0;
@@ -193,14 +228,16 @@ void	pipex(char *cmd, char **env)
 		//last child execution
 
 		pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
-		ft_last_child(pipex.cmd, env, fd);
+		pipex.status = ft_last_child(pipex.cmd, env, fd);
+		close(0);
 		close(pipex.pipes.start_pipe[1]);
 		close(pipex.pipes.start_pipe[0]);
 		close(fd);
-		waitpid(-1, &pipex.status, 0);
-		exit (WEXITSTATUS(pipex.status));
+		//printf("status before before pipes:%d, %d\n", WEXITSTATUS(pipex.status), pipex.status);
+		exit (pipex.status);
 	}
 	waitpid(-1, &status, 0);
+	//printf("status before pipes:%d, %d\n", WEXITSTATUS(status), status);
 	exit (WEXITSTATUS(status));
 }
 
@@ -208,10 +245,10 @@ void	ft_procces_maker(char *cmd, char **env)
 {
 	char **input;
 	int		pid;
-
 	int		status;
+
 	input = ft_lexer(cmd);
-	if (input && *input)
+	if (input)
 	{
 		ft_free_split_2(&input);
 		if (count_pipes(cmd) > 0)
@@ -225,12 +262,8 @@ void	ft_procces_maker(char *cmd, char **env)
 			ft_put_error(WEXITSTATUS(status));
 		}
 		else
-		{
-			status = executer(cmd, env);
-			ft_put_error(status);
-		}
+			ft_put_error(executer(cmd, env));
 	}
 	else
 		ft_free_split_2(&input);
-	//exit(0);
 }

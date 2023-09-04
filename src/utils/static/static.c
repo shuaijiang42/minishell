@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/30 12:48:19 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:53:26 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ t_static *init_struct(char **env)
 		return (NULL);
 	}
 	const char *pwd = getcwd(buf, sizeof(buf));
-	s->pwd = ft_strdup(pwd);
+	s->pwd->content = ft_strdup(pwd);
     ft_copy_env(env);
     creat_exp_list(s);
 	i = malloc(sizeof(int));
@@ -157,6 +157,12 @@ t_static *init_struct(char **env)
 	*i = 0;
 	s->error = ft_lstnew((void *)i);
 	s->history = NULL;
+	s->here = dup(STDIN_FILENO);
+	if (s->here == -1)
+	{
+		perror("dup: ");
+		return (NULL);
+	}
 	return (s);
 }
 

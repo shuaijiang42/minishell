@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/31 14:23:16 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:56:11 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void ft_pwd(void)
 	t_static *s;
 
 	s = ft_get_static();
-	printf("this: %s\n", s->pwd);
+	printf("%s\n", s->pwd->content);
+	//printf("this: %s\n", s->pwd);
 	/* char buf[4096];
 
 	printf("%s\n", getcwd(buf, sizeof(buf))); */
@@ -184,6 +185,7 @@ void ft_exit(char    **input)
 	if (!ft_get_proccess())
 		printf("yeah closing!!\n");
 		//ft_save_history(ft_get_history());
+	exit (ft_get_error());
 }
 
 

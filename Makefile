@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/08/22 13:26:15 by shujiang         ###   ########.fr        #
+#    Updated: 2023/09/04 19:02:26 by samusanc         ###   ########.fr        #
 #                                                                            #
 #    Updated: 2023/08/22 16:59:09 by samusanc         ###   ########.fr        #
 #                                                                              #
@@ -21,7 +21,7 @@ BUILT_IN= $(UTILS)built-in/
 STATIC  = $(UTILS)static/
 SIGNAL  = $(UTILS)signal/
 LIBFT	= -L./libft/ -lft 
-LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -fsanitize=address -g3
 
 MAIN	= ./src/main.c 
 SRCS	= $(MAIN) \
@@ -40,6 +40,8 @@ SRCS	= $(MAIN) \
 		$(LEX)holaaaa.c \
 		$(UTILS)execution/proccess.c \
 		$(UTILS)execution/executer.c \
+		$(UTILS)Samu_GNL/get_next_line.c \
+		$(UTILS)Samu_GNL/get_next_line_utils.c \
 		#$(LEX)utils/ft_lexer_utils.c \
 		$(LEX)checker/check_input.c \
 		$(LEX)checker/ft_lexer_check_status.c \
@@ -55,7 +57,8 @@ $(O_DIR)/%.o: %.c
 all: $(NAME) $(SRCS)
 
 $(NAME): $(OBJS)
-	@make -sC ./libft/ bonus
+	@make -sC ./libft/
+	@make bonus -sC ./libft/
 	@$(CC) $(OBJS) $(LIBFT) $(LDFLAGS)  -o $(NAME)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/04 16:36:04 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:51:22 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_static
     t_list  *oldpwd; 
     t_list  *shlvl;
     t_list  *last_cmd;
+	int		here;
 } t_static;
 
 //+++++++++++++++++++++ env ++++++++++++++++++++++++++

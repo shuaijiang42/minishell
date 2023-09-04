@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/31 15:01:55 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:40:07 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define MINISHELL_H
 
 # include <struct_utils.h>
+# include <get_next_line_samu.h>
 # include <ft_global.h>
 # include <memhandl.h>
 # include <lexer.h>

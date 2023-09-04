@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 19:34:29 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:50:21 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,15 @@ void	*ft_print_error(char *str, int error)
 	return ;
 } */
 
-int main(int argc, char **argv, char **env)
+int shell_mode(char **env)
 {
 	char *line;
 	int		fd_mini_history;
 	extern char **environ;
-
 	//printf("%s", environ[0]);
-	
 	t_list	*history;
 	t_static *s;
-	(void)argc;
-	(void)argv;
 	//char pwd[4096];
-	
-	
 	flag = 0;
 	fd_mini_history = 0;
 	//atexit(leaks);
@@ -113,33 +107,86 @@ int main(int argc, char **argv, char **env)
 	/* printf("1spwd  %s\n", s->pwd);
 	write(1 ,s->pwd, ft_strlen(s->pwd) + 120);
 	printf("2spwd  %p\n", s->pwd); */
-	
 	ft_copy_env(env);
 	//creat_exp_list(s);
 	//ft_shlvl_sum();
 	while (1)
 	{
-		/* s->pwd = getcwd(pwd, sizeof(pwd));
-		ft_copy_env(env); */
-		//creat_exp_list(s);
-		line = readline("minishell$ ");
+		flag = 0;
+		//line = readline("minishell$ ");
+		if (isatty(fileno(stdin)))
+			line = readline("minishell$ ");
+		else
+		{
+			char *line2;
+			line2 = get_next_line(fileno(stdin));
+			line = ft_strtrim(line2, "\n");
+			free(line2);
+		}
 		if (!line)
 		{
-			printf("exit\n");
+	//		write(STDERR_FILENO, "exit\n", 5);
 			ft_free((void *)&line);
-			exit(0);
+			exit(ft_get_error());
 		}
 		add_history(line);
 		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		if (ft_check_argument(line) == 1)
 		{
 			ft_procces_maker(line, env);
-			s->oldpwd->content = ft_strdup(s->pwd->content);
 			ft_put_proccess(0);
 		}
-		ft_free((void *)&line);
+		else
+			ft_free((void *)&line);
+	}
+	return (ft_get_error());
+}
+
+int	exc_mode(char *file, char **env)
+{
+	char *str;
+	char *gnl;
+
+	ft_put_static(init_struct(env));
+	int fd = 0;
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		str = ft_strjoin("minishell: ", file);
+		perror(str);
+		ft_free((void **)&str);
+		exit(errno);
+	}
+	size_t	i;
+
+	i = 0;
+	gnl = get_next_line_samu(fd);
+	while (gnl)
+	{
+		i = 0;
+		while (gnl[i])
+		{
+			if (gnl[i] == '\n')
+			{
+				gnl[i] = '\0';
+				break ;
+			}
+			i++;
+		}
+		if (ft_check_argument(gnl) == 1)
+			ft_procces_maker(gnl, env);
+		ft_free((void **)&gnl);
+		gnl = get_next_line_samu(fd);
 	}
 	return (0);
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	if (argc == 1)
+		return (shell_mode(env));
+	else 
+		return (exc_mode(argv[1], env));
 }
 
 //This is a main to test the fuction add_list_and_sort

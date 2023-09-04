@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:38:06 by shujiang          #+#    #+#             */
-/*   Updated: 2023/02/09 16:03:21 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:10:49 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	void	*ptr;
 
 	ptr = dest;
-	if (dest == '\0' && src == '\0')
+	if (!dest && !src)
 		return (0);
 	while (n > 0)
 	{
