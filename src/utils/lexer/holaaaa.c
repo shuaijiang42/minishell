@@ -6,11 +6,12 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/23 18:43:00 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:49:28 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lexer.h>
+
 int	count_arguments(char *str)
 {
 	int				i;
