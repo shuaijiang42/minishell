@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 13:29:44 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/05 21:09:04 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,41 +71,78 @@ size_t	count_pipes(char *str)
 int	ft_first_child(char *cmd, char **env, int pipe[2])
 {
 	int	pid;
-//	int	status;
+	int	status;
+	t_input	input;
 
+	pid = ft_exc_make_redir(cmd, env, &input);
+	if (pid)
+		exit(pid);
 	pid = fork_with_error_check();
 	if(!pid)
 	{
 		close(pipe[0]);
-		dup2_with_error_check(pipe[1], 1);
+		dup2_with_error_check(pipe[1], input.out);
 		close(pipe[1]);
-		exit(executer(cmd, env));
+		exit(executer(cmd, env, &input));
 	}
 	close(pipe[1]);
 	//waitpid(-1, &status, 0);
 	return (pipe[0]);
+	status = 0;
+}
+
+void	ft_is_valid_in(int fd, t_input *input)
+{
+	char	**split;
+	size_t	i;
+	int		pipes[2];
+
+	i = 0;
+	split = ft_lexer(input->cmd);
+	if (!split)
+		return ;
+	while (split[i])
+		i++;
+	ft_free_split_2(&split);
+	if (i == 1 && input->here)
+	{
+		pipe_with_error_check(pipes);
+		close(pipes[1]);
+		dup2_with_error_check(input->in, pipes[0]);
+		return ;
+	}
+	//exit(0);
+	dup2_with_error_check(fd, input->in);
+	return ;
+	(void)pipes;
 }
 
 int	ft_mid_child(char *cmd, char **env, int fd)
 {
 	int	pipe[2];
 	int	pid;
-//	int	status;
+	int	status;
+	t_input	input;
 
+	pid = ft_exc_make_redir(cmd, env, &input);
+	if (pid)
+		exit(pid);
 	pipe_with_error_check(pipe);
 	pid = fork_with_error_check();
 	if(!pid)
 	{
-		dup2_with_error_check(fd, 0);
+		ft_is_valid_in(fd, &input);
+		//dup2_with_error_check(fd, input.in);
 		close(fd);
-		dup2_with_error_check(pipe[1], 1);
+		dup2_with_error_check(pipe[1], input.out);
 		close(pipe[1]);
-		exit(executer(cmd, env));
+		exit(executer(cmd, env, &input));
 	}
 	close(fd);
 	close(pipe[1]);
 	//waitpid(-1, &status, 0);
 	return (pipe[0]);
+	status = 0;
 }
 
 void	ft_wait_all_children(int pid)
@@ -124,43 +161,34 @@ void	ft_wait_all_children(int pid)
 			break ;
 	}
 	exit(WEXITSTATUS(final));
+	pid = 0;
 }
+
 
 int	ft_last_child(char *cmd, char **env, int fd)
 {
 	int	pipe[2];
 	int	pid;
+	t_input	input;
 
+	pid = ft_exc_make_redir(cmd, env, &input);
+	if (pid)
+		exit(pid);
 	pipe_with_error_check(pipe);
 	pid = fork_with_error_check();
 	if(!pid)
 	{
 		close(pipe[1]);
-		dup2_with_error_check(fd, 0);
+		ft_is_valid_in(fd, &input);
+		//dup2_with_error_check(fd, input.in);
 		close(fd);
-		exit(executer(cmd, env));
+		exit(executer(cmd, env, &input));
 	}
 	close(fd);
 	close(pipe[1]);
 	ft_wait_all_children(pid);
 	//waitpid(-1, &status, 0);
 	return (0);
-
-
-	/*
-	int	pid;
-	int	status;
-
-	pid = fork_with_error_check();
-	if(!pid)
-	{
-		dup2_with_error_check(fd, 0);
-		close(fd);
-		exit(executer(cmd, env));
-	}
-	close(fd);
-	waitpid(-1, &status, 0);
-	*/
 }
 
 char	*ft_strndup(const char *s1, size_t n)
@@ -246,6 +274,7 @@ void	ft_procces_maker(char *cmd, char **env)
 	char **input;
 	int		pid;
 	int		status;
+	t_input	line;
 
 	input = ft_lexer(cmd);
 	if (input)
@@ -262,7 +291,12 @@ void	ft_procces_maker(char *cmd, char **env)
 			ft_put_error(WEXITSTATUS(status));
 		}
 		else
-			ft_put_error(executer(cmd, env));
+		{
+			pid = ft_exc_make_redir(cmd, env, &line);
+			if (pid)
+				ft_put_error(pid);
+			ft_put_error(executer(cmd, env, &line));
+		}
 	}
 	else
 		ft_free_split_2(&input);

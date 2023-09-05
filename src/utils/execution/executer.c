@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 15:33:21 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/05 21:09:06 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,6 +371,7 @@ void *ft_not_closed_pipe(char **env)
 
 	i = 0;
 	write((int)((ft_get_static())->here), ">", 1);
+	
 	str = get_next_line((int)((ft_get_static())->here));
 	if (!str)
 	{
@@ -434,7 +435,7 @@ char	*ft_good_strjoin(char *s1, char*s2)
 	return (ret);
 }
 
-char	*ft_exc_make_cmd(char *cmd, t_list **input)
+char	*ft_exc_make_cmd(t_list **input)
 {
 	char	*result;
 	char	*tmp1;
@@ -460,38 +461,52 @@ char	*ft_exc_make_cmd(char *cmd, t_list **input)
 	}
 	ft_exc_clear_content(input);
 	return (result);
-	cmd = NULL;
 }
 
-int ft_exc_make_redir(char *cmd, char **env)
+int ft_exc_make_redir(char *cmd, char **env, t_input *line)
 {
-	int		result;
 	int		std[2];
 	t_list	*input;
-	char	*new_cmd;
 
 	std[0] = STDIN_FILENO;
 	std[1] = STDOUT_FILENO;
 	input = ft_exc_lex_input(cmd, std, env);
 	if (!input)
 		return (errno);
-	dup2_with_error_check(std[0], STDIN_FILENO);
-	dup2_with_error_check(std[1], STDOUT_FILENO);
-	new_cmd = ft_exc_make_cmd(cmd, &input);
-	result = ft_exc_execution(new_cmd, env);
-	close(std[0]);
-	close(std[1]);
+	line->in = dup(std[0]);
+	if (std[0] != STDIN_FILENO)
+		line->here = 1;
+	else
+		line->here = 0;
+	line->out = dup(std[1]);
+	if (line->in == -1 || line->out == -1)
+		return (errno);
+	line->cmd = ft_exc_make_cmd(&input);
+	return (0);
+}
+
+int	ft_executer_exec(t_input *input, char **env)
+{
+	int	result;
+
+	result = 0;
+	dup2_with_error_check(input->in, STDIN_FILENO);
+	close(input->in);
+	dup2_with_error_check(input->out, STDOUT_FILENO);
+	close(input->out);
+	result = ft_exc_execution(input->cmd, env);
 	return (result);
 }
 
-int	executer(char *cmd, char **env)
+int	executer(char *cmd, char **env, t_input *input)
 {
 	int		cloud[2];
 	int		value;
 	
 	cloud[0] = dup(0);
 	cloud[1] = dup(1);
-	value = ft_exc_make_redir(cmd, env);
+	//value = ft_exc_make_redir(cmd, env);
+	value = ft_executer_exec(input, env);
 	dup2_with_error_check(cloud[1], 1);
 	close(cloud[1]);
 	dup2_with_error_check(cloud[0], 0);
