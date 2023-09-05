@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 14:41:36 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:25:19 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,8 +172,8 @@ int	exc_mode(char *file, char **env)
 		}
 		if (ft_check_argument(gnl) == 1)
 			ft_procces_maker(gnl, env);
-		ft_free((void **)&gnl);
 		gnl = get_next_line_samu(fd);
+		ft_free((void **)&gnl);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/04 18:38:33 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:54:54 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -69,7 +69,6 @@ typedef struct s_dollar_fill{
 	char 	*str3;
 	t_list	*tmp;
 	//	external
-	t_cmd	cmd;
 	char	*dst;
 	int		*x;
 }				t_dollar_fill;
