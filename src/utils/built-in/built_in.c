@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/04 19:56:11 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:22:24 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,54 @@ char *ft_get_var(char *var)
 	t_static *s;
 	char *env_var;
 	size_t len;
+	t_list *temp; 
 	
 	s = ft_get_static();
 	len = ft_strlen(var);
-	while (s->env)
+	temp = s->env;
+	while (temp)
 	{
-		env_var = s->env->content;
+		env_var = temp->content;
 		if(env_var && var && !ft_strncmp(env_var, var, len) 
 			&& env_var[ft_strlen(var)]== '=')
 			return (env_var + len + 1);
-		s->env = s->env->next;
+		temp = temp->next;
 	}
 	return (NULL);
+}
+
+void update_dir_for_exp(t_static *s)
+{
+	t_list  *oldpwd;
+	t_list	*old;
+	t_list	*new;
+	t_list	*new_oldpwd;
+	char buf[4096];
+
+	old = NULL;
+	new = ft_lstnew(ft_strjoin("declare -x PWD=", getcwd(buf, sizeof(buf))));
+	old = ft_locate_node(s->exp, "declare -x PWD");
+	new_oldpwd = ft_lstnew(ft_strjoin("declare -x OLD",old->content + 11));
+	oldpwd = ft_locate_node(s->exp, "declare -x OLDPWD");
+	ft_node_substitute(&oldpwd, &new_oldpwd);
+	ft_node_substitute(&old, &new);
+}
+
+void update_dir_for_env(t_static *s)
+{
+	t_list  *oldpwd;
+	t_list	*old;
+	t_list	*new;
+	t_list	*new_oldpwd;
+	char buf[4096];
+
+	old = NULL;
+	new = ft_lstnew(ft_strjoin("PWD=", getcwd(buf, sizeof(buf))));
+	old = ft_locate_node(s->env, "PWD");
+	new_oldpwd = ft_lstnew(ft_strjoin("OLD",old->content));
+	oldpwd = ft_locate_node(s->env, "OLDPWD");
+	ft_node_substitute(&oldpwd, &new_oldpwd);
+	ft_node_substitute(&old, &new);
 }
 
 void ft_cd(char *path)
@@ -45,8 +81,12 @@ void ft_cd(char *path)
 		{
 			printf("minishell: cd: HOME not set\n");
 			ft_put_error(1);
+			return ;
 		}	
 		chdir(ft_get_var("HOME"));
+		printf("hi\n");
+		update_dir_for_env(s);
+		update_dir_for_exp(s);
 		return ;
 	}
 	dir = opendir(path);
@@ -58,7 +98,11 @@ void ft_cd(char *path)
 			ft_put_error(1);
 		}
 		else
+		{
 			chdir(path);
+			update_dir_for_env(s);
+			update_dir_for_exp(s);
+		}	
 		closedir(dir);
 	}
 	else
@@ -70,15 +114,11 @@ void ft_cd(char *path)
 
 void ft_pwd(void)
 {
-	t_static *s;
+	char buf[4096];
 
-	s = ft_get_static();
-	printf("%s\n", s->pwd->content);
-	//printf("this: %s\n", s->pwd);
-	/* char buf[4096];
-
-	printf("%s\n", getcwd(buf, sizeof(buf))); */
+	printf("%s\n", getcwd(buf, sizeof(buf)));
 }
+
 int	check_only_n(char *str)
 {
 	int i;

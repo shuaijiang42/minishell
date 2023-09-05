@@ -6,13 +6,13 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 13:24:48 by shujiang          #+#    #+#             */
-/*   Updated: 2023/04/20 11:37:43 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:37:33 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+/* size_t	ft_strlen(const char *s)
 {
 	size_t	i;
 
@@ -20,7 +20,7 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
-}
+} */
 
 int	ft_print_char(char c)
 {

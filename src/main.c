@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 19:50:21 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:36:08 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int shell_mode(char **env)
 	//printf("%s", environ[0]);
 	t_list	*history;
 	t_static *s;
-	//char pwd[4096];
 	flag = 0;
 	fd_mini_history = 0;
 	//atexit(leaks);
@@ -103,17 +102,12 @@ int shell_mode(char **env)
 	ft_put_static(init_static_struct());
 	s = ft_get_static();
 	history = s->history;
-	//s->pwd = getcwd(pwd, sizeof(pwd));
-	/* printf("1spwd  %s\n", s->pwd);
-	write(1 ,s->pwd, ft_strlen(s->pwd) + 120);
-	printf("2spwd  %p\n", s->pwd); */
 	ft_copy_env(env);
-	//creat_exp_list(s);
+	creat_exp_list(s);
 	//ft_shlvl_sum();
 	while (1)
 	{
 		flag = 0;
-		//line = readline("minishell$ ");
 		if (isatty(fileno(stdin)))
 			line = readline("minishell$ ");
 		else

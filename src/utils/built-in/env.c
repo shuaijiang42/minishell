@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 18:04:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/04 19:32:01 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/05 18:21:52 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,20 @@ void ft_copy_env(char **env)
     }
 }
 
-void    print_env_cpy(t_list *env)
+void    print_env_cpy(void)
 {
-    int i;
     t_list *temp;
     char *value;
-    
-    i = 0;
-    temp = env;
+    t_static *s;
+
+	s = ft_get_static();   
+    temp = s->env;
     value = NULL;    
     while(temp)
     {
         value = ft_strchr(temp->content, '=');
-        if (value && *(value + 1))
+        //if (value && *(value + 1))
+        if (ft_strcmp("OLDPWD=", temp->content))
             printf("%s\n", temp->content);
         temp = temp->next;
     }
@@ -88,7 +89,7 @@ void    ft_env(char **input)
 		printf("env: %s: No such file or directory\n", input[1]);
         return ;
 	}
-    print_env_cpy(s->env);
+    print_env_cpy();
 }
 
 
