@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/08/31 14:39:08 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:40:07 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int     ft_built_in(char **input);
 void	ft_free_input(char **input);
 int    ft_excuter(char **input, char **env);
 void env_copy(char **env, t_static *s);
-void    print_env_cpy(void);
+void    print_env_cpy(t_list *env);
 void    ft_env(char **input);
 void    ft_unset(char **input);
 int	ft_parsing(char	*str);
@@ -50,14 +50,20 @@ t_static 	*ft_static(int modify, t_static *new);
 t_static	*ft_get_static(void);
 t_static	*ft_put_static(t_static *new);
 
-void	creat_exp_list(char **env, t_static *s);
-
+/* void	creat_exp_list(char **env, t_static *s); */
+void	creat_exp_list(t_static *s);
 void    handler(int signal);
 
-t_static 	*init_struct(char **env);
-void		creat_exp_list(char **env, t_static *s);
+
+t_static *init_static_struct();
+
 int			executer(char *cmd, char **env);
 void		ft_procces_maker(char *cmd, char **env);
 void		ft_get_old_history(char **env, int *fd);
+char        *get_var_info(char *var_name);
+
+void    ft_copy_env(char **env);
+void    add_list_and_sort(t_list **list, t_list *new);
+
 
 #endif

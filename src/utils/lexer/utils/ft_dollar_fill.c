@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:52:37 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 20:34:35 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:36:25 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	ft_dollar_fill_init(t_dollar_fill *strc, int *x, char *dst)
 	strc->z = 0;
 	strc->x = x;
 	strc->dst = dst;
-	strc->tmp = (ft_get_static())->env_cpy;
+	strc->tmp = (ft_get_static())->env;
 }
 
 static int	ft_dollar_fill_util(t_dollar_fill *strc)

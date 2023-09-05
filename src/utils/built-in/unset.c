@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 18:05:01 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/01 18:07:54 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:52:32 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	is_var(char *str)
 	t_list *temp;
 	int index;
 	char *str_env;
-	t_static *g;
+	t_static *s;
 
-	g = ft_get_static();
+	s = ft_get_static();
 	index = 0;
-	temp = g->env_cpy;
+	temp = s->env;
 	len = ft_strlen(str);
 	str_env = temp->content;
 	while(temp)
@@ -43,11 +43,11 @@ void	unset_var(int index)
 {
 	t_list **ptr;
 	t_list *node_to_remove;
-	t_static *g;
+	t_static *s;
 
-	g = ft_get_static();
+	s = ft_get_static();
 	node_to_remove = NULL;
-	ptr = &(g->env_cpy);
+	ptr = &(s->env);
 	while(index > 0 && *ptr != NULL)
 	{   
 		ptr = &((*ptr)->next);

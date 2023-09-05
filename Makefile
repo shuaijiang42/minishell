@@ -6,9 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/09/04 17:58:29 by samusanc         ###   ########.fr        #
-#                                                                            #
-#    Updated: 2023/08/22 16:59:09 by samusanc         ###   ########.fr        #
+#    Updated: 2023/09/05 15:34:36 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +20,7 @@ BUILT_IN= $(UTILS)built-in/
 STATIC  = $(UTILS)static/
 SIGNAL  = $(UTILS)signal/
 LIBFT	= -L./libft/ -lft 
-LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -fsanitize=address -g3
 
 MAIN	= ./src/main.c 
 SRCS	= $(MAIN) \
@@ -34,7 +32,9 @@ SRCS	= $(MAIN) \
 		$(BUILT_IN)unset.c \
 		$(BUILT_IN)env.c \
 		$(BUILT_IN)export.c \
+		$(BUILT_IN)list.c \
 		$(STATIC)static.c \
+		$(STATIC)init_static_struct.c \
 		$(SIGNAL)signal.c \
 		$(UTILS)execution/proccess.c \
 		$(UTILS)execution/executer.c \

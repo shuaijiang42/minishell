@@ -6,20 +6,47 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/02 17:58:12 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:56:11 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+
+char *ft_get_var(char *var)
+{
+	t_static *s;
+	char *env_var;
+	size_t len;
+	
+	s = ft_get_static();
+	len = ft_strlen(var);
+	while (s->env)
+	{
+		env_var = s->env->content;
+		if(env_var && var && !ft_strncmp(env_var, var, len) 
+			&& env_var[ft_strlen(var)]== '=')
+			return (env_var + len + 1);
+		s->env = s->env->next;
+	}
+	return (NULL);
+}
+
 void ft_cd(char *path)
 {
 	DIR *dir;
-
+	t_static *s;
+	
+	s = ft_get_static();
 	if (!path)
 	{
-		chdir("$HOME");
-		printf("Pls check the code. Here we need $ done\n");
+		path = ft_get_var("HOME");
+		if (!path)
+		{
+			printf("minishell: cd: HOME not set\n");
+			ft_put_error(1);
+		}	
+		chdir(ft_get_var("HOME"));
 		return ;
 	}
 	dir = opendir(path);
@@ -43,9 +70,34 @@ void ft_cd(char *path)
 
 void ft_pwd(void)
 {
-	char buf[4096];
+	t_static *s;
 
-	printf("%s\n", getcwd(buf, sizeof(buf)));
+	s = ft_get_static();
+	printf("%s\n", s->pwd->content);
+	//printf("this: %s\n", s->pwd);
+	/* char buf[4096];
+
+	printf("%s\n", getcwd(buf, sizeof(buf))); */
+}
+int	check_only_n(char *str)
+{
+	int i;
+
+	i = 0;
+	if (str[i] != '-')
+		return (0);
+	i++;
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			break ;
+		i++;
+	}
+	if (str[i] == '\0')
+	{
+		return (1);
+	}
+	return (0);	
 }
 
 void ft_echo(char    **input)
@@ -58,7 +110,14 @@ void ft_echo(char    **input)
 		printf("\n");
 		return ;
 	}
-	if (ft_strcmp(input[i], "-n") == 0)
+	while (input[i] && check_only_n(input[i]))
+	{
+		free(input[i]);
+		input[i] = ft_strdup("-n");
+		i++;
+	}
+	i = 1;
+	while (ft_strcmp(input[i], "-n") == 0)
 	{
 		i++;
 		if (!input[i])
@@ -75,20 +134,60 @@ void ft_echo(char    **input)
 		printf("%s\n", input[i]);
 }
 
+int check_digit(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] >= 48 && str[i] <= 57)
+			i++;
+		break ;
+	}
+	if (i != (int)ft_strlen(str))
+		return (0);
+	return (1);
+}
+
+void ft_free_exit(char **input, int n)
+{
+	ft_free_input(input);
+	exit (n);
+}
+
 void ft_exit(char    **input)
 {
+	int i;
+
+	i = 0; 
 	printf("exit\n");
-	if (input[1] != NULL)
+	if (input && input[1] == NULL)
+		ft_free_exit(input, 0);
+	if (input[2] != NULL)
 	{
-		printf("minishell: exit: %s: numeric argument required\n", input[1]);
+		printf("minishell: exit: too many arguments\n");
 		ft_put_error(255);
 	}
-	ft_free_input(input);
+	else if (input[1] != NULL)
+	{
+		if(!check_digit(input[1])) 
+		{
+			printf("minishell: exit: %s: numeric argument required\n", input[1]);
+			ft_put_error(255);
+		}
+		else
+		{
+			i = ft_atoi(input[1]);
+			ft_free_exit(input, i);
+		}	
+	}
 	if (!ft_get_proccess())
 		printf("yeah closing!!\n");
 		//ft_save_history(ft_get_history());
 	exit (ft_get_error());
 }
+
 
 int	ft_built_in(char **input)
 {

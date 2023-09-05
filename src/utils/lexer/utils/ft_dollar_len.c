@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:50:05 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 17:51:21 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:36:03 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_dollar_len(char *str, t_cmd cmd)
 		return (0);
 	ft_strlcpy(str2, str, i);
 	str2[i] = '\0';
-	tmp = (ft_get_static())->env_cpy;
+	tmp = (ft_get_static())->env;
 	while (tmp)
 	{
 		if (!ft_strncmp((char *)tmp->content, str2, ft_strlen(str2)))

@@ -6,11 +6,12 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 16:11:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 14:58:16 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:32:30 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <lexer.h>
+
 char **ft_lexer(char *str)
 {
 	char			**result;

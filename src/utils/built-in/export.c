@@ -6,13 +6,33 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/08/22 16:34:18 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/08/30 11:31:05 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	creat_exp_list(char **env, t_static *s)
+void	creat_exp_list(t_static *s)
+{	
+	int i;
+	t_list *new;
+    t_list *temp;
+    
+    i = 1;
+    new = NULL;
+    temp = NULL;
+    
+    s->exp = ft_lstnew(ft_strjoin("declare -x ", s->env->content));
+    temp = s->exp;
+    while(s->env)
+    {
+        new = ft_lstnew(ft_strjoin("declare -x ", s->env->content));
+        ft_lstadd_back(&temp, new);
+        s->env = s->env->next;
+    }
+}
+
+/* void	creat_exp_list(char **env, t_static *s)
 {	
 	int i;
 	t_list *new;
@@ -34,7 +54,7 @@ void	creat_exp_list(char **env, t_static *s)
         ft_lstadd_back(&temp, new);
         i++;
     }
-}
+} */
 
 void    print_exp(void)
 {
@@ -167,7 +187,7 @@ void add_new_var_env(char *str)
 	s = ft_get_static();
 	new1 = NULL;
 	new2 = NULL;
-	temp = s->env_cpy;
+	temp = s->env;
 	new = ft_lstnew(str);
     ft_lstadd_back(&temp, new);
 }
@@ -216,7 +236,7 @@ void	modify_env(char *str)
 	t_static *s;
 	
 	s = ft_get_static();
-	temp = s->env_cpy;
+	temp = s->env;
 	while(temp)
 	{
 		old = temp->content;
