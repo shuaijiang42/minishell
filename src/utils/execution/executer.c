@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 19:42:52 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:42:49 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -484,13 +484,20 @@ int ft_exc_make_redir(char *cmd, char **env)
 	return (result);
 }
 
-int	executer(char *cmd, char **env)
+int	executer(char *cmd)
 {
 	int		cloud[2];
 	int		value;
-	
+	char	**env;
+	t_static *s;
+
+	s = ft_get_static();
+	env = NULL;
+	env = list_to_matrix(s->env);
+
 	cloud[0] = dup(0);
 	cloud[1] = dup(1);
+	
 	value = ft_exc_make_redir(cmd, env);
 	dup2_with_error_check(cloud[1], 1);
 	close(cloud[1]);

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 19:15:05 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:38:19 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		execve_with_error_check(char **argv, char **env);
 int     ft_built_in(char **input);
 void	ft_free_input(char **input);
 int    ft_excuter(char **input, char **env);
-void env_copy(char **env, t_static *s);
+//void env_copy(char **env, t_static *s);
 void    print_env_cpy(void);
 void    ft_env(char **input);
 void    ft_unset(char **input);
@@ -58,14 +58,16 @@ void    ft_remove_node(t_list *list, int index);
 
 t_static *init_static_struct();
 
-int			executer(char *cmd, char **env);
+int			executer(char *cmd);
+//void		ft_procces_maker(char *cmd, char **env);
 void		ft_procces_maker(char *cmd, char **env);
 void		ft_get_old_history(char **env, int *fd);
 char        *get_var_info(char *var_name);
 
 void    ft_copy_env(char **env);
 void    add_list_and_sort(t_list **list, t_list *new);
-t_list *ft_locate_node(t_list *list, char *var_name);
+t_list  *ft_locate_node(t_list *list, char *var_name);
 void    ft_node_substitute(t_list **old, t_list **new);
+char    **list_to_matrix(t_list *list);
 
 #endif

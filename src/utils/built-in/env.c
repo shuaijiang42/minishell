@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 18:04:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/05 18:21:52 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:59:47 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void    get_default_env(t_static *s)
 {
-    s->env= ft_lstnew(ft_strjoin("PWD=",s->pwd->content));
-	add_list_and_sort(&(s->env),ft_lstnew(ft_strjoin("_=",s->last_cmd->content)));
-	add_list_and_sort(&(s->env),ft_lstnew(ft_strjoin("OLDPWD=",s->oldpwd->content)));
-    /* s->shlvl
-     printf("str:%s\n", ft_itoa(1)); */
-    add_list_and_sort(&(s->env),ft_lstnew(/* ft_strjoin("SHLVL=",s->shlvl->content) */"SHLVL=1"));
+    char buf[4096];
+    
+    s->env= ft_lstnew(ft_strjoin("PWD=",getcwd(buf, sizeof(buf))));
+	add_list_and_sort(&(s->env),ft_lstnew(s->last_cmd->content));
+	add_list_and_sort(&(s->env),ft_lstnew(s->oldpwd->content));
+    add_list_and_sort(&(s->env),ft_lstnew(s->shlvl->content));
 }
 void ft_copy_env(char **env)
 {
@@ -41,6 +41,7 @@ void ft_copy_env(char **env)
         add_list_and_sort(&(s->env), ft_lstnew(env[i]));
         i++;
     }
+    
 }
 
 void    print_env_cpy(void)
@@ -56,7 +57,7 @@ void    print_env_cpy(void)
     {
         value = ft_strchr(temp->content, '=');
         //if (value && *(value + 1))
-        if (ft_strcmp("OLDPWD=", temp->content))
+        if (ft_strcmp("OLDPWD", temp->content))
             printf("%s\n", temp->content);
         temp = temp->next;
     }
@@ -81,9 +82,7 @@ void    print_env_cpy(void)
 
 void    ft_env(char **input)
 {
-    t_static *s;
-    
-    s = ft_get_static();
+   
     if (input[1] != NULL)
 	{
 		printf("env: %s: No such file or directory\n", input[1]);

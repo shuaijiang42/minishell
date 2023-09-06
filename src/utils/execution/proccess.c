@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 14:34:35 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:37:41 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ size_t	count_pipes(char *str)
 	return (n);
 }
 
-int	ft_first_child(char *cmd, char **env, int pipe[2])
+int	ft_first_child(char *cmd, int pipe[2])
 {
 	int	pid;
 //	int	status;
@@ -79,14 +79,14 @@ int	ft_first_child(char *cmd, char **env, int pipe[2])
 		close(pipe[0]);
 		dup2_with_error_check(pipe[1], 1);
 		close(pipe[1]);
-		exit(executer(cmd, env));
+		exit(executer(cmd));
 	}
 	close(pipe[1]);
 	//waitpid(-1, &status, 0);
 	return (pipe[0]);
 }
 
-int	ft_mid_child(char *cmd, char **env, int fd)
+int	ft_mid_child(char *cmd, int fd)
 {
 	int	pipe[2];
 	int	pid;
@@ -100,7 +100,7 @@ int	ft_mid_child(char *cmd, char **env, int fd)
 		close(fd);
 		dup2_with_error_check(pipe[1], 1);
 		close(pipe[1]);
-		exit(executer(cmd, env));
+		exit(executer(cmd));
 	}
 	close(fd);
 	close(pipe[1]);
@@ -126,7 +126,7 @@ void	ft_wait_all_children(int pid)
 	exit(WEXITSTATUS(final));
 }
 
-int	ft_last_child(char *cmd, char **env, int fd)
+int	ft_last_child(char *cmd, int fd)
 {
 	int	pipe[2];
 	int	pid;
@@ -138,7 +138,7 @@ int	ft_last_child(char *cmd, char **env, int fd)
 		close(pipe[1]);
 		dup2_with_error_check(fd, 0);
 		close(fd);
-		exit(executer(cmd, env));
+		exit(executer(cmd));
 	}
 	close(fd);
 	close(pipe[1]);
@@ -193,7 +193,7 @@ char	*ft_get_cmd_pipex(char **cmd)
 	return (str);
 }
 
-void	pipex(char *cmd, char **env)
+void	pipex(char *cmd)
 {
 	t_pipstr	pipex;
 	int			pid;
@@ -214,21 +214,21 @@ void	pipex(char *cmd, char **env)
 		//first child execution
 
 		pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
-		fd = ft_first_child(pipex.cmd, env, pipex.pipes.start_pipe);
+		fd = ft_first_child(pipex.cmd, pipex.pipes.start_pipe);
 	
 		//mid childs execution
 
 		while (pipex.i < pipex.n)
 		{
 			pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
-			fd = ft_mid_child(pipex.cmd, env, fd);
+			fd = ft_mid_child(pipex.cmd, fd);
 			pipex.i += 1;
 		}
 
 		//last child execution
 
 		pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
-		pipex.status = ft_last_child(pipex.cmd, env, fd);
+		pipex.status = ft_last_child(pipex.cmd, fd);
 		close(0);
 		close(pipex.pipes.start_pipe[1]);
 		close(pipex.pipes.start_pipe[0]);
@@ -257,13 +257,14 @@ void	ft_procces_maker(char *cmd, char **env)
 			pid = fork_with_error_check();
 			ft_put_proccess(1);
 			if (!pid)
-				pipex(cmd, env);
+				pipex(cmd);
 			waitpid(-1, &status, 0);
 			ft_put_error(WEXITSTATUS(status));
 		}
 		else
-			ft_put_error(executer(cmd, env));
+			ft_put_error(executer(cmd));
 	}
 	else
 		ft_free_split_2(&input);
+	env = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 15:36:08 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/06 20:17:42 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,28 +82,33 @@ void	*ft_print_error(char *str, int error)
 	return ;
 } */
 
+
+
 int shell_mode(char **env)
 {
 	char *line;
 	int		fd_mini_history;
-	extern char **environ;
-	//printf("%s", environ[0]);
+	
 	t_list	*history;
 	t_static *s;
 	flag = 0;
 	fd_mini_history = 0;
 	//atexit(leaks);
+	
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
 	signal(SIGINT, handler);
 	signal(SIGQUIT, SIG_DFL);
 	//if (s->shlvl)
 	//	shlvl++;
-	ft_put_static(init_static_struct());
+	ft_put_static(init_static_struct(env));
 	s = ft_get_static();
 	history = s->history;
+	printf("%s\n", s->shlvl->content);
 	ft_copy_env(env);
 	creat_exp_list(s);
+	add_list_and_sort(&(s->exp), ft_lstnew(ft_strjoin("declare -x ",s->shlvl->content)));
+	//export_to_real_env(s);
 	//ft_shlvl_sum();
 	while (1)
 	{
@@ -123,6 +128,7 @@ int shell_mode(char **env)
 			ft_free((void *)&line);
 			exit(ft_get_error());
 		}
+		
 		add_history(line);
 		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		if (ft_check_argument(line) == 1)
