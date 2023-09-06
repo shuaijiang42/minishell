@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 15:33:53 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:07:59 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	*ft_print_error(char *str, int error)
 
 int shell_mode(char **env)
 {
-	char *line;
+	char	*line;
 	int		fd_mini_history;
 	extern char **environ;
 	//printf("%s", environ[0]);
@@ -97,7 +97,7 @@ int shell_mode(char **env)
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
 	signal(SIGINT, handler);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, quit_signal);
 	//if (s->shlvl)
 	//	shlvl++;
 	ft_put_static(init_static_struct());
@@ -112,10 +112,19 @@ int shell_mode(char **env)
 	//ft_shlvl_sum();
 	while (1)
 	{
-		flag = 0;
+		if (flag != 3)
+			flag = SHELL;
 		//line = readline("minishell$ ");
 		if (isatty(fileno(stdin)))
-			line = readline("minishell$ ");
+		{
+			if (flag != 3)
+				line = readline("minishell$ ");
+			else
+			{
+				line = readline("");
+				flag = 0;
+			}
+		}
 		else
 		{
 			char *line2;
@@ -147,7 +156,7 @@ int	exc_mode(char *file, char **env)
 	char *str;
 	char *gnl;
 
-	ft_put_static(init_struct(env));
+	ft_put_static(init_static_struct());
 	int fd = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 21:09:06 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:01:16 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,26 +165,48 @@ size_t	ft_strlen2(char *str)
 
 int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 {
-	char	*str;
 	int		pipes[2];
+	int		pid;
+	int		status;
 
 	if(pipe(pipes))
-		return (-1);
+		exit(errno);
 	content->type = ft_strdup("hre");
-	write((int)((ft_get_static())->here), ">", 1);
-	str = get_next_line((int)((ft_get_static())->here));
-	if (!str)
-		return (-1);
-	while (ft_strncmp(content->str, str, ft_strlen2(content->str)) && str)
+	pid = fork();
+	if (!pid)
 	{
-		write((int)((ft_get_static())->here), ">", 1);
-		ft_putstr_fd(str, pipes[1]);
-		free(str);
+		char	*str;
+
+		flag = HERE;
+		write((int)((ft_get_static())->here), "> ", 2);
 		str = get_next_line((int)((ft_get_static())->here));
+		//printf("str:%s", str);
 		if (!str)
-			return (-1);
+			exit (0);
+		while (1)
+		{
+			if (!ft_strncmp(content->str, str, ft_strlen2(content->str)))
+				exit(1);
+			//printf("str:%s", str);
+			write((int)((ft_get_static())->here), "> ", 2);
+			ft_putstr_fd(str, pipes[1]);
+			free(str);
+			str = get_next_line((int)((ft_get_static())->here));
+			if (!str)
+				exit (0);
+		}
+		free(str);
+		exit(0);
 	}
-	free(str);
+	waitpid(pid, &status, 0);
+	flag = PROCCESS;
+	if (WEXITSTATUS(status) == 2)
+	{
+		close(pipes[1]);
+		close(pipes[0]);
+		errno = 1;
+		return (-1);
+	}
 	close(pipes[1]);
 	lex->in = pipes[0];
 	return (pipes[0]);

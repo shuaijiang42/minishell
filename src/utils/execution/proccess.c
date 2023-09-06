@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 21:09:04 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:07:37 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,7 +282,7 @@ void	ft_procces_maker(char *cmd, char **env)
 		ft_free_split_2(&input);
 		if (count_pipes(cmd) > 0)
 		{
-			flag = 1;
+			flag = PROCCESS;
 			pid = fork_with_error_check();
 			ft_put_proccess(1);
 			if (!pid)
@@ -294,7 +294,11 @@ void	ft_procces_maker(char *cmd, char **env)
 		{
 			pid = ft_exc_make_redir(cmd, env, &line);
 			if (pid)
+			{
+				flag = 3;
 				ft_put_error(pid);
+				return ;
+			}
 			ft_put_error(executer(cmd, env, &line));
 		}
 	}

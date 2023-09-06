@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/04 20:54:54 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/05 21:09:08 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -72,5 +72,12 @@ typedef struct s_dollar_fill{
 	char	*dst;
 	int		*x;
 }				t_dollar_fill;
+
+typedef struct s_input{
+	char	*cmd;
+	int		in;
+	int		out;
+	int		here;
+}				t_input;
 
 #endif
