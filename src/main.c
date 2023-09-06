@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/06 17:07:59 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:28:45 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int shell_mode(char **env)
 	write(1 ,s->pwd, ft_strlen(s->pwd) + 120);
 	printf("2spwd  %p\n", s->pwd); */
 	ft_copy_env(env);
+	ft_put_error(0);
 	//creat_exp_list(s);
 	//ft_shlvl_sum();
 	while (1)
@@ -136,7 +137,8 @@ int shell_mode(char **env)
 		{
 	//		write(STDERR_FILENO, "exit\n", 5);
 			ft_free((void *)&line);
-			exit(ft_get_error());
+			//printf("this is the error:%d\n", ft_get_error());
+			return(ft_get_error());
 		}
 		add_history(line);
 		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
@@ -156,6 +158,7 @@ int	exc_mode(char *file, char **env)
 	char *str;
 	char *gnl;
 
+	errno = 0;
 	ft_put_static(init_static_struct());
 	int fd = 0;
 	fd = open(file, O_RDONLY);

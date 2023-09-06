@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/06 13:25:15 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:28:32 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ int	ft_excuter(char **input, char **env)
 	
 	pid = 0;
 	status = 0;
-	
+	errno = 0;
 	built_in = ft_built_in(input);
 	if (built_in == false)
 	{
