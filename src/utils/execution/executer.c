@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/06 18:42:49 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/06 20:48:17 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,26 +165,49 @@ size_t	ft_strlen2(char *str)
 
 int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 {
-	char	*str;
 	int		pipes[2];
+	int		pid;
+	int		status;
 
 	if(pipe(pipes))
-		return (-1);
+		exit(errno);
 	content->type = ft_strdup("hre");
-	write((int)((ft_get_static())->here), ">", 1);
-	str = get_next_line((int)((ft_get_static())->here));
-	if (!str)
-		return (-1);
-	while (ft_strncmp(content->str, str, ft_strlen2(content->str)) && str)
+	pid = fork();
+	if (!pid)
 	{
-		write((int)((ft_get_static())->here), ">", 1);
-		ft_putstr_fd(str, pipes[1]);
-		free(str);
+		char	*str;
+
+		flag = HERE;
+		write((int)((ft_get_static())->here), "> ", 2);
 		str = get_next_line((int)((ft_get_static())->here));
+		//printf("str:%s", str);
 		if (!str)
-			return (-1);
+			exit (0);
+		while (1)
+		{
+			if (!ft_strncmp(content->str, str, ft_strlen2(content->str)))
+				exit(1);
+			//printf("str:%s", str);
+			write((int)((ft_get_static())->here), "> ", 2);
+			ft_putstr_fd(str, pipes[1]);
+			free(str);
+			str = get_next_line((int)((ft_get_static())->here));
+			if (!str)
+				exit (0);
+		}
+		free(str);
+		exit(0);
 	}
-	free(str);
+	waitpid(pid, &status, 0);
+	flag = PROCCESS;
+	if (WEXITSTATUS(status) == 2)
+	{
+		flag = 3;
+		close(pipes[1]);
+		close(pipes[0]);
+		errno = 1;
+		return (-1);
+	}
 	close(pipes[1]);
 	lex->in = pipes[0];
 	return (pipes[0]);
@@ -212,7 +235,11 @@ int	ft_exc_change_output_trc(t_argument *content, t_exc_lex *lex)
 	content->type = ft_strdup("trc");
 	fd = open(content->str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
+	{
+		perror("minishell: ");
 		return (-1);
+	}
+	lex->in = fd;
 	lex->out = fd;
 	return (fd);
 }
@@ -224,7 +251,10 @@ int	ft_exc_change_output_apd(t_argument *content, t_exc_lex *lex)
 	content->type = ft_strdup("apd");
 	fd = open(content->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd == -1)
+	{
+		perror("minishell: ");
 		return (-1);
+	}
 	lex->out = fd;
 	return (fd);
 }
@@ -279,7 +309,9 @@ t_list	*ft_exc_new_node(char *argument, t_redir type, t_exc_lex *lex)
 	else
 		content->fd = ft_exc_open_fd(content, type, lex);
 	if (!content->str || !content->type || content->fd == -1)
+	{
 		return (ft_exc_free_content((void *)content));
+	}
 	result = ft_lstnew((void *)content);
 	if (!result)
 		return (ft_exc_free_content((void *)content));
@@ -371,6 +403,7 @@ void *ft_not_closed_pipe(char **env)
 
 	i = 0;
 	write((int)((ft_get_static())->here), ">", 1);
+	
 	str = get_next_line((int)((ft_get_static())->here));
 	if (!str)
 	{
@@ -398,13 +431,17 @@ t_list	*ft_exc_lex_input(char *input, int std[2], char **env)
 	lex.input = input;
 	ft_init_exc_lex(&lex);
 	if (!input)
-		return (ft_not_closed_pipe(env));
+	{
+		ft_print_error("syntax error near unexpected token `|'", 257);
+		return (NULL);
+	}
 	else if (ft_check_dup_redir(input) == -1)
 		return (NULL);
 	result = ft_make_list(&lex);
 	std[0] = lex.in;
 	std[1] = lex.out;
 	return (result);
+	env = NULL;
 }
 
 char	*ft_good_strjoin(char *s1, char*s2)
@@ -434,7 +471,7 @@ char	*ft_good_strjoin(char *s1, char*s2)
 	return (ret);
 }
 
-char	*ft_exc_make_cmd(char *cmd, t_list **input)
+char	*ft_exc_make_cmd(t_list **input)
 {
 	char	*result;
 	char	*tmp1;
@@ -460,31 +497,45 @@ char	*ft_exc_make_cmd(char *cmd, t_list **input)
 	}
 	ft_exc_clear_content(input);
 	return (result);
-	cmd = NULL;
 }
 
-int ft_exc_make_redir(char *cmd, char **env)
+int ft_exc_make_redir(char *cmd, char **env, t_input *line)
 {
-	int		result;
 	int		std[2];
 	t_list	*input;
-	char	*new_cmd;
 
 	std[0] = STDIN_FILENO;
 	std[1] = STDOUT_FILENO;
 	input = ft_exc_lex_input(cmd, std, env);
 	if (!input)
 		return (errno);
-	dup2_with_error_check(std[0], STDIN_FILENO);
-	dup2_with_error_check(std[1], STDOUT_FILENO);
-	new_cmd = ft_exc_make_cmd(cmd, &input);
-	result = ft_exc_execution(new_cmd, env);
-	close(std[0]);
-	close(std[1]);
+	line->in = dup(std[0]);
+	if (std[0] != STDIN_FILENO)
+		line->here = 1;
+	else
+		line->here = 0;
+	line->out = dup(std[1]);
+	if (line->in == -1 || line->out == -1)
+		return (errno);
+	line->cmd = ft_exc_make_cmd(&input);
+	return (0);
+}
+
+int	ft_executer_exec(t_input *input, char **env)
+{
+	int	result;
+
+	result = 0;
+	dup2_with_error_check(input->in, STDIN_FILENO);
+	close(input->in);
+	dup2_with_error_check(input->out, STDOUT_FILENO);
+	close(input->out);
+	result = ft_exc_execution(input->cmd, env);
 	return (result);
 }
 
-int	executer(char *cmd)
+int	executer(char *cmd, t_input *input)
+>>>>>>> norminette
 {
 	int		cloud[2];
 	int		value;
@@ -497,8 +548,8 @@ int	executer(char *cmd)
 
 	cloud[0] = dup(0);
 	cloud[1] = dup(1);
-	
-	value = ft_exc_make_redir(cmd, env);
+	//value = ft_exc_make_redir(cmd, env);
+	value = ft_executer_exec(input, env);
 	dup2_with_error_check(cloud[1], 1);
 	close(cloud[1]);
 	dup2_with_error_check(cloud[0], 0);

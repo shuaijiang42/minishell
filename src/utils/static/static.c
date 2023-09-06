@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/04 19:53:26 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:55:15 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	ft_put_proccess(int n)
 	return (s);
 } */
 
+/*
 t_static *init_struct(char **env)
 {
 	t_static *s;
@@ -165,6 +166,7 @@ t_static *init_struct(char **env)
 	}
 	return (s);
 }
+*/
 
 int	ft_get_error(void)
 {

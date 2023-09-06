@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/05 15:22:24 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/06 20:48:59 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,12 +258,11 @@ int	ft_excuter(char **input, char **env)
 	
 	pid = 0;
 	status = 0;
-	
+	errno = 0;
 	built_in = ft_built_in(input);
 	if (built_in == false)
 	{
-		
-		flag = 1;
+		flag = PROCCESS;
 		pid = fork_with_error_check();
 		if (pid == 0)
 			execve_with_error_check(input, env);

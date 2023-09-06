@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   ft_lex_interrogation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
+/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/21 15:56:33 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/06 19:15:15 by samusanc         ###   ########.fr       */
+/*   Created: 2023/09/04 17:36:11 by samusanc          #+#    #+#             */
+/*   Updated: 2023/09/04 17:36:29 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	handler(int signal)
+int	ft_lex_interrogation(t_cmd *cmd, char c)
 {
-	if (flag != HERE)
+	if (cmd->dollar_status == q_open)
 	{
-		printf("\n");
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		if (flag == SHELL)
-			rl_redisplay();
+		cmd->dollar_status = q_close;
+		if (cmd->spaces)
+		{
+			cmd->spaces = 3;
+			return (2);
+		}
+		else
+		{
+			cmd->spaces = 3;
+			return (3);
+		}
 	}
 	else
-		exit(2);
-	return ;
-	signal = 0;
-}
-
-void	quit_signal(int signal)
-{
-	if (flag == SHELL)
-		rl_redisplay();
-	return ;
-	signal = 0;
+		return (2);
+	c = 0;
 }

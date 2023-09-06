@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/06 20:17:42 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/06 20:51:09 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	*ft_print_error(char *str, int error)
 
 int shell_mode(char **env)
 {
-	char *line;
+	char	*line;
 	int		fd_mini_history;
 	
 	t_list	*history;
@@ -98,7 +98,7 @@ int shell_mode(char **env)
 	ft_get_old_history(env, &fd_mini_history);
 	line = NULL;
 	signal(SIGINT, handler);
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, quit_signal);
 	//if (s->shlvl)
 	//	shlvl++;
 	ft_put_static(init_static_struct(env));
@@ -106,15 +106,31 @@ int shell_mode(char **env)
 	history = s->history;
 	printf("%s\n", s->shlvl->content);
 	ft_copy_env(env);
+
 	creat_exp_list(s);
 	add_list_and_sort(&(s->exp), ft_lstnew(ft_strjoin("declare -x ",s->shlvl->content)));
 	//export_to_real_env(s);
 	//ft_shlvl_sum();
+	
+	ft_put_error(0);
+	//creat_exp_list(s);
+	flag = SHELL;
+	//ft_shlvl_sum();
 	while (1)
 	{
-		flag = 0;
+		if (flag != 3)
+			flag = SHELL;
+		//line = readline("minishell$ ");
 		if (isatty(fileno(stdin)))
-			line = readline("minishell$ ");
+		{
+			if (flag != 3)
+				line = readline("minishell$ ");
+			else
+			{
+				line = readline("");
+				flag = 0;
+			}
+		}
 		else
 		{
 			char *line2;
@@ -126,7 +142,8 @@ int shell_mode(char **env)
 		{
 	//		write(STDERR_FILENO, "exit\n", 5);
 			ft_free((void *)&line);
-			exit(ft_get_error());
+			//printf("this is the error:%d\n", ft_get_error());
+			return(ft_get_error());
 		}
 		
 		add_history(line);
@@ -147,7 +164,8 @@ int	exc_mode(char *file, char **env)
 	char *str;
 	char *gnl;
 
-	ft_put_static(init_struct(env));
+	errno = 0;
+	ft_put_static(init_static_struct());
 	int fd = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -175,8 +193,8 @@ int	exc_mode(char *file, char **env)
 		}
 		if (ft_check_argument(gnl) == 1)
 			ft_procces_maker(gnl, env);
-		ft_free((void **)&gnl);
 		gnl = get_next_line_samu(fd);
+		ft_free((void **)&gnl);
 	}
 	return (0);
 }

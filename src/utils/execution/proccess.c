@@ -6,7 +6,11 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/06 17:37:41 by shujiang         ###   ########.fr       */
+=======
+/*   Updated: 2023/09/06 19:15:13 by samusanc         ###   ########.fr       */
+>>>>>>> norminette
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,41 +75,86 @@ size_t	count_pipes(char *str)
 int	ft_first_child(char *cmd, int pipe[2])
 {
 	int	pid;
-//	int	status;
+	int	status;
+	t_input	input;
 
+	pid = ft_exc_make_redir(cmd, env, &input);
+	if (pid)
+		exit(pid);
 	pid = fork_with_error_check();
 	if(!pid)
 	{
 		close(pipe[0]);
-		dup2_with_error_check(pipe[1], 1);
+		dup2_with_error_check(pipe[1], input.out);
 		close(pipe[1]);
+<<<<<<< HEAD
 		exit(executer(cmd));
+=======
+		exit(executer(cmd, env, &input));
+>>>>>>> norminette
 	}
 	close(pipe[1]);
 	//waitpid(-1, &status, 0);
 	return (pipe[0]);
+	status = 0;
+}
+
+void	ft_is_valid_in(int fd, t_input *input)
+{
+	char	**split;
+	size_t	i;
+	int		pipes[2];
+
+	i = 0;
+	split = ft_lexer(input->cmd);
+	if (!split)
+		return ;
+	while (split[i])
+		i++;
+	ft_free_split_2(&split);
+	if (i == 1 && input->here)
+	{
+		pipe_with_error_check(pipes);
+		close(pipes[1]);
+		dup2_with_error_check(input->in, pipes[0]);
+		return ;
+	}
+	//exit(0);
+	dup2_with_error_check(fd, input->in);
+	return ;
+	(void)pipes;
 }
 
 int	ft_mid_child(char *cmd, int fd)
 {
 	int	pipe[2];
 	int	pid;
-//	int	status;
+	int	status;
+	t_input	input;
 
+	pid = ft_exc_make_redir(cmd, env, &input);
+	if (pid)
+		exit(pid);
 	pipe_with_error_check(pipe);
 	pid = fork_with_error_check();
 	if(!pid)
 	{
-		dup2_with_error_check(fd, 0);
+		ft_is_valid_in(fd, &input);
+		//dup2_with_error_check(fd, input.in);
 		close(fd);
-		dup2_with_error_check(pipe[1], 1);
+		dup2_with_error_check(pipe[1], input.out);
 		close(pipe[1]);
+<<<<<<< HEAD
 		exit(executer(cmd));
+=======
+		exit(executer(cmd, env, &input));
+>>>>>>> norminette
 	}
 	close(fd);
 	close(pipe[1]);
 	//waitpid(-1, &status, 0);
 	return (pipe[0]);
+	status = 0;
 }
 
 void	ft_wait_all_children(int pid)
@@ -124,43 +173,42 @@ void	ft_wait_all_children(int pid)
 			break ;
 	}
 	exit(WEXITSTATUS(final));
+	pid = 0;
 }
 
+<<<<<<< HEAD
 int	ft_last_child(char *cmd, int fd)
+=======
+
+int	ft_last_child(char *cmd, char **env, int fd)
+>>>>>>> norminette
 {
 	int	pipe[2];
 	int	pid;
+	t_input	input;
 
+	pid = ft_exc_make_redir(cmd, env, &input);
+	if (pid)
+		exit(pid);
 	pipe_with_error_check(pipe);
 	pid = fork_with_error_check();
 	if(!pid)
 	{
 		close(pipe[1]);
-		dup2_with_error_check(fd, 0);
+		ft_is_valid_in(fd, &input);
+		//dup2_with_error_check(fd, input.in);
 		close(fd);
+<<<<<<< HEAD
 		exit(executer(cmd));
+=======
+		exit(executer(cmd, env, &input));
+>>>>>>> norminette
 	}
 	close(fd);
 	close(pipe[1]);
 	ft_wait_all_children(pid);
 	//waitpid(-1, &status, 0);
 	return (0);
-
-
-	/*
-	int	pid;
-	int	status;
-
-	pid = fork_with_error_check();
-	if(!pid)
-	{
-		dup2_with_error_check(fd, 0);
-		close(fd);
-		exit(executer(cmd, env));
-	}
-	close(fd);
-	waitpid(-1, &status, 0);
-	*/
 }
 
 char	*ft_strndup(const char *s1, size_t n)
@@ -246,6 +294,7 @@ void	ft_procces_maker(char *cmd, char **env)
 	char **input;
 	int		pid;
 	int		status;
+	t_input	line;
 
 	input = ft_lexer(cmd);
 	if (input)
@@ -253,7 +302,7 @@ void	ft_procces_maker(char *cmd, char **env)
 		ft_free_split_2(&input);
 		if (count_pipes(cmd) > 0)
 		{
-			flag = 1;
+			flag = PROCCESS;
 			pid = fork_with_error_check();
 			ft_put_proccess(1);
 			if (!pid)
@@ -262,7 +311,19 @@ void	ft_procces_maker(char *cmd, char **env)
 			ft_put_error(WEXITSTATUS(status));
 		}
 		else
+<<<<<<< HEAD
 			ft_put_error(executer(cmd));
+=======
+		{
+			pid = ft_exc_make_redir(cmd, env, &line);
+			if (pid)
+			{
+				ft_put_error(pid);
+				return ;
+			}
+			ft_put_error(executer(cmd, env, &line));
+		}
+>>>>>>> norminette
 	}
 	else
 		ft_free_split_2(&input);

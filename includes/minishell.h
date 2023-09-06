@@ -6,7 +6,11 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/09/06 17:38:19 by shujiang         ###   ########.fr       */
+=======
+/*   Updated: 2023/09/06 12:45:44 by samusanc         ###   ########.fr       */
+>>>>>>> norminette
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +36,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <ft_signals.h>
 
 int flag;
 void	rl_replace_line(const char *text, int clear_undo);
@@ -58,8 +63,8 @@ void    ft_remove_node(t_list *list, int index);
 
 t_static *init_static_struct();
 
-int			executer(char *cmd);
-//void		ft_procces_maker(char *cmd, char **env);
+int			ft_exc_make_redir(char *cmd, char **env, t_input *line);
+int			executer(char *cmd, t_input *input);
 void		ft_procces_maker(char *cmd, char **env);
 void		ft_get_old_history(char **env, int *fd);
 char        *get_var_info(char *var_name);
