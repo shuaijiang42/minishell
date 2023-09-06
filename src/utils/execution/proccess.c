@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/06 17:07:37 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:15:13 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,7 +295,6 @@ void	ft_procces_maker(char *cmd, char **env)
 			pid = ft_exc_make_redir(cmd, env, &line);
 			if (pid)
 			{
-				flag = 3;
 				ft_put_error(pid);
 				return ;
 			}

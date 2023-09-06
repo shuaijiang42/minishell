@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/06 17:01:16 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:15:17 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 	flag = PROCCESS;
 	if (WEXITSTATUS(status) == 2)
 	{
+		flag = 3;
 		close(pipes[1]);
 		close(pipes[0]);
 		errno = 1;
@@ -234,7 +235,11 @@ int	ft_exc_change_output_trc(t_argument *content, t_exc_lex *lex)
 	content->type = ft_strdup("trc");
 	fd = open(content->str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
+	{
+		perror("minishell: ");
 		return (-1);
+	}
+	lex->in = fd;
 	lex->out = fd;
 	return (fd);
 }
@@ -246,7 +251,10 @@ int	ft_exc_change_output_apd(t_argument *content, t_exc_lex *lex)
 	content->type = ft_strdup("apd");
 	fd = open(content->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd == -1)
+	{
+		perror("minishell: ");
 		return (-1);
+	}
 	lex->out = fd;
 	return (fd);
 }
@@ -301,7 +309,9 @@ t_list	*ft_exc_new_node(char *argument, t_redir type, t_exc_lex *lex)
 	else
 		content->fd = ft_exc_open_fd(content, type, lex);
 	if (!content->str || !content->type || content->fd == -1)
+	{
 		return (ft_exc_free_content((void *)content));
+	}
 	result = ft_lstnew((void *)content);
 	if (!result)
 		return (ft_exc_free_content((void *)content));
@@ -421,13 +431,17 @@ t_list	*ft_exc_lex_input(char *input, int std[2], char **env)
 	lex.input = input;
 	ft_init_exc_lex(&lex);
 	if (!input)
-		return (ft_not_closed_pipe(env));
+	{
+		ft_print_error("syntax error near unexpected token `|'", 257);
+		return (NULL);
+	}
 	else if (ft_check_dup_redir(input) == -1)
 		return (NULL);
 	result = ft_make_list(&lex);
 	std[0] = lex.in;
 	std[1] = lex.out;
 	return (result);
+	env = NULL;
 }
 
 char	*ft_good_strjoin(char *s1, char*s2)
