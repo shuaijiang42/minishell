@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/07 16:08:12 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:13:02 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,14 @@ int		ft_exc_execution(char *cmd, char **env)
 
 int	ft_error_exc_unexpected_token(int minor, int major, char first)
 {	
-	if ((minor > 2) || (major == 2 && !minor))
+	if (first == 'A')
+	{
+		if (minor)
+			ft_print_error("syntax error near unexpected token `<'", 258);
+		if (major)
+			ft_print_error("syntax error near unexpected token `>'", 258);
+	}
+	else if ((minor > 2) || (major == 2 && !minor))
 		ft_print_error("syntax error near unexpected token `<'", 258);
 	else if ((major > 2) || (minor == 2 && !major))
 		ft_print_error("syntax error near unexpected token `>'", 258);
@@ -61,7 +68,7 @@ void	ft_init_exc_lex(t_exc_lex *lex)
 	ft_init_cmd(&lex->cmd);
 }
 
-int	ft_check_parse_normal_char(t_exc_lex *lex)
+int	ft_check_parse_normal_char(t_exc_lex *lex, int *space)
 {
 	if (lex->major > 2 || lex->minor > 2 || lex->redirs > 2)
 	{
@@ -71,11 +78,14 @@ int	ft_check_parse_normal_char(t_exc_lex *lex)
 	lex->major = 0;
 	lex->minor = 0;
 	lex->redirs = 0;
+	*space = 0;
 	return (0);
 }
 
-int	ft_check_parse_redirs(t_exc_lex *lex)
+int	ft_check_parse_redirs(t_exc_lex *lex, int *space)
 {
+	if (*space)
+		return (ft_error_exc_unexpected_token(lex->minor, lex->major, 'A'));
 	if (lex->input[lex->i] == '<' && !lex->major)
 	{
 		if (!lex->redirs)
@@ -102,7 +112,11 @@ int	ft_check_parse_redirs(t_exc_lex *lex)
 int	ft_check_dup_redir(char *input)
 {
 	t_exc_lex	lex;
+	int			space;
+	int			word;
 
+	space = 0;
+	word = 0;
 	lex.input = input;
 	ft_init_exc_lex(&lex);
 	while (input[lex.i])
@@ -110,16 +124,21 @@ int	ft_check_dup_redir(char *input)
 		lex.j = ft_check_char(&lex.cmd, input[lex.i]);
 		if (!lex.j || lex.j == -1)
 		{
+			if (!lex.j)
+			{
+				if (lex.major || lex.minor || lex.redirs)
+					space = 1;
+			}
 			ft_init_cmd(&lex.cmd);
 		}
 		else
 		{
-			if(ft_check_parse_normal_char(&lex) == -1)
+			if(ft_check_parse_normal_char(&lex, &space) == -1)
 				return (-1);
 		}
 		if (lex.j == -1 && (input[lex.i] == '<' || input[lex.i] == '>'))
 		{
-			if(ft_check_parse_redirs(&lex) == -1)
+			if(ft_check_parse_redirs(&lex, &space) == -1)
 				return (-1);
 		}
 		lex.i += 1;
@@ -412,7 +431,6 @@ void *ft_not_closed_pipe(char **env)
 
 	i = 0;
 	write((int)((ft_get_static())->here), ">", 1);
-	
 	str = get_next_line((int)((ft_get_static())->here));
 	if (!str)
 	{
