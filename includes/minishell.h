@@ -6,15 +6,9 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/06 17:38:19 by shujiang         ###   ########.fr       */
-=======
-/*   Updated: 2023/09/06 12:45:44 by samusanc         ###   ########.fr       */
->>>>>>> norminette
+/*   Updated: 2023/09/07 14:11:14 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 # ifndef MINISHELL_H
 # define MINISHELL_H
@@ -63,7 +57,7 @@ void    ft_remove_node(t_list *list, int index);
 
 t_static *init_static_struct();
 
-int			ft_exc_make_redir(char *cmd, char **env, t_input *line);
+int			ft_exc_make_redir(char *cmd, t_input *line);
 int			executer(char *cmd, t_input *input);
 void		ft_procces_maker(char *cmd, char **env);
 void		ft_get_old_history(char **env, int *fd);

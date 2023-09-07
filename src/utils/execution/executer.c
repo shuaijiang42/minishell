@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/06 20:48:17 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:11:12 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,7 +423,7 @@ void *ft_not_closed_pipe(char **env)
 	return (NULL);
 }
 
-t_list	*ft_exc_lex_input(char *input, int std[2], char **env)
+t_list	*ft_exc_lex_input(char *input, int std[2])
 {
 	t_exc_lex	lex;
 	t_list		*result;
@@ -441,7 +441,6 @@ t_list	*ft_exc_lex_input(char *input, int std[2], char **env)
 	std[0] = lex.in;
 	std[1] = lex.out;
 	return (result);
-	env = NULL;
 }
 
 char	*ft_good_strjoin(char *s1, char*s2)
@@ -499,14 +498,14 @@ char	*ft_exc_make_cmd(t_list **input)
 	return (result);
 }
 
-int ft_exc_make_redir(char *cmd, char **env, t_input *line)
+int ft_exc_make_redir(char *cmd, t_input *line)
 {
 	int		std[2];
 	t_list	*input;
 
 	std[0] = STDIN_FILENO;
 	std[1] = STDOUT_FILENO;
-	input = ft_exc_lex_input(cmd, std, env);
+	input = ft_exc_lex_input(cmd, std);
 	if (!input)
 		return (errno);
 	line->in = dup(std[0]);
@@ -535,7 +534,6 @@ int	ft_executer_exec(t_input *input, char **env)
 }
 
 int	executer(char *cmd, t_input *input)
->>>>>>> norminette
 {
 	int		cloud[2];
 	int		value;

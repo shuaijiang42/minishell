@@ -6,11 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/09/06 17:37:41 by shujiang         ###   ########.fr       */
-=======
-/*   Updated: 2023/09/06 19:15:13 by samusanc         ###   ########.fr       */
->>>>>>> norminette
+/*   Updated: 2023/09/07 14:11:16 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +74,7 @@ int	ft_first_child(char *cmd, int pipe[2])
 	int	status;
 	t_input	input;
 
-	pid = ft_exc_make_redir(cmd, env, &input);
+	pid = ft_exc_make_redir(cmd, &input);
 	if (pid)
 		exit(pid);
 	pid = fork_with_error_check();
@@ -87,11 +83,7 @@ int	ft_first_child(char *cmd, int pipe[2])
 		close(pipe[0]);
 		dup2_with_error_check(pipe[1], input.out);
 		close(pipe[1]);
-<<<<<<< HEAD
-		exit(executer(cmd));
-=======
-		exit(executer(cmd, env, &input));
->>>>>>> norminette
+		exit(executer(cmd, &input));
 	}
 	close(pipe[1]);
 	//waitpid(-1, &status, 0);
@@ -132,7 +124,7 @@ int	ft_mid_child(char *cmd, int fd)
 	int	status;
 	t_input	input;
 
-	pid = ft_exc_make_redir(cmd, env, &input);
+	pid = ft_exc_make_redir(cmd, &input);
 	if (pid)
 		exit(pid);
 	pipe_with_error_check(pipe);
@@ -144,11 +136,7 @@ int	ft_mid_child(char *cmd, int fd)
 		close(fd);
 		dup2_with_error_check(pipe[1], input.out);
 		close(pipe[1]);
-<<<<<<< HEAD
-		exit(executer(cmd));
-=======
-		exit(executer(cmd, env, &input));
->>>>>>> norminette
+		exit(executer(cmd, &input));
 	}
 	close(fd);
 	close(pipe[1]);
@@ -176,18 +164,13 @@ void	ft_wait_all_children(int pid)
 	pid = 0;
 }
 
-<<<<<<< HEAD
 int	ft_last_child(char *cmd, int fd)
-=======
-
-int	ft_last_child(char *cmd, char **env, int fd)
->>>>>>> norminette
 {
 	int	pipe[2];
 	int	pid;
 	t_input	input;
 
-	pid = ft_exc_make_redir(cmd, env, &input);
+	pid = ft_exc_make_redir(cmd, &input);
 	if (pid)
 		exit(pid);
 	pipe_with_error_check(pipe);
@@ -198,11 +181,7 @@ int	ft_last_child(char *cmd, char **env, int fd)
 		ft_is_valid_in(fd, &input);
 		//dup2_with_error_check(fd, input.in);
 		close(fd);
-<<<<<<< HEAD
-		exit(executer(cmd));
-=======
-		exit(executer(cmd, env, &input));
->>>>>>> norminette
+		exit(executer(cmd, &input));
 	}
 	close(fd);
 	close(pipe[1]);
@@ -311,19 +290,15 @@ void	ft_procces_maker(char *cmd, char **env)
 			ft_put_error(WEXITSTATUS(status));
 		}
 		else
-<<<<<<< HEAD
-			ft_put_error(executer(cmd));
-=======
 		{
-			pid = ft_exc_make_redir(cmd, env, &line);
+			pid = ft_exc_make_redir(cmd, &line);
 			if (pid)
 			{
 				ft_put_error(pid);
 				return ;
 			}
-			ft_put_error(executer(cmd, env, &line));
+			ft_put_error(executer(cmd, &line));
 		}
->>>>>>> norminette
 	}
 	else
 		ft_free_split_2(&input);
