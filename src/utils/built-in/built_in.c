@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/06 20:48:59 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:49:28 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,17 +176,17 @@ void ft_echo(char    **input)
 
 int check_digit(char *str)
 {
-	int i;
+	size_t	i;
 
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] >= 48 && str[i] <= 57)
-			i++;
-		break ;
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
 	}
-	if (i != (int)ft_strlen(str))
-		return (0);
 	return (1);
 }
 
@@ -196,24 +196,24 @@ void ft_free_exit(char **input, int n)
 	exit (n);
 }
 
-void ft_exit(char    **input)
+void ft_exit(char **input)
 {
 	int i;
 
 	i = 0; 
-	printf("exit\n");
+	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (input && input[1] == NULL)
 		ft_free_exit(input, 0);
 	if (input[2] != NULL)
-	{
-		printf("minishell: exit: too many arguments\n");
-		ft_put_error(255);
-	}
-	else if (input[1] != NULL)
+		ft_print_error("exit: too many arguments\n", 255);
+	else if (input[1])
 	{
 		if(!check_digit(input[1])) 
 		{
-			printf("minishell: exit: %s: numeric argument required\n", input[1]);
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd("exit: ", STDERR_FILENO);
+			ft_putstr_fd(input[1], STDERR_FILENO);
+			ft_putstr_fd(": numeric argument requiered\n", STDERR_FILENO);
 			ft_put_error(255);
 		}
 		else

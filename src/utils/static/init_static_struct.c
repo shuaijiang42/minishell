@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:34:53 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/06 20:45:31 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:25:55 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_static *init_static_struct(char **env)
       //printf("here %s\n", s->shlvl->content);  
     if (!(*env))
     {
-        write(1,"hello\n",6);
+       // write(1,"hello\n",6);
         s->oldpwd = ft_lstnew("OLDPWD");
         s->last_cmd = ft_lstnew("_=./minishell");
        s->shlvl = ft_lstnew("SHLVL=1");
@@ -72,7 +72,7 @@ t_static *init_static_struct(char **env)
         s->oldpwd = ft_lstnew(ft_get_info_from_env(env, "OLDPWD="));
         s->last_cmd = ft_lstnew(ft_get_info_from_env(env, "_="));
         shlvl = ft_atoi(ft_get_info_from_env(env, "SHLVL=") + 6) + 1;
-        printf("shlvl %d\n", shlvl); 
+      //  printf("shlvl %d\n", shlvl); 
         s->shlvl = ft_lstnew(ft_strjoin("SHLVL=",ft_itoa(shlvl)));
          
     }

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/07 14:11:12 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:18:19 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,10 @@ int	ft_exc_change_input(t_argument *content, t_exc_lex *lex)
 	fd = open(content->str, O_RDONLY);
 	if (fd == -1)
 	{
-		perror("minishell: ");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->str, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		perror(NULL);
 		return (-1);
 	}
 	lex->in = fd;
@@ -236,7 +239,10 @@ int	ft_exc_change_output_trc(t_argument *content, t_exc_lex *lex)
 	fd = open(content->str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		perror("minishell: ");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->str, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		perror(NULL);
 		return (-1);
 	}
 	lex->in = fd;
@@ -252,7 +258,10 @@ int	ft_exc_change_output_apd(t_argument *content, t_exc_lex *lex)
 	fd = open(content->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd == -1)
 	{
-		perror("minishell: ");
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->str, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		perror(NULL);
 		return (-1);
 	}
 	lex->out = fd;

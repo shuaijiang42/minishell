@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/06 20:51:09 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:49:19 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	*ft_print_error(char *str, int error)
 	errno = error;
 	return (NULL);
 }
+
 
 /* void	ft_shlvl_sum(void)
 {
@@ -104,7 +105,7 @@ int shell_mode(char **env)
 	ft_put_static(init_static_struct(env));
 	s = ft_get_static();
 	history = s->history;
-	printf("%s\n", s->shlvl->content);
+//	printf("%s\n", s->shlvl->content);
 	ft_copy_env(env);
 
 	creat_exp_list(s);
