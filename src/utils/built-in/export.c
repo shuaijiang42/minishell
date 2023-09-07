@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/05 18:13:27 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:03:02 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,11 @@ int	ft_parsing(char	*str)
 		if ((!ft_isalnum((int)str[i])) 
 			&& ((i == 0 && str[i] != '_') || (i != 0 && str[i] != '=')))
 		{
-			printf("minishell: export: %s: not a valid identifier\n", str);
+
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd("export: ", STDERR_FILENO);
+			ft_putstr_fd(str, STDERR_FILENO);
+			ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
 			//free;
 			return (0);
 		}
@@ -219,6 +223,7 @@ void	modify_env(char *str)
 	if (temp)
 		temp->content = str;
 }
+
 void	ft_export(char **input)
 {
 	int i;
@@ -264,6 +269,11 @@ void	ft_export(char **input)
 					}	
 				}
 			}
+		}
+		else
+		{
+			errno = 2;
+			return ;
 		}
 		i++;
 	}

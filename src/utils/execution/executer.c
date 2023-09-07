@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/07 15:18:19 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:08:12 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -516,7 +516,12 @@ int ft_exc_make_redir(char *cmd, t_input *line)
 	std[1] = STDOUT_FILENO;
 	input = ft_exc_lex_input(cmd, std);
 	if (!input)
-		return (errno);
+	{
+		if (errno != 9)
+			return (errno);
+		else
+			return (1);
+	}
 	line->in = dup(std[0]);
 	if (std[0] != STDIN_FILENO)
 		line->here = 1;

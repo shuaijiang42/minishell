@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/07 14:11:16 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/07 15:48:23 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,15 @@ int	ft_first_child(char *cmd, int pipe[2])
 
 	pid = ft_exc_make_redir(cmd, &input);
 	if (pid)
-		exit(pid);
+	{
+		if (flag == 3)
+			exit(1);
+		else
+		{
+			close (pipe[1]);
+			return (pipe[0]);
+		}
+	}
 	pid = fork_with_error_check();
 	if(!pid)
 	{
@@ -124,10 +132,18 @@ int	ft_mid_child(char *cmd, int fd)
 	int	status;
 	t_input	input;
 
+	pipe_with_error_check(pipe);
 	pid = ft_exc_make_redir(cmd, &input);
 	if (pid)
-		exit(pid);
-	pipe_with_error_check(pipe);
+	{
+		if (flag == 3)
+			exit(1);
+		else
+		{
+			close (pipe[1]);
+			return (pipe[0]);
+		}
+	}
 	pid = fork_with_error_check();
 	if(!pid)
 	{
@@ -170,10 +186,18 @@ int	ft_last_child(char *cmd, int fd)
 	int	pid;
 	t_input	input;
 
+	pipe_with_error_check(pipe);
 	pid = ft_exc_make_redir(cmd, &input);
 	if (pid)
-		exit(pid);
-	pipe_with_error_check(pipe);
+	{
+		if (flag == 3)
+			exit(1);
+		else
+		{
+			close (pipe[1]);
+			return (pipe[0]);
+		}
+	}
 	pid = fork_with_error_check();
 	if(!pid)
 	{
