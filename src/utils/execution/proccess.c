@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/07 15:48:23 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/08 18:17:48 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,8 @@ int	ft_mid_child(char *cmd, int fd)
 		close(pipe[1]);
 		exit(executer(cmd, &input));
 	}
+	close(input.in);
+	close(input.out);
 	close(fd);
 	close(pipe[1]);
 	//waitpid(-1, &status, 0);
