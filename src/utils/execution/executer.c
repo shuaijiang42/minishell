@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/07 17:13:02 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/11 21:01:39 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,27 @@ size_t	ft_strlen2(char *str)
 	return (i);
 }
 
+char	*cut_input(char *str, int *i)
+{
+	char	**split;
+	char	*result;
+
+	result = NULL;
+	split = ft_lexer(str);
+	if (!split)
+		return (NULL);
+	if (*split)
+		result = ft_strdup(*split);
+	ft_free_split_2(&split);
+	if (!result)
+	{
+		if (i)
+			*i = -1;
+		return (str);
+	}
+	return (result);
+}
+
 int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 {
 	int		pipes[2];
@@ -197,20 +218,24 @@ int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 		char	*str;
 
 		flag = HERE;
-		write((int)((ft_get_static())->here), "> ", 2);
-		str = get_next_line((int)((ft_get_static())->here));
-		//printf("str:%s", str);
+		//write((int)((ft_get_static())->here), "> ", 2);
+		content->str = cut_input(content->str, NULL);
+		//str = get_next_line((int)((ft_get_static())->here));
+		//printf("str:%svs%s\n", str, content->str);
+		str = readline("> ");
 		if (!str)
 			exit (0);
 		while (1)
 		{
-			if (!ft_strncmp(content->str, str, ft_strlen2(content->str)))
+			if (!ft_strncmp(content->str, str, ft_strlen2(content->str) + 1))
 				exit(1);
-			//printf("str:%s", str);
-			write((int)((ft_get_static())->here), "> ", 2);
+			//aprintf("str:%svs%s\n", str, content->str);
+			//write((int)((ft_get_static())->here), "> ", 2);
 			ft_putstr_fd(str, pipes[1]);
+			write(pipes[1], "\n", 1);
 			free(str);
-			str = get_next_line((int)((ft_get_static())->here));
+			//str = get_next_line((int)((ft_get_static())->here));
+			str = readline("> ");
 			if (!str)
 				exit (0);
 		}
@@ -232,11 +257,38 @@ int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 	return (pipes[0]);
 }
 
+void	get_redir(t_argument *content)
+{
+	char *str;
+	int		i;
+
+	i = 0;
+	if (content->str)
+		str = cut_input(content->str, &i);
+	else
+		return ;
+	if (i)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->str, STDERR_FILENO);
+		ft_putstr_fd(": ambiguous redirect\n", STDERR_FILENO);
+		ft_free((void **)&content->str);
+		content->str = NULL;
+		return ;
+	}
+	ft_free((void **)&content->str);
+	content->str = str;
+	return ;
+}
+
 int	ft_exc_change_input(t_argument *content, t_exc_lex *lex)
 {
 	int	fd;
 
 	content->type = ft_strdup("inp");
+	get_redir(content);
+	if (!content->str)
+		return (-1);
 	fd = open(content->str, O_RDONLY);
 	if (fd == -1)
 	{
@@ -255,6 +307,9 @@ int	ft_exc_change_output_trc(t_argument *content, t_exc_lex *lex)
 	int	fd;
 
 	content->type = ft_strdup("trc");
+	get_redir(content);
+	if (!content->str)
+		return (-1);
 	fd = open(content->str, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -274,6 +329,9 @@ int	ft_exc_change_output_apd(t_argument *content, t_exc_lex *lex)
 	int	fd;
 
 	content->type = ft_strdup("apd");
+	get_redir(content);
+	if (!content->str)
+		return (-1);
 	fd = open(content->str, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd == -1)
 	{
