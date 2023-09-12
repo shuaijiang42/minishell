@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:56:33 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/11 21:01:41 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:03:40 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	handler(int signal)
 {
+	if (flag == PROCCESS)
+		errno = 130;
+	if (flag == 4)
+		exit(130);
 	if (flag != HERE)
 	{
 		printf("\n");

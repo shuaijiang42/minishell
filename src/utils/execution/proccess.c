@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/08 18:17:48 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:16:32 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,7 +311,10 @@ void	ft_procces_maker(char *cmd, char **env)
 			pid = fork_with_error_check();
 			ft_put_proccess(1);
 			if (!pid)
+			{
+				flag = 4;
 				pipex(cmd);
+			}
 			waitpid(-1, &status, 0);
 			ft_put_error(WEXITSTATUS(status));
 		}

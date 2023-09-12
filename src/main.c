@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/11 20:09:47 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:36:09 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int shell_mode(char **env)
 				line = readline("minishell$ ");
 			else
 			{
-				line = readline("");
+				line = readline("minishell$ ");
 				flag = 0;
 			}
 		}
@@ -164,9 +164,21 @@ int	exc_mode(char *file, char **env)
 {
 	char *str;
 	char *gnl;
+	//=========================================================================================
+	t_list	*history;
+	t_static *s;
+
+	ft_put_static(init_static_struct(env));
+	s = ft_get_static();
+	history = s->history;
+	ft_copy_env(env);
+
+	creat_exp_list(s);
+	add_list_and_sort(&(s->exp), ft_lstnew(ft_strjoin("declare -x ",s->shlvl->content)));
+	ft_put_error(0);
 
 	errno = 0;
-	ft_put_static(init_static_struct());
+	//=========================================================================================
 	int fd = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)

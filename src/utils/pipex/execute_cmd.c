@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:10:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/01 20:27:06 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:20:02 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	execve_with_error_check(char **argv, char **env)
 	if (execve(path, argv, env) == -1)
 	{
 		perror(*argv);
-		exit(-1);
+		exit(127);
 	}
 	exit (0);
 	return (0);
