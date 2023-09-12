@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:09:21 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/04 19:43:48 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:47:25 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*get_cmd(char *argv)
 	return (cmd);
 }
 
+
 char	*get_full_path(char **env, char *cmd)
 {
 	char	**path_list;
@@ -91,11 +92,14 @@ char	*get_full_path(char **env, char *cmd)
 		ft_free((void **)&path);
 		i++;
 	}
-	//printf("ptr:%p\n", path_list);
 	if (path_list)
+	{
 		ft_free_split_2((char ***)&path_list);
-	exit_cmd_not_found(path, temp, cmd);
-	return (0);
+		exit_cmd_not_found(path, temp, cmd);
+		return (NULL);
+	}
+	else
+		return (ft_strjoin("./", cmd));
 }
 
 char	*cmd_path(char *argv, char **env)
