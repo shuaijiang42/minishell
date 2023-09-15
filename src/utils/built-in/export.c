@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/13 14:43:52 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:08:09 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ int	ft_parsing(char	*str)
 	int i;
 
 	i = 0;
+	printf("this is the str:%s\n", str);
 	while (str[i])
 	{	
 		if ((!ft_isalnum((int)str[i])) 
 			&& ((i == 0 && str[i] != '_') || (i != 0 && str[i] != '=')))
 		{
-
 			ft_putstr_fd("minishell: ", STDERR_FILENO);
 			ft_putstr_fd("export: ", STDERR_FILENO);
 			ft_putstr_fd(str, STDERR_FILENO);
@@ -166,7 +166,6 @@ void add_new_var_env(char *str)
 	s = ft_get_static();
 	new = ft_lstnew(str);
     add_list_and_sort(&(s->env), new);
-
 }
 
 void	modify_exp(char *str)
@@ -246,6 +245,7 @@ void	ft_export(char **input)
 		if (ft_parsing(input[i]) == 1)
 		{
 			var = ft_lexer(input[i])[0];
+			//hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee freeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 			old = var_existed(var);
 			if (!old)
 			{

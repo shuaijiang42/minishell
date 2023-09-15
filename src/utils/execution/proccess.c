@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/13 21:09:38 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:28:01 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,6 +326,7 @@ void	ft_procces_maker(char *cmd, char **env)
 				ft_put_error(pid);
 				return ;
 			}
+			ft_is_valid_in(STDIN_FILENO, &line);
 			ft_put_error(executer(cmd, &line));
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/12 16:36:05 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/15 18:30:10 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,7 +319,6 @@ int	ft_exc_change_output_trc(t_argument *content, t_exc_lex *lex)
 		perror(NULL);
 		return (-1);
 	}
-	lex->in = fd;
 	lex->out = fd;
 	return (fd);
 }
@@ -394,6 +393,9 @@ t_list	*ft_exc_new_node(char *argument, t_redir type, t_exc_lex *lex)
 		content->type = ft_strdup("cmd");
 	else
 		content->fd = ft_exc_open_fd(content, type, lex);
+	//{
+	//	printf("status of stdin after be opend:%c, fd:%d\n", (int)read(content->fd, NULL, 0), content->fd);
+//	}
 	if (!content->str || !content->type || content->fd == -1)
 	{
 		return (ft_exc_free_content((void *)content));
@@ -615,6 +617,7 @@ int	ft_executer_exec(t_input *input, char **env)
 	int	result;
 
 	result = 0;
+
 	dup2_with_error_check(input->in, STDIN_FILENO);
 	close(input->in);
 	dup2_with_error_check(input->out, STDOUT_FILENO);

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/15 11:47:18 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/15 12:22:17 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,15 +184,25 @@ void ft_echo(char    **input)
 int check_digit(char *str)
 {
 	size_t	i;
+	int		sign;
 
 	if (!str)
 		return (0);
 	i = 0;
+	sign = 0;
+	while (str[i] && str[i] == ' ')
+		i++;
 	while (str[i])
 	{
-		if (str[i] < '0' || str[i] > '9')
+		while (str[i] && (str[i] == '+' || str[i] == '-'))
+		{
+			sign += 1;
+			i++;
+		}
+		while (str[i] && (str[i] >= '0' && str[i] <= '9'))
+			i++;
+		if (str[i] || sign > 1)
 			return (0);
-		i++;
 	}
 	return (1);
 }
@@ -233,10 +243,12 @@ void ft_exit(char **input)
 
 	i = 0; 
 	ft_putstr_fd("exit\n", STDERR_FILENO);
-	if (!ft_get_proccess())
-		ft_save_history();
 	if (input && input[1] == NULL)
+	{
+		if (!ft_get_proccess())
+			ft_save_history();
 		ft_free_exit(input, ft_get_error());
+	}
 	if (input[1])
 	{
 		if(!check_digit(input[1])) 
@@ -246,6 +258,8 @@ void ft_exit(char **input)
 			ft_putstr_fd(input[1], STDERR_FILENO);
 			ft_putstr_fd(": numeric argument requiered\n", STDERR_FILENO);
 			ft_put_error(255);
+			if (!ft_get_proccess())
+				ft_save_history();
 			exit (255);
 		}
 		else if (input[2] != NULL)
@@ -259,6 +273,8 @@ void ft_exit(char **input)
 			ft_free_exit(input, i);
 		}	
 	}
+	if (!ft_get_proccess())
+		ft_save_history();
 	exit (ft_get_error());
 }
 
