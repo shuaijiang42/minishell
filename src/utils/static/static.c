@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/11 19:34:00 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:40:05 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_get_old_history(char **env, int *fd)
 
 int	ft_static_history(int fd_n, int i)
 {
-	static int	fd = 0;
+	static int	fd = -1;
 
 	if (!i)
 		fd = fd_n;
@@ -78,12 +78,12 @@ int	ft_static_proccess(int fd_n, int i)
 
 int	ft_get_proccess(void)
 {
-	return(ft_static_history(0, 1));
+	return(ft_static_proccess(0, 1));
 }
 
 void	ft_put_proccess(int n)
 {
-	ft_static_history(n, 0);
+	ft_static_proccess(n, 0);
 }
 
 /* t_static *init_struct(char **env)

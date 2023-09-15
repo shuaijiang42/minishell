@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/12 17:18:03 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:47:18 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,13 @@ void ft_cd(char *path)
 		path = ft_get_var("HOME");
 		if (!path)
 		{
-			printf("minishell: cd: HOME not set\n");
+			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
+			errno = 1;
 			ft_put_error(1);
 			return ;
 		}	
 		chdir(ft_get_var("HOME"));
-		printf("hi\n");
+	//	printf("hi\n");
 		update_dir_for_env(s);
 		update_dir_for_exp(s);
 		return ;
@@ -94,7 +95,10 @@ void ft_cd(char *path)
 	{
 		if (access(path, X_OK) == -1)
 		{
-			printf("minishell: cd: %s: Permission denied\n", path);
+			ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+			ft_putstr_fd(path, STDERR_FILENO);
+			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+			errno = 1;
 			ft_put_error(1);
 		}
 		else
@@ -107,7 +111,10 @@ void ft_cd(char *path)
 	}
 	else
 	{
-		printf("minishell: cd: %s: No such file or directory\n", path);
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putstr_fd("No such file or directory\n", STDERR_FILENO);
+		errno = 1;
 		ft_put_error(1);
 	}
 }
@@ -196,17 +203,41 @@ void ft_free_exit(char **input, int n)
 	exit (n);
 }
 
+void	save_and_clear(void *content)
+{
+	char *str;
+
+	str = (char *)content;
+	if (!str)
+		return ;
+	if (*str && (!((ft_get_history()) == STDIN_FILENO)))
+	{
+		ft_putstr_fd(str, ft_get_history());
+		ft_putstr_fd("\n", ft_get_history());
+	}
+	ft_free((void **)&str);
+	return ;
+}
+
+void	ft_save_history(void)
+{
+	t_list	*history;
+
+	history = (ft_get_static())->history;
+	ft_lstclear(&history, save_and_clear);
+}
+
 void ft_exit(char **input)
 {
 	int i;
 
 	i = 0; 
 	ft_putstr_fd("exit\n", STDERR_FILENO);
+	if (!ft_get_proccess())
+		ft_save_history();
 	if (input && input[1] == NULL)
-		ft_free_exit(input, 0);
-	if (input[2] != NULL)
-		ft_print_error("exit: too many arguments\n", 255);
-	else if (input[1])
+		ft_free_exit(input, ft_get_error());
+	if (input[1])
 	{
 		if(!check_digit(input[1])) 
 		{
@@ -215,6 +246,12 @@ void ft_exit(char **input)
 			ft_putstr_fd(input[1], STDERR_FILENO);
 			ft_putstr_fd(": numeric argument requiered\n", STDERR_FILENO);
 			ft_put_error(255);
+			exit (255);
+		}
+		else if (input[2] != NULL)
+		{
+			ft_print_error("exit: too many arguments", 1);
+			return ;
 		}
 		else
 		{
@@ -222,9 +259,6 @@ void ft_exit(char **input)
 			ft_free_exit(input, i);
 		}	
 	}
-	if (!ft_get_proccess())
-		printf("yeah closing!!\n");
-		//ft_save_history(ft_get_history());
 	exit (ft_get_error());
 }
 

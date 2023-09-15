@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 18:05:01 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 19:48:47 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:10:40 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,28 @@ int	get_var_index_env(char *var_name)
     }
 } */
 
+int	is_valid_option(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (!str)
+		return (1);
+	while (str[i])
+	{
+		if (!ft_isalpha(str[i]))
+		{
+			if (!ft_isdigit(str[i]))
+			{
+				if (str[i] != '_')
+					return (0);
+			}
+		}
+		i++;
+	}
+	return (1);
+}
+
 void	unset_var(char *var_name, int index, t_list *list)
 {
 	t_list *node_to_remove;
@@ -110,10 +132,24 @@ void    ft_unset(char **input)
 	if(input[i] == NULL)
 		return ;
 	while (input[i])
-	{		
+	{
+		if (!input[i][0])
+		{
+			ft_putstr_fd("minishell: unset: `': not a valid identifier\n", STDERR_FILENO);
+			errno = 1;
+			return ;
+		}
+		if (!is_valid_option(input[i]))
+		{
+			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			ft_putstr_fd(input[i], STDERR_FILENO);
+			ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
+			errno = 1;
+			return ;
+		}
 		index1 = get_var_index_env(input[i]);
 		index2 = get_var_index_exp(input[i]);
-		printf("2: %d\n", index2);
+		//printf("2: %d\n", index2);
 		if (index1 >= 0)
 			unset_var(input[i], index1, s->env);
 		if (index2 >= 0)

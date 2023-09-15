@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/12 16:36:09 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/15 11:39:45 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,17 @@ int shell_mode(char **env)
 	//atexit(leaks);
 	
 	ft_get_old_history(env, &fd_mini_history);
+	ft_put_history(fd_mini_history);
 	line = NULL;
 	signal(SIGINT, handler);
 	signal(SIGQUIT, quit_signal);
 	//if (s->shlvl)
+	history = NULL;
 	//	shlvl++;
+	ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup("")));
 	ft_put_static(init_static_struct(env));
 	s = ft_get_static();
-	history = s->history;
+	s->history = history;
 //	printf("%s\n", s->shlvl->content);
 	ft_copy_env(env);
 
@@ -144,9 +147,9 @@ int shell_mode(char **env)
 	//		write(STDERR_FILENO, "exit\n", 5);
 			ft_free((void *)&line);
 			//printf("this is the error:%d\n", ft_get_error());
-			return(ft_get_error());
+			ft_save_history();
+			exit(ft_get_error());
 		}
-		
 		add_history(line);
 		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		if (ft_check_argument(line) == 1)
@@ -157,7 +160,7 @@ int shell_mode(char **env)
 		else
 			ft_free((void *)&line);
 	}
-	return (ft_get_error());
+	exit(ft_get_error());
 }
 
 int	exc_mode(char *file, char **env)

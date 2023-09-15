@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/07 16:03:02 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:43:52 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	ft_parsing(char	*str)
 			ft_putstr_fd(str, STDERR_FILENO);
 			ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
 			//free;
+			errno = 1;
 			return (0);
 		}
 		i++;
@@ -260,19 +261,20 @@ void	ft_export(char **input)
 					if (!ft_strchr(old, '='))
 					{
 						add_new_var_env(var);
-						printf("add new var to env\n");
+					//	printf("add new var to env\n");
 					}
 					else
 					{
 						modify_env(var);
-						printf("modify env\n");
+					//	printf("modify env\n");
 					}	
 				}
 			}
 		}
 		else
 		{
-			errno = 2;
+			//errno = 2;
+			errno = 1;
 			return ;
 		}
 		i++;
