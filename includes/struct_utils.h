@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/07 17:12:59 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:23:44 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -79,5 +79,15 @@ typedef struct s_input{
 	int		out;
 	int		here;
 }				t_input;
+
+typedef struct s_dollar_len{
+	int		i;
+	int		j;
+	int		return_value;
+	char	*str;
+	char	*str2;
+	t_list	*tmp;
+	t_cmd	cmd;
+}				t_dollar_len;
 
 #endif
