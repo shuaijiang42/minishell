@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/15 19:08:09 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:58:56 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,61 @@ void    print_exp(void)
         temp = temp->next;
     }
 }
+
+int	error_parsing_export(char *str)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("export: `", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": not a valid identifier'\n", STDERR_FILENO);
+	//free i dkn what but free
+	errno = 1;
+	return (0);
+}
+
 /* Each argument for the export cmd can only contain alphanumeric character or '_' or '='
 	and the numeric characters and '=' can't be at the beginning of the argument*/
 int	ft_parsing(char	*str)
 {
 	int i;
+	int	vocal;
 
 	i = 0;
-	printf("this is the str:%s\n", str);
+	vocal = 0;
+	//printf("this is the str:%s\n", str);
+	if (*str == '=' || *str == '-')
+	{
+		error_parsing_export(str);
+		if (*str == '-')
+			errno = 3;
+		return (0);
+	}
+	while (str[i] && str[i] != '=')
+	{
+		if (str[i] == ' ')
+			return (error_parsing_export(str));
+		else if (!ft_isalpha(str[i]))
+		{
+			if (ft_isdigit(str[i]) && !vocal)
+				return (error_parsing_export(str));
+			else if (str[i] != '_')
+				return (error_parsing_export(str));
+		}
+		else if (ft_isalpha(str[i]))
+			vocal += 1;
+		i++;
+	}
+
+	/*
 	while (str[i])
 	{	
 		if ((!ft_isalnum((int)str[i])) 
 			&& ((i == 0 && str[i] != '_') || (i != 0 && str[i] != '=')))
 		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd("export: ", STDERR_FILENO);
-			ft_putstr_fd(str, STDERR_FILENO);
-			ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
-			//free;
-			errno = 1;
-			return (0);
 		}
 		i++;
 	}
+	*/
 	return (1);
 }
 
@@ -245,6 +277,8 @@ void	ft_export(char **input)
 		if (ft_parsing(input[i]) == 1)
 		{
 			var = ft_lexer(input[i])[0];
+			//here is the error with the export ft
+			//printf("the var is:%s, and the input is:%s\n", var, input[i]);
 			//hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee freeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 			old = var_existed(var);
 			if (!old)
@@ -273,8 +307,10 @@ void	ft_export(char **input)
 		}
 		else
 		{
-			//errno = 2;
-			errno = 1;
+			if (errno != 3)
+				errno = 1;
+			else
+				errno = 2;
 			return ;
 		}
 		i++;
