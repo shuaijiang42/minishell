@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/18 16:23:44 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:44:21 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -89,5 +89,15 @@ typedef struct s_dollar_len{
 	t_list	*tmp;
 	t_cmd	cmd;
 }				t_dollar_len;
+
+typedef struct s_get_next_command{
+	int			i;
+	int			command;
+	int			n_commands;
+	int			end;
+	int			return_status;
+	char		*str;
+	t_command	status;
+}				t_get_next_command;
 
 #endif
