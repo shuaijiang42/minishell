@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:30:13 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/06 19:49:04 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:01:02 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,13 +136,11 @@ void    add_list_and_sort(t_list **list, t_list *new)
 		return ;
     while (temp)
     {
-        /* printf("%d\n",len);
-         printf("%c\n",str[len]);
-        printf("%c\n",strnew[len]); */  
+      /*printf("%d\n",len);
+          printf("%c\n",str[len]);
+        printf("%c\n",strnew[len]); */ 
         if (ft_strncmp(str, strnew, len) == 0 && str[len]== '=' && strnew[len] == '=')
         {
-            /* printf("%s\n",str);
-            printf("%s\n",strnew); */
             ft_node_substitute(&(temp->next), &new);
             break ;
         }
@@ -153,7 +151,7 @@ void    add_list_and_sort(t_list **list, t_list *new)
         }
         temp = temp->next;
         if(!temp)   
-            ft_lstadd_back(list, new);
+            ft_lstadd_back(list, new); 
     } 
 }   
 

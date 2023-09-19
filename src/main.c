@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/15 20:14:10 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:03:34 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,42 +49,6 @@ void	*ft_print_error(char *str, int error)
 	return (NULL);
 }
 
-
-/* void	ft_shlvl_sum(void)
-{
-	char *var = "SHLVL";
-	t_static *s;
-	char *env_var;
-	size_t len;
-	
-	s = ft_get_static();
-	len = ft_strlen(var);
-	while (s->env)
-	{
-		env_var = s->env->content;
-		if(env_var && var && !ft_strncmp(env_var, var, len) 
-			&& env_var[ft_strlen(var)]== '=')
-		{
-			int number;
-			char	*str;
-			extern char **environ;
-
-			number = ft_atoi(env_var + len + 1);
-			number++;
-			str = ft_itoa(number);
-			s->shlvl->content = str;
-			//printf("%s\n", ft_lstnew(ft_strjoin("SHLVL=", str))->content);
-			add_list_and_sort(&(s->env), ft_lstnew(ft_strjoin("SHLVL=", str)));
-			environ[0] = ft_strdup(env_var + len + 1);
-			return ;
-		}
-		s->env = s->env->next;
-	}
-	return ;
-} */
-
-
-
 int shell_mode(char **env)
 {
 	char	*line;
@@ -101,18 +65,24 @@ int shell_mode(char **env)
 	line = NULL;
 	signal(SIGINT, handler);
 	signal(SIGQUIT, quit_signal);
-	//if (s->shlvl)
+	
 	history = NULL;
-	//	shlvl++;
+	
 	ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup("")));
 	ft_put_static(init_static_struct(env));
+	  for (int i = 0; env[i]; i++)
+    {
+            printf("env:%s\n" , env[i]);
+     }
 	s = ft_get_static();
 	s->history = history;
 //	printf("%s\n", s->shlvl->content);
 	ft_copy_env(env);
 
 	creat_exp_list(s);
-	add_list_and_sort(&(s->exp), ft_lstnew(ft_strjoin("declare -x ",s->shlvl->content)));
+
+	//add_list_and_sort(&(s->exp), ft_lstnew(ft_strjoin("declare -x ",s->shlvl->content)));
+	
 	//export_to_real_env(s);
 	//ft_shlvl_sum();
 	
@@ -177,7 +147,9 @@ int	exc_mode(char *file, char **env)
 	ft_copy_env(env);
 
 	creat_exp_list(s);
+	//printf("///////shlvl: %s\n", s->shlvl->content);
 	add_list_and_sort(&(s->exp), ft_lstnew(ft_strjoin("declare -x ",s->shlvl->content)));
+	//ft_export(s->shlvl->content);
 	ft_put_error(0);
 
 	errno = 0;

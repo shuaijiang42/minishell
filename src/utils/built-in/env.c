@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 18:04:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/06 19:59:47 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:16:39 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void    get_default_env(t_static *s)
     s->env= ft_lstnew(ft_strjoin("PWD=",getcwd(buf, sizeof(buf))));
 	add_list_and_sort(&(s->env),ft_lstnew(s->last_cmd->content));
 	add_list_and_sort(&(s->env),ft_lstnew(s->oldpwd->content));
-    add_list_and_sort(&(s->env),ft_lstnew(s->shlvl->content));
+    //add_list_and_sort(&(s->env),ft_lstnew(s->shlvl->content));
+    add_list_and_sort(&(s->env),ft_lstnew("SHLVL=1"));
 }
 void ft_copy_env(char **env)
 {
