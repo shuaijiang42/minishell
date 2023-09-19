@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/19 16:03:34 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:16:35 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,26 +70,15 @@ int shell_mode(char **env)
 	
 	ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup("")));
 	ft_put_static(init_static_struct(env));
-	  for (int i = 0; env[i]; i++)
-    {
-            printf("env:%s\n" , env[i]);
-     }
 	s = ft_get_static();
 	s->history = history;
-//	printf("%s\n", s->shlvl->content);
+
 	ft_copy_env(env);
 
 	creat_exp_list(s);
 
-	//add_list_and_sort(&(s->exp), ft_lstnew(ft_strjoin("declare -x ",s->shlvl->content)));
-	
-	//export_to_real_env(s);
-	//ft_shlvl_sum();
-	
 	ft_put_error(0);
-	//creat_exp_list(s);
 	flag = SHELL;
-	//ft_shlvl_sum();
 	while (1)
 	{
 		if (flag != 3)
@@ -130,6 +119,8 @@ int shell_mode(char **env)
 		else
 			ft_free((void *)&line);
 	}
+	/* printf("old: %s\n", s->oldpwd->content);
+    printf("last: %s\n", s->last_cmd->content); */
 	exit(ft_get_error());
 }
 
@@ -147,9 +138,6 @@ int	exc_mode(char *file, char **env)
 	ft_copy_env(env);
 
 	creat_exp_list(s);
-	//printf("///////shlvl: %s\n", s->shlvl->content);
-	add_list_and_sort(&(s->exp), ft_lstnew(ft_strjoin("declare -x ",s->shlvl->content)));
-	//ft_export(s->shlvl->content);
 	ft_put_error(0);
 
 	errno = 0;
@@ -193,6 +181,7 @@ int	main(int argc, char **argv, char **env)
 		return (shell_mode(env));
 	else 
 		return (exc_mode(argv[1], env));
+	
 }
 
 //This is a main to test the fuction add_list_and_sort

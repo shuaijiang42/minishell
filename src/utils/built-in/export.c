@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/18 16:08:47 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:22:24 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,6 @@ void	modify_env(char *str)
 	if (temp)
 		temp->content = str;
 }
-//char *ft_extract_str(char *input)
 
 void	ft_export(char **input)
 {

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:30:13 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/19 16:01:02 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:16:16 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,21 +124,15 @@ void    add_list_and_sort(t_list **list, t_list *new)
     strnew = NULL;
     temp = *list;
     str = (*list)->content;
-    //printf("str %s\n",str);
     if (new)
 	{
         strnew = new->content;
-        //printf("strnew %s\n",strnew);
         len = ft_var_len(strnew);
-        //printf("len %d\n",len);
     }    
     if (check_put_new_node_first(list, new) == 1)
 		return ;
     while (temp)
     {
-      /*printf("%d\n",len);
-          printf("%c\n",str[len]);
-        printf("%c\n",strnew[len]); */ 
         if (ft_strncmp(str, strnew, len) == 0 && str[len]== '=' && strnew[len] == '=')
         {
             ft_node_substitute(&(temp->next), &new);
