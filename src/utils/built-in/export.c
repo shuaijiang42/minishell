@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/18 14:58:56 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:22:24 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	error_parsing_export(char *str)
 	ft_putstr_fd("export: `", STDERR_FILENO);
 	ft_putstr_fd(str, STDERR_FILENO);
 	ft_putstr_fd(": not a valid identifier'\n", STDERR_FILENO);
-	//free i dkn what but free
+	//freee i dkn what but free
 	errno = 1;
 	return (0);
 }
@@ -276,10 +276,7 @@ void	ft_export(char **input)
 	{
 		if (ft_parsing(input[i]) == 1)
 		{
-			var = ft_lexer(input[i])[0];
-			//here is the error with the export ft
-			//printf("the var is:%s, and the input is:%s\n", var, input[i]);
-			//hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee freeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+			var =ft_strdup(input[i]);
 			old = var_existed(var);
 			if (!old)
 			{

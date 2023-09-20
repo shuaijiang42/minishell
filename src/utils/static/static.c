@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/15 11:40:05 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/19 16:19:53 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,88 +85,6 @@ void	ft_put_proccess(int n)
 {
 	ft_static_proccess(n, 0);
 }
-
-/* t_static *init_struct(char **env)
-{
-	t_static *s;
-	int			*i;
-	char buf[4096];
-	const char *pwd;
-	char *shlvl;
-
-	
-	s = NULL;
-    s = calloc(1, sizeof(*s));
-    if(!s)
-	{
-        perror("calloc: ");
-		return (NULL);
-	}
-	
-	i = malloc(sizeof(int));
-	if (!i)
-	{
-        perror("malloc: ");
-		return (NULL);
-	}
-	*i = 0;
-	s->error = ft_lstnew((void *)i);
-	s->history = NULL;
-	pwd = getcwd(buf, sizeof(buf));
-	s->pwd = ft_strdup(pwd);
-	s->shlvl = 1;
-	shlvl = ft_strjoin("SHLVL=", ft_itoa(s->shlvl));
-	
-	if (!env)
-	{
-		s->env = ft_lstnew(s->pwd);
-		ft_lstadd_back(&(s->env), ft_lstnew(shlvl));
-		ft_lstadd_back(&(s->env), ft_lstnew("_=./minishell"));
-		creat_exp_list(s);
-		return (s);
-	}
-    ft_copy_env(env);
-    creat_exp_list(s);
-	return (s);
-} */
-
-/*
-t_static *init_struct(char **env)
-{
-	t_static *s;
-	int			*i;
-	char buf[4096];
-
-	
-	s = NULL;
-    s = calloc(1, sizeof(*s));
-    if(!s)
-	{
-        perror("calloc: ");
-		return (NULL);
-	}
-	const char *pwd = getcwd(buf, sizeof(buf));
-	s->pwd->content = ft_strdup(pwd);
-    ft_copy_env(env);
-    creat_exp_list(s);
-	i = malloc(sizeof(int));
-	if (!i)
-	{
-        perror("malloc: ");
-		return (NULL);
-	}
-	*i = 0;
-	s->error = ft_lstnew((void *)i);
-	s->history = NULL;
-	s->here = dup(STDIN_FILENO);
-	if (s->here == -1)
-	{
-		perror("dup: ");
-		return (NULL);
-	}
-	return (s);
-}
-*/
 
 int	ft_get_error(void)
 {
