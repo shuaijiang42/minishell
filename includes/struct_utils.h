@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/18 17:44:21 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/20 19:00:16 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -99,5 +99,13 @@ typedef struct s_get_next_command{
 	char		*str;
 	t_command	status;
 }				t_get_next_command;
+
+typedef struct s_save_history{
+	t_list	*history;
+	t_list	*old_history;
+	int		fd;
+	char	**env;
+	int		len;
+}				t_save_history;
 
 #endif
