@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/20 16:24:27 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:28:08 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,30 +211,6 @@ void ft_free_exit(char **input, int n)
 {
 	ft_free_input(input);
 	exit (n);
-}
-
-void	save_and_clear(void *content)
-{
-	char *str;
-
-	str = (char *)content;
-	if (!str)
-		return ;
-	if (*str && (!((ft_get_history()) == STDIN_FILENO)))
-	{
-		ft_putstr_fd(str, ft_get_history());
-		ft_putstr_fd("\n", ft_get_history());
-	}
-	ft_free((void **)&str);
-	return ;
-}
-
-void	ft_save_history(void)
-{
-	t_list	*history;
-
-	history = (ft_get_static())->history;
-	ft_lstclear(&history, save_and_clear);
 }
 
 void ft_exit(char **input)
