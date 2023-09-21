@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 12:09:32 by shujiang          #+#    #+#             */
-/*   Updated: 2023/02/03 12:15:32 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:42:50 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 void	ft_putstr_fd(char *s, int fd)
 {
+	if (!s)
+		return ;
 	write (fd, s, ft_strlen(s));
 }

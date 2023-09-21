@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/19 16:22:24 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:34:40 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void	modify_env(char *str)
 	while(temp)
 	{
 		old = temp->content;
-		if(ft_strncmp(old, str, 5) == 0)
+		if(ft_strncmp(old, str, var_len(str)+1) == 0)
 			break ;
 		temp = temp->next;
 	}
@@ -297,7 +297,7 @@ void	ft_export(char **input)
 					else
 					{
 						modify_env(var);
-					//	printf("modify env\n");
+						printf("modify env, var: %s\n", var);
 					}	
 				}
 			}

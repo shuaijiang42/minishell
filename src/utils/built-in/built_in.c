@@ -6,179 +6,17 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/18 15:05:14 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/21 18:23:31 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-
-char *ft_get_var(char *var)
-{
-	t_static *s;
-	char *env_var;
-	size_t len;
-	t_list *temp; 
-	
-	s = ft_get_static();
-	len = ft_strlen(var);
-	temp = s->env;
-	while (temp)
-	{
-		env_var = temp->content;
-		if(env_var && var && !ft_strncmp(env_var, var, len) 
-			&& env_var[ft_strlen(var)]== '=')
-			return (env_var + len + 1);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
-void update_dir_for_exp(t_static *s)
-{
-	t_list  *oldpwd;
-	t_list	*old;
-	t_list	*new;
-	t_list	*new_oldpwd;
-	char buf[4096];
-
-	old = NULL;
-	new = ft_lstnew(ft_strjoin("declare -x PWD=", getcwd(buf, sizeof(buf))));
-	old = ft_locate_node(s->exp, "declare -x PWD");
-	new_oldpwd = ft_lstnew(ft_strjoin("declare -x OLD",old->content + 11));
-	oldpwd = ft_locate_node(s->exp, "declare -x OLDPWD");
-	ft_node_substitute(&oldpwd, &new_oldpwd);
-	ft_node_substitute(&old, &new);
-}
-
-void update_dir_for_env(t_static *s)
-{
-	t_list  *oldpwd;
-	t_list	*old;
-	t_list	*new;
-	t_list	*new_oldpwd;
-	char buf[4096];
-
-	old = NULL;
-	new = ft_lstnew(ft_strjoin("PWD=", getcwd(buf, sizeof(buf))));
-	old = ft_locate_node(s->env, "PWD");
-	new_oldpwd = ft_lstnew(ft_strjoin("OLD",old->content));
-	oldpwd = ft_locate_node(s->env, "OLDPWD");
-	ft_node_substitute(&oldpwd, &new_oldpwd);
-	ft_node_substitute(&old, &new);
-}
-
-void ft_cd(char *path)
-{
-	DIR *dir;
-	t_static *s;
-	
-	s = ft_get_static();
-	if (!path)
-	{
-		path = ft_get_var("HOME");
-		if (!path)
-		{
-			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
-			errno = 1;
-			ft_put_error(1);
-			return ;
-		}	
-		chdir(ft_get_var("HOME"));
-	//	printf("hi\n");
-		update_dir_for_env(s);
-		update_dir_for_exp(s);
-		return ;
-	}
-	dir = opendir(path);
-	if (dir)
-	{
-		if (access(path, X_OK) == -1)
-		{
-			ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-			ft_putstr_fd(path, STDERR_FILENO);
-			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
-			errno = 1;
-			ft_put_error(1);
-		}
-		else
-		{
-			chdir(path);
-			update_dir_for_env(s);
-			update_dir_for_exp(s);
-		}	
-		closedir(dir);
-	}
-	else
-	{
-		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-		ft_putstr_fd(path, STDERR_FILENO);
-		ft_putstr_fd("No such file or directory\n", STDERR_FILENO);
-		errno = 1;
-		ft_put_error(1);
-	}
-}
 
 void ft_pwd(void)
 {
 	char buf[4096];
 
 	printf("%s\n", getcwd(buf, sizeof(buf)));
-}
-
-int	check_only_n(char *str)
-{
-	int i;
-
-	i = 0;
-	if (str[i] != '-')
-		return (0);
-	i++;
-	while (str[i])
-	{
-		if (str[i] != 'n')
-			break ;
-		i++;
-	}
-	if (str[i] == '\0')
-	{
-		return (1);
-	}
-	return (0);	
-}
-
-void ft_echo(char    **input)
-{
-	int i;
-
-	i = 1;
-	if (input[i] == NULL)
-	{
-		printf("\n");
-		return ;
-	}
-	while (input[i] && check_only_n(input[i]))
-	{
-		free(input[i]);
-		input[i] = ft_strdup("-n");
-		i++;
-	}
-	i = 1;
-	while (ft_strcmp(input[i], "-n") == 0)
-	{
-		i++;
-		if (!input[i])
-			return ;		
-	}
-	while (input[i] && input[i + 1])
-	{
-		printf("%s ", input[i]);
-		i++;
-	}
-	if (ft_strcmp(input[1], "-n") == 0)
-		printf("%s", input[i]);
-	else
-		printf("%s\n", input[i]);
 }
 
 int check_digit(char *str)
@@ -300,6 +138,24 @@ int	ft_built_in(char **input)
 	return (true);
 }
 
+/* void ft_update_lstcmd(char **env)
+{
+    int i;
+    t_static *s;
+
+	s = ft_get_static(); 
+    i = 0;
+    while (env[i])
+    {
+        if (!ft_strncmp(env[i], "_=", 2))
+        {
+            s->last_cmd->content = ft_strdup(env[i]);
+            add_list_and_sort(&(s->env), ft_lstnew(s->last_cmd->content));
+        }
+        i++;
+    }
+} */
+
 int	ft_excuter(char **input, char **env)
 {
 	t_bool	built_in;
@@ -310,6 +166,7 @@ int	ft_excuter(char **input, char **env)
 	status = 0;
 	errno = 0;
 	built_in = ft_built_in(input);
+	//ft_update_lstcmd(env);
 	if (built_in == false)
 	{
 		flag = PROCCESS;

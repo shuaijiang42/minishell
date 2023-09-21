@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/09/05 15:34:36 by samusanc         ###   ########.fr        #
+#    Updated: 2023/09/21 18:16:52 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRCS	= $(MAIN) \
 		$(BUILT_IN)built_in.c \
 		$(BUILT_IN)unset.c \
 		$(BUILT_IN)env.c \
+		$(BUILT_IN)echo.c \
+		$(BUILT_IN)cd.c \
 		$(BUILT_IN)export.c \
 		$(BUILT_IN)list.c \
 		$(STATIC)static.c \
