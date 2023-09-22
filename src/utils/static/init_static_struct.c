@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:34:53 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/19 17:15:15 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/20 18:10:28 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void ft_update_shlvl(char **env)
         i++; 
     }
 }
+
 
 t_static *init_static_struct(char **env)
 {
