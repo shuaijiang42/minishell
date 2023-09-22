@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 15:53:02 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:49:41 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void    ft_remove_node(t_list *list, int index);
 void	ft_save_history(void);
 t_static *init_static_struct();
 
-//===================================executer=====================================//
+//============================================================================//
+//=================================EXECUTER===================================//
 int		ft_exc_execution(char *cmd, char **env);
 int		ft_error_exc_unexpected_token(int minor, int major, char first);
 void	ft_init_exc_lex(t_exc_lex *lex);
@@ -90,8 +91,20 @@ int		ft_exc_make_redir(char *cmd, t_input *line);
 int		ft_executer_exec(t_input *input, char **env);
 int		executer(char *cmd, t_input *input);
 //=============================================================================//
-
-void		ft_procces_maker(char *cmd, char **env);
+//============================PROCCESS_MAKER===================================//
+size_t	get_next_index_pipex(char *str);
+size_t	count_pipes(char *str);
+int		ft_first_child(char *cmd, int pipe[2]);
+void	ft_is_valid_in(int fd, t_input *input);
+int		ft_mid_child(char *cmd, int fd);
+void	ft_wait_all_children(int pid);
+int		ft_last_child(char *cmd, int fd);
+char	*ft_strndup(const char *s1, size_t n);
+char	*ft_get_cmd_pipex(char **cmd);
+void	pipex(char *cmd);
+void	ft_procces_maker(char *cmd, char **env);
+//=============================================================================//
+//=============================================================================//
 void		ft_get_old_history(char **env, int *fd);
 char        *get_var_info(char *var_name);
 
