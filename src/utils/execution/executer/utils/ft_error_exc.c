@@ -6,11 +6,20 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:15:16 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 16:15:32 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/22 18:00:08 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+void	*ft_error_make_list(t_list **result, t_exc_lex *lex, int error)
+{
+	ft_init_exc_lex(lex);
+	ft_exc_clear_content(result);
+	if (error)
+		ft_error_exc_unexpected_token(0, 0, 0);
+	return (NULL);
+}
 
 int	ft_error_exc_unexpected_token(int minor, int major, char first)
 {	

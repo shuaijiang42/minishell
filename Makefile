@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/09/22 16:11:33 by samusanc         ###   ########.fr        #
+#    Updated: 2023/09/22 18:13:20 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,13 +45,20 @@ SRCS	= $(MAIN) \
 		$(BUILT_IN)env.c \
 		$(BUILT_IN)export.c \
 		$(BUILT_IN)list.c \
-		$(STATIC)static.c \
-		$(STATIC)init_static_struct.c \
-		$(SIGNAL)signal.c \
+		$(STATIC)static.c				$(STATIC)init_static_struct.c	$(SIGNAL)signal.c \
 		 \
 		$(PRCS)proccess.c \
 		 \
 		$(EXC)executer.c \
+		$(EXC_U)cut_input.c				$(EXC_U)exc_chang_in.c \
+		$(EXC_U)exc_change_out_apd.c	$(EXC_U)exc_change_out_trc.c	$(EXC_U)exc_clear_content.c \
+		$(EXC_U)exc_free_content.c		$(EXC_U)exc_lex_word.c			$(EXC_U)exc_make_cmd.c \
+		$(EXC_U)exc_make_redir.c		$(EXC_U)exc_make_word.c			$(EXC_U)exc_new_node.c \
+		$(EXC_U)exc_open_fd.c			$(EXC_U)executer_exec.c			$(EXC_U)ft_check_char.c \
+		$(EXC_U)ft_check_dup_redir.c	$(EXC_U)ft_check_redirs.c		$(EXC_U)ft_error_exc.c \
+		$(EXC_U)ft_exc_execution.c		$(EXC_U)ft_init_exc.c			$(EXC_U)ft_status_redir.c \
+		$(EXC_U)ft_strlen2.c			$(EXC_U)get_redir.c				$(EXC_U)good_strjoin.c \
+		$(EXC_U)here_doc.c				$(EXC_U)lex_input.c				$(EXC_U)make_list.c \
 		 \
 		$(UTILS)Samu_GNL/get_next_line.c \
 		$(UTILS)Samu_GNL/get_next_line_utils.c \
