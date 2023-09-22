@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:14:38 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 15:15:14 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:21:02 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*ft_free_split_2(char ***split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (split[0][i])
