@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/20 16:20:49 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:53:02 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,38 @@ void    ft_remove_node(t_list *list, int index);
 void	ft_save_history(void);
 t_static *init_static_struct();
 
-int			ft_exc_make_redir(char *cmd, t_input *line);
-int			executer(char *cmd, t_input *input);
+//===================================executer=====================================//
+int		ft_exc_execution(char *cmd, char **env);
+int		ft_error_exc_unexpected_token(int minor, int major, char first);
+void	ft_init_exc_lex(t_exc_lex *lex);
+int		ft_check_parse_normal_char(t_exc_lex *lex, int *space);
+int		ft_check_parse_redirs(t_exc_lex *lex, int *space);
+int		ft_check_dup_redir(char *input);
+void	ft_put_status_redir(t_exc_lex *lex, char *input);
+size_t	ft_strlen2(char *str);
+char	*cut_input(char *str, int *i);
+int		ft_exc_here_doc(t_argument *content, t_exc_lex *lex);
+void	get_redir(t_argument *content);
+int		ft_exc_change_input(t_argument *content, t_exc_lex *lex);
+int		ft_exc_change_output_trc(t_argument *content, t_exc_lex *lex);
+int		ft_exc_change_output_apd(t_argument *content, t_exc_lex *lex);
+int		ft_exc_open_fd(t_argument *content, t_redir type, t_exc_lex *lex);
+void	*ft_exc_free_content(void *cnt_ptr);
+void	*ft_exc_clear_content(t_list **result);
+t_list	*ft_exc_new_node(char *argument, t_redir type, t_exc_lex *lex);
+char	*ft_exc_make_word(char *input);
+int		ft_exc_lex_word(t_list **result, t_exc_lex *lex);
+void	*ft_error_make_list(t_list **result, t_exc_lex *lex, int error);
+t_list	*ft_make_list(t_exc_lex *lex);
+void	*ft_not_closed_pipe(char **env);
+t_list	*ft_exc_lex_input(char *input, int std[2]);
+char	*ft_good_strjoin(char *s1, char*s2);
+char	*ft_exc_make_cmd(t_list **input);
+int		ft_exc_make_redir(char *cmd, t_input *line);
+int		ft_executer_exec(t_input *input, char **env);
+int		executer(char *cmd, t_input *input);
+//=============================================================================//
+
 void		ft_procces_maker(char *cmd, char **env);
 void		ft_get_old_history(char **env, int *fd);
 char        *get_var_info(char *var_name);
