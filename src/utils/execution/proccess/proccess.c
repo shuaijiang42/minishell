@@ -6,16 +6,15 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 18:00:01 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:01:58 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-
-static void proccess_pipex(char *cmd)
+static void	proccess_pipex(char *cmd)
 {
-	int pid;
+	int	pid;
 	int	status;
 
 	flag = PROCCESS;
@@ -32,7 +31,7 @@ static void proccess_pipex(char *cmd)
 
 static void	proccess_solo(char *cmd)
 {
-	int pid;
+	int		pid;
 	t_input	line;
 
 	pid = ft_exc_make_redir(cmd, &line);
