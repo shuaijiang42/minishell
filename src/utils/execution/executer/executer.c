@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 16:13:41 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 14:57:00 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	executer(char *cmd, t_input *input)
 {
-	int		cloud[2];
-	int		value;
-	char	**env;
-	t_static *s;
+	int			cloud[2];
+	int			value;
+	char		**env;
+	t_static	*s;
 
 	s = ft_get_static();
 	env = NULL;

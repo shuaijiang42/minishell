@@ -6,13 +6,13 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:02:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:03:13 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:15:31 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int ft_exc_make_redir(char *cmd, t_input *line)
+int	ft_exc_make_redir(char *cmd, t_input *line)
 {
 	int		std[2];
 	t_list	*input;
@@ -38,5 +38,3 @@ int ft_exc_make_redir(char *cmd, t_input *line)
 	line->cmd = ft_exc_make_cmd(&input);
 	return (0);
 }
-
-

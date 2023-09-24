@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 19:08:52 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:13:13 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		ft_exc_change_input(t_argument *content, t_exc_lex *lex);
 int		ft_exc_change_output_trc(t_argument *content, t_exc_lex *lex);
 int		ft_exc_change_output_apd(t_argument *content, t_exc_lex *lex);
 int		ft_exc_open_fd(t_argument *content, t_redir type, t_exc_lex *lex);
-void	*ft_exc_free_content(void *cnt_ptr);
+void	ft_exc_free_content(void *cnt_ptr);
 void	*ft_exc_clear_content(t_list **result);
 t_list	*ft_exc_new_node(char *argument, t_redir type, t_exc_lex *lex);
 char	*ft_exc_make_word(char *input);

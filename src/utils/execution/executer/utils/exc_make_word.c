@@ -6,13 +6,13 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 17:59:04 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 17:59:14 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:16:10 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-char *ft_exc_make_word(char *input)
+char	*ft_exc_make_word(char *input)
 {
 	int		i;
 	int		j;
@@ -36,5 +36,3 @@ char *ft_exc_make_word(char *input)
 	ft_free((void **)&str);
 	return (result);
 }
-
-

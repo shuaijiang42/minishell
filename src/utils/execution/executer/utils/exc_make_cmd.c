@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:02:28 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:02:41 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:14:41 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*ft_exc_make_cmd(t_list **input)
 {
-	char	*result;
-	char	*tmp1;
-	t_list	*ptr;
+	char		*result;
+	char		*tmp1;
+	t_list		*ptr;
 	t_argument	*tmp2;
 
 	result = NULL;
@@ -39,5 +39,3 @@ char	*ft_exc_make_cmd(t_list **input)
 	ft_exc_clear_content(input);
 	return (result);
 }
-
-
