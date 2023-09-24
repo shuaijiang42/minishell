@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 15:23:10 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:29:39 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int		ft_executer_exec(t_input *input, char **env);
 int		executer(char *cmd, t_input *input);
 //=============================================================================//
 //============================PROCCESS_MAKER===================================//
+int		pipex_error_make_redir(int pipe[2]);
 size_t	get_next_index_pipex(char *str);
 size_t	count_pipes(char *str);
 int		ft_first_child(char *cmd, int pipe[2]);
