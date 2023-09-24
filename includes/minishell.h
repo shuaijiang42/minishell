@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 15:13:13 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:23:10 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_static *init_static_struct();
 //============================================================================//
 //=================================EXECUTER===================================//
 int		ft_exc_execution(char *cmd, char **env);
-int		ft_error_exc_unexpected_token(int minor, int major, char first);
+int		err_unexpected(int minor, int major, char first);
 void	ft_init_exc_lex(t_exc_lex *lex);
 int		ft_check_parse_normal_char(t_exc_lex *lex, int *space);
 int		ft_check_parse_redirs(t_exc_lex *lex, int *space);

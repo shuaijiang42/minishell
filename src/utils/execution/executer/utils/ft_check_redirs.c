@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:17:58 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 16:18:11 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:28:22 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_check_parse_redirs(t_exc_lex *lex, int *space)
 {
 	if (*space)
-		return (ft_error_exc_unexpected_token(lex->minor, lex->major, 'A'));
+		return (err_unexpected(lex->minor, lex->major, 'A'));
 	if (lex->input[lex->i] == '<' && !lex->major)
 	{
 		if (!lex->redirs)
@@ -24,7 +24,7 @@ int	ft_check_parse_redirs(t_exc_lex *lex, int *space)
 		lex->redirs += 1;
 	}
 	else if (lex->input[lex->i] == '<' && lex->major)
-		return (ft_error_exc_unexpected_token(lex->minor, lex->major, lex->first));
+		return (err_unexpected(lex->minor, lex->major, lex->first));
 	if (lex->input[lex->i] == '>' && !lex->minor)
 	{
 		if (!lex->redirs)
@@ -33,8 +33,8 @@ int	ft_check_parse_redirs(t_exc_lex *lex, int *space)
 		lex->redirs += 1;
 	}
 	else if (lex->input[lex->i] == '>' && lex->minor)
-		return (ft_error_exc_unexpected_token(lex->minor, lex->major, lex->first));
+		return (err_unexpected(lex->minor, lex->major, lex->first));
 	if (lex->major > 2 || lex->minor > 2 || lex->redirs > 2)
-		return (ft_error_exc_unexpected_token(lex->minor, lex->major, lex->first));
+		return (err_unexpected(lex->minor, lex->major, lex->first));
 	return (0);
 }

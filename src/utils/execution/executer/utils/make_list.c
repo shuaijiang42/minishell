@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:00:23 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:00:42 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:34:42 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,5 @@ t_list	*ft_make_list(t_exc_lex *lex)
 	}
 	if (lex->status)
 		return (ft_error_make_list(&result, lex, 1));
-	return(result);
+	return (result);
 }

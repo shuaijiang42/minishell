@@ -6,15 +6,15 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:14:28 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 16:14:45 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:30:03 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int		ft_exc_execution(char *cmd, char **env)
+int	ft_exc_execution(char *cmd, char **env)
 {
-	char **input;
+	char	**input;
 
 	if (!cmd)
 		return (0);

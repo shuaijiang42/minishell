@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:01:56 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:02:03 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:31:49 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,3 @@ char	*ft_good_strjoin(char *s1, char*s2)
 	*str = '\0';
 	return (ret);
 }
-
-

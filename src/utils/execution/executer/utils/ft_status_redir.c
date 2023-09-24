@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:19:46 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 16:19:59 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:30:51 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_put_status_redir(t_exc_lex *lex, char *input)
 			else
 				lex->status = hre;
 		}
-		else 
+		else
 		{
 			if (lex->status == non)
 				lex->status = trc;

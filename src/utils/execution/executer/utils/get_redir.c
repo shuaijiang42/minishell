@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:25:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 16:26:10 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:31:35 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	get_redir(t_argument *content)
 {
-	char *str;
+	char	*str;
 	int		i;
 
 	i = 0;

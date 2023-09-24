@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:01:34 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:01:42 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:32:25 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,3 @@ t_list	*ft_exc_lex_input(char *input, int std[2])
 	std[1] = lex.out;
 	return (result);
 }
-
-

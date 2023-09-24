@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:18:35 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 16:18:47 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 15:20:58 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,3 @@ int	ft_check_dup_redir(char *input)
 	}
 	return (0);
 }
-
