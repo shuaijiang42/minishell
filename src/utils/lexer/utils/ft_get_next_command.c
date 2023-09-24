@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:10:48 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/18 18:31:32 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:06:07 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,16 @@ static int	get_next_return_util(t_get_next_command *cmd, int x);
 static int	loop_get_next_cmd(t_get_next_command *cmd);
 int			ft_get_next_command(char *str);
 
-//			ft_get_next_command
-//		return values:
-//		-4 if the command is empty
-//		-3 if is the last or only command
-//		-2 if is one pipe open
-//		-1 if the quotes is no closed
-//		(other value) index of the next command in the array
-int ft_get_next_command(char *str)
+/*
+			ft_get_next_command
+		return values:
+		-4 if the command is empty
+		-3 if is the last or only command
+		-2 if is one pipe open
+		-1 if the quotes is no closed
+		(other value) index of the next command in the array
+*/
+int	ft_get_next_command(char *str)
 {
 	t_get_next_command	cmd;
 
@@ -66,7 +68,7 @@ static int	errors_get_next_cmd(int x, t_get_next_command *cmd, int n)
 static int	init_get_next_command(char *str, t_get_next_command *cmd)
 {
 	if (!str)
-		return (errors_get_next_cmd(0, cmd, -1));//-1
+		return (errors_get_next_cmd(0, cmd, -1));
 	cmd->str = str;
 	cmd->status.dollar = funtional;
 	cmd->status.simple_q = q_close;
@@ -79,11 +81,11 @@ static int	init_get_next_command(char *str, t_get_next_command *cmd)
 	while (cmd->str[cmd->i] == ' ')
 		cmd->i += 1;
 	if (cmd->str[cmd->i] == '|')
-		return (errors_get_next_cmd(1, cmd, -1));//-1
+		return (errors_get_next_cmd(1, cmd, -1));
 	if (str[cmd->i])
 		cmd->status.status = q_open;
 	else
-		return (errors_get_next_cmd(0, cmd, -4));//-1
+		return (errors_get_next_cmd(0, cmd, -4));
 	return (0);
 }
 
@@ -98,10 +100,11 @@ static int	get_next_return_util(t_get_next_command *cmd, int x)
 	}
 	else
 	{
-		if (!cmd->str[cmd->i] && cmd->status.simple_q == q_close && cmd->status.double_q == q_close)
+		if (!cmd->str[cmd->i] && cmd->status.simple_q == q_close && \
+		cmd->status.double_q == q_close)
 			cmd->status.status = q_close;
 		if (cmd->status.status == q_open)
-			return (errors_get_next_cmd(2, cmd, -1));//-1
+			return (errors_get_next_cmd(2, cmd, -1));
 		return (-3);
 	}
 }

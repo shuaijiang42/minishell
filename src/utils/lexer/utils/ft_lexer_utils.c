@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:54:51 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 17:56:03 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 18:25:49 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ft_lexer_fill_str(char *str, char **str2)
 	while (!j && str[i])
 	{
 		j = ft_check_char(&cmd, str[i]);
-		//printf("[%d] = '%c', j = %d\n", i, str[i], j);
 		if (j == 2)
 			str2[0][x++] = str[i];
 		if (j == 4)
@@ -41,7 +40,6 @@ void	ft_lexer_fill_str(char *str, char **str2)
 		while (str[i] && j > 0)
 		{
 			j = ft_check_char(&cmd, str[i]);
-			//printf("[%d] = '%c', j = %d\n", i, str[i], j);
 			if (j == 2)
 				str2[0][x++] = str[i];
 			if (j == 4)
@@ -50,6 +48,7 @@ void	ft_lexer_fill_str(char *str, char **str2)
 		}
 	}
 }
+// debugg string: printf("[%d] = '%c', j = %d\n", i, str[i], j);
 
 int	ft_lexer_get_next_argument(char *str)
 {
