@@ -6,18 +6,35 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:23:40 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 16:25:30 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:06:52 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-/*
-static	ft_here_doc_owo()
+static void	ft_here_doc_owo(t_argument *content, int pipes[2])
 {
+	char	*str;
 
+	flag = HERE;
+	content->str = cut_input(content->str, NULL);
+	str = readline("> ");
+	if (!str)
+		exit (0);
+	while (1)
+	{
+		if (!ft_strncmp(content->str, str, ft_strlen2(content->str) + 1))
+			exit(1);
+		ft_putstr_fd(str, pipes[1]);
+		write(pipes[1], "\n", 1);
+		free(str);
+		str = readline("> ");
+		if (!str)
+			exit (0);
+	}
+	free(str);
+	exit(0);
 }
-*/
 
 int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 {
@@ -30,28 +47,7 @@ int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 	content->type = ft_strdup("hre");
 	pid = fork();
 	if (!pid)
-	{
-		char	*str;
-
-		flag = HERE;
-		content->str = cut_input(content->str, NULL);
-		str = readline("> ");
-		if (!str)
-			exit (0);
-		while (1)
-		{
-			if (!ft_strncmp(content->str, str, ft_strlen2(content->str) + 1))
-				exit(1);
-			ft_putstr_fd(str, pipes[1]);
-			write(pipes[1], "\n", 1);
-			free(str);
-			str = readline("> ");
-			if (!str)
-				exit (0);
-		}
-		free(str);
-		exit(0);
-	}
+		ft_here_doc_owo(content, pipes);
 	waitpid(pid, &status, 0);
 	flag = PROCCESS;
 	if (WEXITSTATUS(status) == 2)
