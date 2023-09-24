@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:55:32 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:55:46 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:24:23 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,3 @@ char	*ft_strndup(const char *s1, size_t n)
 		str[i++] = s1[j++];
 	return (str);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:56:09 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:56:25 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:24:37 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,3 @@ char	*ft_get_cmd_pipex(char **cmd)
 	*cmd += get_next_index_pipex(*cmd);
 	return (str);
 }
-
-

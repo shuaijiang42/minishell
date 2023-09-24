@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:51:15 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:51:28 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:24:59 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 size_t	get_next_index_pipex(char *str)
 {
-	int	j;
-	int	i;
-	int	n;
+	int		j;
+	int		i;
+	int		n;
 	t_cmd	cmd;
 
 	j = 4;

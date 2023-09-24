@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:52:51 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/22 18:53:08 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:25:19 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	ft_is_valid_in(int fd, t_input *input)
 		dup2_with_error_check(input->in, pipes[0]);
 		return ;
 	}
-	//exit(0);
 	dup2_with_error_check(fd, input->in);
 	return ;
 	(void)pipes;
