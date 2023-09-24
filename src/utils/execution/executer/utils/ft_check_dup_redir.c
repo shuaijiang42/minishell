@@ -6,13 +6,13 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:18:35 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 16:18:44 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:21:51 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static int loop_check_dup(t_exc_lex *lex, char *input, int *space)
+static int	loop_check_dup(t_exc_lex *lex, char *input, int *space)
 {
 	lex->j = ft_check_char(&lex->cmd, input[lex->i]);
 	if (!lex->j || lex->j == -1)
@@ -26,12 +26,12 @@ static int loop_check_dup(t_exc_lex *lex, char *input, int *space)
 	}
 	else
 	{
-		if(ft_check_parse_normal_char(lex, space) == -1)
+		if (ft_check_parse_normal_char(lex, space) == -1)
 			return (-1);
 	}
 	if (lex->j == -1 && (input[lex->i] == '<' || input[lex->i] == '>'))
 	{
-		if(ft_check_parse_redirs(lex, space) == -1)
+		if (ft_check_parse_redirs(lex, space) == -1)
 			return (-1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 16:23:40 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 16:06:52 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:22:10 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_exc_here_doc(t_argument *content, t_exc_lex *lex)
 	int		pid;
 	int		status;
 
-	if(pipe(pipes))
+	if (pipe(pipes))
 		exit(errno);
 	content->type = ft_strdup("hre");
 	pid = fork();

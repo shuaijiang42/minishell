@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/24 15:50:47 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 16:21:01 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -108,8 +108,4 @@ typedef struct s_save_history{
 	int		len;
 }				t_save_history;
 
-typedef struct s_check_dup{
-	t_exc_lex	lex;
-	int			space;
-}				t_check_dup;
 #endif
