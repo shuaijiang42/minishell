@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/21 18:23:31 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:09:38 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,25 @@ void	ft_save_history(void)
 	ft_lstclear(&history, save_and_clear);
 }
 
+void exit_with_no_argc(char **input)
+{
+	if (!ft_get_proccess())
+			ft_save_history();
+		ft_free_exit(input, ft_get_error());
+}
+
+void not_numeric_error(char *str)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd("exit: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": numeric argument requiered\n", STDERR_FILENO);
+	ft_put_error(255);
+	if (!ft_get_proccess())
+		ft_save_history();
+	exit (255);
+}
+
 void ft_exit(char **input)
 {
 	int i;
@@ -82,24 +101,11 @@ void ft_exit(char **input)
 	i = 0; 
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (input && input[1] == NULL)
-	{
-		if (!ft_get_proccess())
-			ft_save_history();
-		ft_free_exit(input, ft_get_error());
-	}
+		exit_with_no_argc(input);
 	if (input[1])
 	{
 		if(!check_digit(input[1])) 
-		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd("exit: ", STDERR_FILENO);
-			ft_putstr_fd(input[1], STDERR_FILENO);
-			ft_putstr_fd(": numeric argument requiered\n", STDERR_FILENO);
-			ft_put_error(255);
-			if (!ft_get_proccess())
-				ft_save_history();
-			exit (255);
-		}
+			not_numeric_error(input[1]);
 		else if (input[2] != NULL)
 		{
 			ft_print_error("exit: too many arguments", 1);

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/21 19:35:37 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:07:40 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ int	error_parsing_export(char *str)
 	return (0);
 }
 
+int	error_ft_parsing(char *str)
+{
+		error_parsing_export(str);
+		if (*str == '-')
+			errno = 3;
+		return (0);
+}
+
 /* Each argument for the export cmd can only contain alphanumeric character or '_' or '='
 	and the numeric characters and '=' can't be at the beginning of the argument*/
 int	ft_parsing(char	*str)
@@ -73,12 +81,7 @@ int	ft_parsing(char	*str)
 	i = 0;
 	vocal = 0;
 	if (*str == '=' || *str == '-')
-	{
-		error_parsing_export(str);
-		if (*str == '-')
-			errno = 3;
-		return (0);
-	}
+		return (error_ft_parsing(str));
 	while (str[i] && str[i] != '=')
 	{
 		if (str[i] == ' ')
