@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/09/22 19:21:33 by samusanc         ###   ########.fr        #
+#    Updated: 2023/09/24 19:49:56 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ SRCS	= $(MAIN) \
 		$(UTILS)Samu_GNL/get_next_line.c \
 		$(UTILS)Samu_GNL/get_next_line_utils.c \
 		$(UTILS)history/ft_history.c \
+		$(UTILS)history/save_history.c \
 		 \
 		$(LEX)holaaaa.c \
 		$(LEX_U)utils.c					$(LEX_U)count_arguments.c		$(LEX_U)dollar_delimiter.c \

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/24 18:22:31 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:09:33 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef STRUCT_UTILS_H
@@ -114,7 +114,7 @@ typedef struct s_lexer_len{
 	int		i;
 	int		j;
 	int		x;
-	char	*str;
 }				t_lexer_len;
 
+void		init_lexer_len(t_lexer_len *len);
 #endif

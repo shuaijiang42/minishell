@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 16:29:39 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/24 20:14:23 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,16 @@ void	creat_exp_list(t_static *s);
 void    handler(int signal);
 void    ft_remove_node(t_list *list, int index);
 
-
+//============================================================================//
+//=================================HISTORY====================================//
+int		len_2_fill(int x, int new);
+void	save_and_clear(void *content);
+char	*ft_get_history_path(char **env);
+void	ft_save_history_in_list(int fd, t_list **list);
+int		fd_old_history_4_list(char **env, t_save_history *his);
 void	ft_save_history(void);
+//=============================================================================//
+//=============================================================================//
 t_static *init_static_struct();
 
 //============================================================================//
