@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 18:05:01 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/13 16:10:40 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:23:40 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,37 @@ void	unset_var(char *var_name, int index, t_list *list)
 	ft_remove_node(list, index);
 }
 
-void    ft_unset(char **input)
+void	not_valid_iden_error(char *str)
 {
-	int i;
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(str, STDERR_FILENO);
+	ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
+	errno = 1;
+}
+
+void	ft_unset_var(char *var)
+{
 	int index1;
 	int index2;
 	t_static *s;
 
 	s = ft_get_static();
+	index1 = get_var_index_env(var);
+	index2 = get_var_index_exp(var);
+	if (index1 >= 0)
+		unset_var(var, index1, s->env);
+	if (index2 >= 0)
+		unset_var(var, index2, s->exp);
+}
+
+void    ft_unset(char **input)
+{
+	int i;
+	/* int index1;
+	int index2;
+	t_static *s;
+
+	s = ft_get_static(); */
 	i = 1;
 	if(input[i] == NULL)
 		return ;
@@ -141,19 +164,20 @@ void    ft_unset(char **input)
 		}
 		if (!is_valid_option(input[i]))
 		{
-			ft_putstr_fd("minishell: ", STDERR_FILENO);
+			not_valid_iden_error(input[i]);
+			/* ft_putstr_fd("minishell: ", STDERR_FILENO);
 			ft_putstr_fd(input[i], STDERR_FILENO);
 			ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
-			errno = 1;
+			errno = 1; */
 			return ;
 		}
-		index1 = get_var_index_env(input[i]);
+		ft_unset_var(input[i]);
+		/* index1 = get_var_index_env(input[i]);
 		index2 = get_var_index_exp(input[i]);
-		//printf("2: %d\n", index2);
 		if (index1 >= 0)
 			unset_var(input[i], index1, s->env);
 		if (index2 >= 0)
-			unset_var(input[i], index2, s->exp);
+			unset_var(input[i], index2, s->exp); */
 		i++;	
 	}	
 }

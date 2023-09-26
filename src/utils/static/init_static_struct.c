@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:34:53 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/20 18:10:28 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:34:37 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,27 @@ void ft_update_shlvl(char **env)
     }
 }
 
+t_static *ft_setup_struct(char **env, t_static *s)
+{
+	
+	if (s->here == -1)
+	{
+		perror("dup: ");
+		return (NULL);
+	}
+    if (!(*env))
+    {
+        s->oldpwd = ft_lstnew("OLDPWD");
+        s->last_cmd = ft_lstnew("_=./minishell");
+    }
+    else
+    {   
+        ft_update_shlvl(env);
+        s->oldpwd = ft_lstnew(ft_get_info_from_env(env, "OLDPWD="));
+        s->last_cmd = ft_lstnew(ft_get_info_from_env(env, "_="));
+    }
+    return (s);
+}
 
 t_static *init_static_struct(char **env)
 {
@@ -77,14 +98,17 @@ t_static *init_static_struct(char **env)
 		return (NULL);
 	}
 	*i = 0;
-	s->error = ft_lstnew((void *)i);
+    s->error = ft_lstnew((void *)i);
+    s->pwd = ft_lstnew((void *)getcwd(pwd, sizeof(pwd)));
+    s->here = dup(STDIN_FILENO);
+	/* s->error = ft_lstnew((void *)i);
     s->pwd = ft_lstnew((void *)getcwd(pwd, sizeof(pwd)));
 	s->here = dup(STDIN_FILENO);
 	if (s->here == -1)
 	{
 		perror("dup: ");
 		return (NULL);
-	} 
+	}
     if (!(*env))
     {
         s->oldpwd = ft_lstnew("OLDPWD");
@@ -95,9 +119,8 @@ t_static *init_static_struct(char **env)
         ft_update_shlvl(env);
         s->oldpwd = ft_lstnew(ft_get_info_from_env(env, "OLDPWD="));
         s->last_cmd = ft_lstnew(ft_get_info_from_env(env, "_="));
-        /* printf("old: %s\n", s->oldpwd->content);
-        printf("last: %s\n", s->last_cmd->content); */
-    }
-    return (s);
+    } */
+    //return (s);
+    return (ft_setup_struct(env,s));
 }
    

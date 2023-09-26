@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:30:13 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/19 17:16:16 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:28:09 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,27 +113,51 @@ int   check_put_new_node_first(t_list **list, t_list *new)
 
 //len = ft_var_len(insert) + 1; check until '='
 //add or substitute and sort
-void    add_list_and_sort(t_list **list, t_list *new)
+
+int    ft_substitute_or_insert(t_list **list, t_list *temp, t_list *new)
 {
     int  len;
-    t_list *temp;
+   
     char *str;
     char *strnew;
-    
-    len = 0;
-    strnew = NULL;
-    temp = *list;
+
     str = (*list)->content;
-    if (new)
+    strnew = new->content;
+
+    len = ft_var_len(strnew);
+    if (ft_strncmp(str, strnew, len) == 0 && str[len]== '=' && strnew[len] == '=')
+    {
+        ft_node_substitute(&(temp->next), &new);
+        return (1);
+    }   
+    if (temp->next && ft_strcmp(temp->next->content, new->content) > 0)
+    {
+        ft_front_insert(&temp, &new);
+        return (1);
+    }
+    return (0);
+}
+void    add_list_and_sort(t_list **list, t_list *new)
+{
+    //int  len;
+    t_list *temp;
+    //char *str;
+    //char *strnew;
+    
+    //len = 0;
+    //strnew = NULL;
+    temp = *list;
+    //str = (*list)->content;
+    /* if (new)
 	{
         strnew = new->content;
         len = ft_var_len(strnew);
-    }    
+    }    */ 
     if (check_put_new_node_first(list, new) == 1)
 		return ;
     while (temp)
     {
-        if (ft_strncmp(str, strnew, len) == 0 && str[len]== '=' && strnew[len] == '=')
+       /*  if (ft_strncmp(str, strnew, len) == 0 && str[len]== '=' && strnew[len] == '=')
         {
             ft_node_substitute(&(temp->next), &new);
             break ;
@@ -142,9 +166,11 @@ void    add_list_and_sort(t_list **list, t_list *new)
         {
             ft_front_insert(&temp, &new);
             break ;
-        }
+        } */
+        if (ft_substitute_or_insert(list, temp, new))
+            break ;
         temp = temp->next;
-        if(!temp)   
+        if (!temp)   
             ft_lstadd_back(list, new); 
     } 
 }   
@@ -187,29 +213,3 @@ char **list_to_matrix(t_list *list)
     i = 0;
     return (matrix);
 }
-
-/* int main()
-{
-    t_list *list;
-    char pwd[4096];
-
-    t_list *temp;
-
-    getcwd(pwd, sizeof(pwd));
-    list = malloc(sizeof(t_list));
-    list = ft_lstnew(ft_strjoin("PWD=",pwd));
-	add_list_and_sort(&list, ft_lstnew("Bpple="));
-    add_list_and_sort(&list, ft_lstnew("_=./minishell"));
-    add_list_and_sort(&list, ft_lstnew("SHLVL=1"));
-	add_list_and_sort(&list, ft_lstnew("Aanana"));
-	add_list_and_sort(&list, ft_lstnew("Bpple=9"));
-	
-    
-    temp = list;
-    while(temp)
-    {
-        printf("%s\n", temp->content);
-        temp = temp->next;
-    }
-    return (0);
-} */
