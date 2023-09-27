@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:51:34 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/27 15:40:29 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:11:20 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,36 @@ int	check_only_n(char *str)
 	return (0);
 }
 
-int	ft_print_holder(char **input, int i)
+int	ft_echo_no_argv(char **input)
 {
-	if (input[i] == NULL)
+	if (input[1] == NULL)
 	{
 		printf("\n");
 		return (1);
 	}
+	return (0);
+}
+void	ft_print_holder(char **input, int i)
+{
 	if (ft_strcmp(input[1], "-n") == 0)
 		printf("%s", input[i]);
 	else
 		printf("%s\n", input[i]);
-	return (0);
-}
+}	
+	
 
 void	ft_echo(char **input)
 {
 	int	i;
 
 	i = 1;
+	if (ft_echo_no_argv(input))
+		return ;
 	/* if (input[i] == NULL)
 	{
 		printf("\n");
 		return ;
 	} */
-	if (!ft_print_holder(input, i))
-		return ;
 	while (input[i] && check_only_n(input[i]))
 	{
 		free(input[i]);
