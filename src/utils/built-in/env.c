@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 18:04:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/20 18:13:31 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/26 17:45:41 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void ft_copy_env(char **env)
     s->env = ft_lstnew(env[0]);
     while (env[i])
     {
-        //printf("env: %s\n", env[i]);
         add_list_and_sort(&(s->env), ft_lstnew(env[i]));
         i++;
     }
@@ -63,24 +62,6 @@ void    print_env_cpy(void)
         temp = temp->next;
     }
 }
-
-/* ft_update_lstcmd(char **env)
-{
-    int i;
-    t_static *s;
-
-	s = ft_get_static(); 
-    i = 0;
-    while (env[i])
-    {
-        if (!ft_strncmp(env[i], "_=", 2))
-        {
-            s->last_cmd->content = ft_strdup(env[i]);
-            add_list_and_sort(&(s->env), ft_lstnew(s->last_cmd->content));
-        }
-        i++;
-    }
-} */
 
 void    ft_env(char **input)
 {

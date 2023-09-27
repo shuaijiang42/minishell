@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/21 18:18:03 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/26 18:10:09 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,27 @@ t_list  *ft_locate_node(t_list *list, char *var_name);
 void    ft_node_substitute(t_list **old, t_list **new);
 char    **list_to_matrix(t_list *list);
 
-
+/* Built-in */
+void	ft_pwd(void);
+void ft_cd(char *path);
+void	ft_exit(char **input);
+int	get_var_index_env(char *var_name);
+void	ft_unset_var(char *var);
+int	is_valid_option(char *str);
+void	not_valid_iden_error(char *str);
+int	get_var_index_exp(char *var_name);
+void	unset_var(char *var_name, int index, t_list *list);
+void ft_err_msg(char *s1, char *path, char *s2);
+void ft_go_somewhere(t_static *s, char *somewhere);
+int var_len(char *str);
+char	*var_existed(char *str);
+void add_new_var_env(char *str);
+void add_new_var_exp(char *str);
+int ft_var_len(char *var);
+void    ft_front_insert(t_list** front_node, t_list **new);
+void	ft_print_int(int n, int *print_len);
+void	not_numeric_error(char *str);
+void	exit_with_no_argc(char **input);
+void	ft_free_exit(char **input, int n);
 
 #endif

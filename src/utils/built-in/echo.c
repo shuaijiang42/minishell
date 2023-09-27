@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:51:34 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/21 17:52:09 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:40:29 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_only_n(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[i] != '-')
@@ -27,22 +27,36 @@ int	check_only_n(char *str)
 		i++;
 	}
 	if (str[i] == '\0')
-	{
 		return (1);
-	}
-	return (0);	
+	return (0);
 }
 
-void ft_echo(char    **input)
+int	ft_print_holder(char **input, int i)
 {
-	int i;
-
-	i = 1;
 	if (input[i] == NULL)
 	{
 		printf("\n");
-		return ;
+		return (1);
 	}
+	if (ft_strcmp(input[1], "-n") == 0)
+		printf("%s", input[i]);
+	else
+		printf("%s\n", input[i]);
+	return (0);
+}
+
+void	ft_echo(char **input)
+{
+	int	i;
+
+	i = 1;
+	/* if (input[i] == NULL)
+	{
+		printf("\n");
+		return ;
+	} */
+	if (!ft_print_holder(input, i))
+		return ;
 	while (input[i] && check_only_n(input[i]))
 	{
 		free(input[i]);
@@ -54,15 +68,16 @@ void ft_echo(char    **input)
 	{
 		i++;
 		if (!input[i])
-			return ;		
+			return ;
 	}
 	while (input[i] && input[i + 1])
 	{
 		printf("%s ", input[i]);
 		i++;
 	}
-	if (ft_strcmp(input[1], "-n") == 0)
+	ft_print_holder(input, i);
+	/* if (ft_strcmp(input[1], "-n") == 0)
 		printf("%s", input[i]);
 	else
-		printf("%s\n", input[i]);
+		printf("%s\n", input[i]); */
 }

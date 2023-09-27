@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/09/21 18:16:52 by shujiang         ###   ########.fr        #
+#    Updated: 2023/09/27 15:14:50 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,20 @@ SRCS	= $(MAIN) \
 		$(UTILS)pipex/error_handling.c \
 		$(UTILS)pipex/main.c \
 		$(BUILT_IN)built_in.c \
-		$(BUILT_IN)unset.c \
+		$(BUILT_IN)built_in_utiles.c \
 		$(BUILT_IN)env.c \
 		$(BUILT_IN)echo.c \
+		$(BUILT_IN)exit.c \
+		$(BUILT_IN)pwd.c \
 		$(BUILT_IN)cd.c \
+		$(BUILT_IN)cd_utiles.c \
 		$(BUILT_IN)export.c \
+		$(BUILT_IN)export_utiles.c \
+		$(BUILT_IN)export_utiles2.c \
 		$(BUILT_IN)list.c \
+		$(BUILT_IN)list_utiles.c \
+		$(BUILT_IN)unset_utiles.c \
+		$(BUILT_IN)unset.c \
 		$(STATIC)static.c \
 		$(STATIC)init_static_struct.c \
 		$(SIGNAL)signal.c \
