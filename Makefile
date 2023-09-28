@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/09/28 12:51:14 by shujiang         ###   ########.fr        #
+#    Updated: 2023/09/28 13:15:59 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,9 +55,8 @@ SRCS	= $(MAIN) \
 		$(BUILT_IN)list_utiles.c \
 		$(BUILT_IN)unset_utiles.c \
 		$(BUILT_IN)unset.c \
-		$(STATIC)static.c \
-		$(STATIC)init_static_struct.c \
-		$(SIGNAL)signal.c \
+		$(STATIC)static.c				$(STATIC)init_static_struct.c	$(SIGNAL)signal.c \
+		$(STATIC)utils/static_utils_1.c	$(STATIC)utils/static_utils_2.c \
 		\
 		$(PRCS)proccess.c				$(PRCS_U)count_pipes.c \
 		$(PRCS_U)first_child.c			$(PRCS_U)ft_strndup.c			$(PRCS_U)get_cmd_pipex.c \

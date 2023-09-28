@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 11:09:21 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/12 17:47:25 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:46:40 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,24 @@ void	*ft_free_split(void **strings)
 	return (NULL);
 }
 
-//get cmd, remove flags
 char	*get_cmd(char *argv)
 {
-	/*
-	char	**temp;
 	char	*cmd;
 
-	temp = ft_split(argv, ' ');
-	if (*temp == NULL)
-		print_error(" : command not found");
-	cmd = ft_strdup(temp[0]);
-	ft_free_split((void **)temp);
-	*/
-	char *cmd;
 	cmd = ft_strdup(argv);
 	return (cmd);
 }
-
+char	*get_full_path_util(char **path_list, char *path, char *temp, char *cmd)
+{
+	if (path_list)
+	{
+		ft_free_split_2((char ***)&path_list);
+		exit_cmd_not_found(path, temp, cmd);
+		return (NULL);
+	}
+	else
+		return (ft_strjoin("./", cmd));
+}
 
 char	*get_full_path(char **env, char *cmd)
 {
@@ -79,7 +79,7 @@ char	*get_full_path(char **env, char *cmd)
 	path_list = split_path(env);
 	while (path_list && path_list[i])
 	{
-		temp = ft_strjoin(path_list[i], "/");
+		temp = ft_strjoin(path_list[i++], "/");
 		path = ft_strjoin(temp, cmd);
 		if (access(path, X_OK) == 0)
 		{
@@ -90,16 +90,8 @@ char	*get_full_path(char **env, char *cmd)
 		}
 		ft_free((void **)&temp);
 		ft_free((void **)&path);
-		i++;
 	}
-	if (path_list)
-	{
-		ft_free_split_2((char ***)&path_list);
-		exit_cmd_not_found(path, temp, cmd);
-		return (NULL);
-	}
-	else
-		return (ft_strjoin("./", cmd));
+	return (get_full_path_util(path_list, path, temp, cmd));
 }
 
 char	*cmd_path(char *argv, char **env)
