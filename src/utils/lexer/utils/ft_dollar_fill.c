@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:52:37 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/05 15:36:25 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:20:27 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,12 @@ void	ft_dollar_fill(char *str, t_cmd cmd, int *x, char *dst)
 		return ;
 	while (strc.tmp)
 	{
-		if (!ft_strncmp((char *)strc.tmp->content, strc.str2, ft_strlen(strc.str2)))
+		if (!ft_strncmp((char *)strc.tmp->content, \
+		strc.str2, ft_strlen(strc.str2)))
 			break ;
 		strc.tmp = strc.tmp->next;
 	}
-	if(!ft_dollar_fill_util(&strc))
+	if (!ft_dollar_fill_util(&strc))
 		return ;
 	strc.str3 = (char *)strc.tmp->content + strc.i;
 	ft_strlcpy(dst, strc.str3, ft_strlen(strc.str3) + 1);

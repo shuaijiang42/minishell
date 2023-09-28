@@ -6,11 +6,16 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/26 17:47:59 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 12:47:24 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+
+/* Each argument for the export cmd can only contain alphanumeric character or '_' or '='
+	and the numeric characters and '=' can't be at the beginning of the argument*/
+
 
 void ft_modify(char *str, t_list *node)
 {

@@ -6,47 +6,11 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 13:08:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/19 16:19:53 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/24 20:07:09 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	ft_get_old_history(char **env, int *fd)
-{
-	int		i;
-	char	*str;
-	char	*str2;
-	char	*str3;
-
-	i = 0;
-	if (!env)
-		return ;
-	while (env[i])
-	{
-		if (!ft_strncmp("HOME=", env[i], 5))
-			break ;
-		i++;
-	}
-	if (!env[i])
-		return ;
-	str = *(env + i);
-	str += 5;
-	str2 = ft_strjoin(str, "/.minishell_history");
-	*fd = open(str2, O_CREAT | O_RDWR | O_APPEND, 0644);
-	ft_free((void *)&str2);
-	if (*fd < 0)
-		return ;
-	str3 = get_next_line(*fd);
-	while(str3)
-	{
-		str3[ft_strlen(str3) - 1] = '\0';
-		if (str3)
-			add_history(str3);
-		ft_free((void *)&str3);
-		str3 = get_next_line(*fd);
-	}
-}
 
 int	ft_static_history(int fd_n, int i)
 {

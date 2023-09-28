@@ -6,91 +6,84 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:56:10 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 17:57:25 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/25 11:21:30 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+void	init_lexer_len(t_lexer_len *len)
+{
+	len->len = 0;
+	len->i = 0;
+	len->j = 0;
+	len->x = 0;
+	ft_init_cmd(&len->cmd);
+}
+
 int	ft_lexer_len_argument(char *str)
 {
-	t_cmd			cmd;
-	int				len;
-	int				i;
-	int				j;
+	t_lexer_len	len;
 
-	len = 0;
-	i = 0;
-	j = 0;
-	ft_init_cmd(&cmd);
-	while (!j && str[i])
+	init_lexer_len(&len);
+	while (!len.j && str[len.i])
 	{
-		j = ft_check_char(&cmd, str[i]);
-		if (j == 2)
-			len += 1;
-		if (j == 4)
-			len += ft_dollar_len(str + i + 1, cmd);
-		i++;
+		len.j = ft_check_char(&len.cmd, str[len.i]);
+		if (len.j == 2)
+			len.len += 1;
+		if (len.j == 4)
+			len.len += ft_dollar_len(str + len.i + 1, len.cmd);
+		len.i += 1;
 	}
-	if (str[i] && j >= 0)
+	if (str[len.i] && len.j >= 0)
 	{
-		while (str[i] && j > 0)
+		while (str[len.i] && len.j > 0)
 		{
-			j = ft_check_char(&cmd, str[i]);
-			if (j == 2)
-				len += 1;
-			if (j == 4)
-				len += ft_dollar_len(str + i + 1, cmd);
-			i++;
+			len.j = ft_check_char(&len.cmd, str[len.i]);
+			if (len.j == 2)
+				len.len += 1;
+			if (len.j == 4)
+				len.len += ft_dollar_len(str + len.i + 1, len.cmd);
+			len.i += 1;
 		}
 	}
-	return (len);
+	return (len.len);
+}
+
+void	ft_lexer_len_loop(t_lexer_len *len, char *str)
+{
+	len->j = ft_check_char(&len->cmd, str[len->i]);
+	if (len->j > 0 && len->x != 1)
+	{
+		len->len += 1;
+		len->x = 1;
+	}
+	len->i += 1;
 }
 
 int	ft_lexer_len_n_arguments(char *str)
 {
-	t_cmd			cmd;
-	int				len;
-	int				i;
-	int				j;
-	int				x;
+	t_lexer_len	len;
 
-	len = 0;
-	i = 0;
-	j = 0;
-	x = 0;
-	ft_init_cmd(&cmd);
-	while (str[i] && !j && j != -1)
+	init_lexer_len(&len);
+	while (str[len.i] && !len.j && len.j != -1)
 	{
-		j = ft_check_char(&cmd, str[i++]);
-		if (j > 0)
+		len.j = ft_check_char(&len.cmd, str[len.i]);
+		if (len.j > 0)
 		{
-			len++;
-			x = 1;
+			len.len += 1;
+			len.x = 1;
 		}
+		len.i += 1;
 	}
-	while (str[i] && j >= 0)
+	while (str[len.i] && len.j >= 0)
 	{
-		while (str[i] && j > 0 && j != -1)
-		{
-			j = ft_check_char(&cmd, str[i++]);
-			if (j > 0 && x != 1)
-			{
-				len++;
-				x = 1;
-			}
-		}
-		x = 0;
-		ft_init_cmd(&cmd);
-		while (str[i] && !j && j != -1)
-		{
-			j = ft_check_char(&cmd, str[i++]);
-			if (j > 0 && x != 1)
-			{
-				len++;
-				x = 1;
-			}
-		}
+		while (str[len.i] && len.j > 0 && len.j != -1)
+			ft_lexer_len_loop(&len, str);
+		len.x = 0;
+		ft_init_cmd(&len.cmd);
+		while (str[len.i] && !len.j && len.j != -1)
+			ft_lexer_len_loop(&len, str);
 	}
-	return (len);
+	return (len.len);
 }

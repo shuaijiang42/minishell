@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:34:23 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/04 17:35:04 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:20:36 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,3 @@ int	ft_lex_chars(t_cmd *cmd, char c)
 	return (2);
 	c = 0;
 }
-
