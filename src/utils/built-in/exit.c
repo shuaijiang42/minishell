@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:05:15 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/26 17:07:19 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:02:37 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void	ft_exit(char **input)
 		{
 			i = ft_atoi(input[1]);
 			ft_free_exit(input, i);
-		}	
+		}
 	}
 	if (!ft_get_proccess())
 		ft_save_history();
-	exit (ft_get_error());
+	exit(ft_get_error());
 }

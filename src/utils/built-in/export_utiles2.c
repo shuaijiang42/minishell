@@ -6,75 +6,74 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:47:40 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/26 17:48:03 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:08:03 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-int var_len(char *str)
+int	var_len(char *str)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
-	if(!str)
+	if (!str)
 		return (0);
-	while(str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i++;
 	return (i);
 }
 
 char	*var_existed(char *str)
 {
-	int i;
-    t_list *temp;
-	int len;
-	char *var;
-	char *exp;
-    t_static *s;
+	int			i;
+	t_list		*temp;
+	char		*var;
+	char		*exp;
+	t_static	*s;
 
 	s = ft_get_static();
-    i = 0;
-    temp = s->exp;
+	i = 0;
+	temp = s->exp;
 	if (!str)
 		return (NULL);
-	len = var_len(str);
-	var = ft_substr(str, 0, len);
-    while(temp)
-    {
+	var = ft_substr(str, 0, var_len(str));
+	while (temp)
+	{
 		exp = temp->content;
-        if(exp && ft_strncmp(exp + 11, var, len) == 0
-			&& ((exp + 11)[len] == '\0' || (exp + 11)[len] == '=' ))
+		if (exp && ft_strncmp(exp + 11, var, var_len(str)) == 0 && ((exp
+					+ 11)[var_len(str)] == '\0'
+			|| (exp + 11)[var_len(str)] == '='))
 			return (exp);
-        temp = temp->next;
-    }
+		temp = temp->next;
+	}
 	return (NULL);
 }
 
-char *add_exp_syntax(char *str)
+char	*add_exp_syntax(char *str)
 {
-	char *new1;
-	char *new2;
-	char *new3;
-	
-	new1= ft_substr(str, 0, var_len(str) + 1);
+	char	*new1;
+	char	*new2;
+	char	*new3;
+
+	new1 = ft_substr(str, 0, var_len(str) + 1);
 	new2 = ft_strjoin("declare -x ", new1);
-	free (new1);
+	free(new1);
 	new1 = ft_strjoin(new2, "\"");
-	free (new2);
+	free(new2);
 	new2 = ft_substr(str, var_len(str) + 1, ft_strlen(str) - var_len(str) + 1);
 	new3 = ft_strjoin(new2, "\"");
-	free (new2);
-	new2 = ft_strjoin(new1 , new3);
+	free(new2);
+	new2 = ft_strjoin(new1, new3);
 	return (new2);
 }
 
-void add_new_var_exp(char *str)
+void	add_new_var_exp(char *str)
 {
-	t_list *new;
-	char *new1;
-	char *new2;
-	t_static *s;
+	t_list		*new;
+	char		*new1;
+	char		*new2;
+	t_static	*s;
 
 	s = ft_get_static();
 	new1 = NULL;
@@ -85,25 +84,25 @@ void add_new_var_exp(char *str)
 	{
 		new1 = ft_strjoin("declare -x ", str);
 		new2 = ft_strjoin(new1, "\"\"");
-		free (new1);
+		free(new1);
 	}
 	else
 	{
-		if(!ft_strchr(str, '='))
+		if (!ft_strchr(str, '='))
 			new2 = ft_strjoin("declare -x ", str);
 		else
 			new2 = add_exp_syntax(str);
 	}
 	new = ft_lstnew(new2);
-     add_list_and_sort(&(s->exp), new);
+	add_list_and_sort(&(s->exp), new);
 }
 
-void add_new_var_env(char *str)
+void	add_new_var_env(char *str)
 {
-	t_list *new;
-	t_static *s;
+	t_list		*new;
+	t_static	*s;
 
 	s = ft_get_static();
 	new = ft_lstnew(str);
-    add_list_and_sort(&(s->env), new);
+	add_list_and_sort(&(s->env), new);
 }

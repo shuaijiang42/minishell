@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:51:34 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/27 16:11:20 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:05:23 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ int	ft_echo_no_argv(char **input)
 	}
 	return (0);
 }
+
 void	ft_print_holder(char **input, int i)
 {
 	if (ft_strcmp(input[1], "-n") == 0)
 		printf("%s", input[i]);
 	else
 		printf("%s\n", input[i]);
-}	
-	
+}
 
 void	ft_echo(char **input)
 {
@@ -56,11 +56,6 @@ void	ft_echo(char **input)
 	i = 1;
 	if (ft_echo_no_argv(input))
 		return ;
-	/* if (input[i] == NULL)
-	{
-		printf("\n");
-		return ;
-	} */
 	while (input[i] && check_only_n(input[i]))
 	{
 		free(input[i]);
@@ -80,8 +75,4 @@ void	ft_echo(char **input)
 		i++;
 	}
 	ft_print_holder(input, i);
-	/* if (ft_strcmp(input[1], "-n") == 0)
-		printf("%s", input[i]);
-	else
-		printf("%s\n", input[i]); */
 }

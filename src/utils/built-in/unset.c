@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 18:05:01 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/26 17:51:50 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:01:31 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_unset_var(char *var)
 {
-	int index1;
-	int index2;
-	t_static *s;
+	int			index1;
+	int			index2;
+	t_static	*s;
 
 	s = ft_get_static();
 	index1 = get_var_index_env(var);
@@ -27,18 +27,19 @@ void	ft_unset_var(char *var)
 		unset_var(var, index2, s->exp);
 }
 
-void    ft_unset(char **input)
+void	ft_unset(char **input)
 {
-	int i;
-	
+	int	i;
+
 	i = 1;
-	if(input[i] == NULL)
+	if (input[i] == NULL)
 		return ;
 	while (input[i])
 	{
 		if (!input[i][0])
 		{
-			ft_putstr_fd("minishell: unset: `': not a valid identifier\n", STDERR_FILENO);
+			ft_putstr_fd("minishell: unset: `': not a valid identifier\n",
+				STDERR_FILENO);
 			errno = 1;
 			return ;
 		}
@@ -48,6 +49,6 @@ void    ft_unset(char **input)
 			return ;
 		}
 		ft_unset_var(input[i]);
-		i++;	
-	}	
+		i++;
+	}
 }

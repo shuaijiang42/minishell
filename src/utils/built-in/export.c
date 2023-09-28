@@ -6,49 +6,45 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/28 12:47:24 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:07:12 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-
-/* Each argument for the export cmd can only contain alphanumeric character or '_' or '='
-	and the numeric characters and '=' can't be at the beginning of the argument*/
-
-
-void ft_modify(char *str, t_list *node)
+void	ft_modify(char *str, t_list *node)
 {
-	char *new1;
-	char *new2;
-	char *old;
+	char	*new1;
+	char	*new2;
+	char	*old;
 
 	old = node->content;
-	new1= ft_substr(old, 0, 11 + var_len(str) + 1);
+	new1 = ft_substr(old, 0, 11 + var_len(str) + 1);
 	if (!ft_strchr(old, '='))
 		new2 = ft_strjoin(new1, "=\"");
-	else 
+	else
 		new2 = ft_strjoin(new1, "\"");
-	free (new1);
+	free(new1);
 	new1 = ft_strjoin(str + var_len(str) + 1, "\"");
 	node->content = ft_strjoin(new2, new1);
-	free (new1);
-	free (new2);
+	free(new1);
+	free(new2);
 }
 
 void	modify_exp(char *str)
 {
-	t_list *temp;
-	char *old;
-	t_static *s;
-	
+	t_list		*temp;
+	char		*old;
+	t_static	*s;
+
 	s = ft_get_static();
 	temp = s->exp;
-	while(temp)
+	while (temp)
 	{
 		old = temp->content;
-		if (ft_strncmp(old + 11, str, var_len(str)) == 0 
-			&& ((old + 11)[var_len(str)] == '\0' || (old + 11)[var_len(str)] == '=' ))
+		if (ft_strncmp(old + 11, str, var_len(str)) == 0 && ((old
+					+ 11)[var_len(str)] == '\0' || (old
+				+ 11)[var_len(str)] == '='))
 			break ;
 		temp = temp->next;
 	}
@@ -58,16 +54,16 @@ void	modify_exp(char *str)
 
 void	modify_env(char *str)
 {
-	t_list *temp;
-	char *old;
-	t_static *s;
-	
+	t_list		*temp;
+	char		*old;
+	t_static	*s;
+
 	s = ft_get_static();
 	temp = s->env;
-	while(temp)
+	while (temp)
 	{
 		old = temp->content;
-		if(ft_strncmp(old, str, var_len(str)+1) == 0)
+		if (ft_strncmp(old, str, var_len(str) + 1) == 0)
 			break ;
 		temp = temp->next;
 	}
@@ -75,12 +71,12 @@ void	modify_env(char *str)
 		temp->content = str;
 }
 
-void ft_export_var(char *input)
+void	ft_export_var(char *input)
 {
-	char *var;
-	char *old;
-	
-	var =ft_strdup(input);
+	char	*var;
+	char	*old;
+
+	var = ft_strdup(input);
 	old = var_existed(var);
 	if (!old)
 	{
@@ -103,15 +99,14 @@ void ft_export_var(char *input)
 
 void	ft_export(char **input)
 {
-	int i;
-	
-	t_static *s;
-	
+	int			i;
+	t_static	*s;
+
 	s = ft_get_static();
 	i = 1;
 	if (!input[i])
 	{
-		print_exp();	
+		print_exp();
 		return ;
 	}
 	while (input[i])
