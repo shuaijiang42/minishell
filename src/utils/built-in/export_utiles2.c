@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:47:40 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/28 13:08:03 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:51:27 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,12 @@ int	var_len(char *str)
 
 char	*var_existed(char *str)
 {
-	int			i;
 	t_list		*temp;
 	char		*var;
 	char		*exp;
 	t_static	*s;
 
 	s = ft_get_static();
-	i = 0;
 	temp = s->exp;
 	if (!str)
 		return (NULL);
@@ -44,9 +42,13 @@ char	*var_existed(char *str)
 		if (exp && ft_strncmp(exp + 11, var, var_len(str)) == 0 && ((exp
 					+ 11)[var_len(str)] == '\0'
 			|| (exp + 11)[var_len(str)] == '='))
+		{
+			free(var);
 			return (exp);
+		}		
 		temp = temp->next;
 	}
+	free(var);
 	return (NULL);
 }
 
@@ -65,6 +67,8 @@ char	*add_exp_syntax(char *str)
 	new3 = ft_strjoin(new2, "\"");
 	free(new2);
 	new2 = ft_strjoin(new1, new3);
+	free(new1);
+	free(new3);
 	return (new2);
 }
 

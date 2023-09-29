@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/28 13:07:12 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:45:16 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,6 @@ void	ft_export(char **input)
 {
 	int			i;
 	t_static	*s;
-
 	s = ft_get_static();
 	i = 1;
 	if (!input[i])

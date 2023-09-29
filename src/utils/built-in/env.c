@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 18:04:35 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/28 13:02:40 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:30:33 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_env_cpy(void)
 	{
 		value = ft_strchr(temp->content, '=');
 		if (ft_strcmp("OLDPWD", temp->content))
-			printf("%s\n", temp->content);
+			printf("%s\n", (char *)temp->content);
 		temp = temp->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 13:58:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/02/09 16:07:20 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:32:44 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*ptr;
 
-	if (count && ((SIZE_MAX / count) < size))
+	if (count && ((SSIZE_MAX / count) < size))
 		return (0);
 	ptr = malloc (count * size);
 	if (!ptr)

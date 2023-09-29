@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:49:09 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/28 13:02:18 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:13:27 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,19 @@ void	ft_remove_node(t_list *list, int index)
 	free(temp);
 }
 
+void custom_free(void *data) {
+    free(data);
+}
+
 void	ft_node_substitute(t_list **old, t_list **new)
 {
 	if (*old && *new)
-		(*old)->content = ft_strdup((*new)->content);
+	{
+		char *aux = ft_strdup((*new)->content);
+		//free((*old)->content);
+		(*old)->content = aux;
+	}
+	ft_lstclear(new, custom_free);
 }
 
 void	ft_front_insert(t_list **front_node, t_list **new)

@@ -6,13 +6,13 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/09/28 13:15:59 by shujiang         ###   ########.fr        #
+#    Updated: 2023/09/29 13:44:44 by shujiang         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #	GENERAL FLAGS
 NAME	= minishell
-CFLAGS	= -Wall -Wextra -Werror -I ./includes/ -I ./libft/ -fsanitize=address -g3
+CFLAGS	=  -I ./includes/ -I ./libft/ -fsanitize=address -g3 #-Wall -Wextra -Werror
 CC		= gcc $(CFLAGS)
 UTILS	= ./src/utils/
 #	UTILS VARIABLES

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 14:57:00 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:05:19 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int	executer(char *cmd, t_input *input)
 	dup2_with_error_check(cloud[0], 0);
 	close(cloud[0]);
 	ft_free((void **)&cmd);
+	ft_free_split_2(&env);
 	return (value);
 }

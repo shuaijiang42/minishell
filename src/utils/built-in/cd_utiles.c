@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:44:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/27 15:25:14 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:35:04 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	update_dir_for_env(t_static *s)
 	new_oldpwd = ft_lstnew(ft_strjoin("OLD", old->content));
 	oldpwd = ft_locate_node(s->env, "OLDPWD");
 	ft_node_substitute(&oldpwd, &new_oldpwd);
-	ft_node_substitute(&old, &new);
+	ft_node_substitute(&old, &new);  
 }
 
 void	ft_go_somewhere(t_static *s, char *somewhere)

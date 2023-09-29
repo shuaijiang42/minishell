@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   save_history.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 19:49:06 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 19:49:16 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:27:23 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_save_history(void)
 {
 	t_save_history	his;
-
+	
 	his.old_history = NULL;
 	his.history = (ft_get_static())->history;
 	his.fd = ft_get_history();
@@ -23,10 +23,9 @@ void	ft_save_history(void)
 		close(his.fd);
 	his.env = list_to_matrix((ft_get_static())->env);
 	his.fd = fd_old_history_4_list(his.env, &his);
+	ft_free_split_2(&(his.env));
 	if (his.fd == -1)
-	{
 		return ;
-	}
 	his.len = ft_lstsize(his.old_history);
 	his.len = his.len - 501;
 	if (his.len < 0)

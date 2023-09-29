@@ -6,16 +6,16 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/26 15:25:44 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:34:07 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	leaks()
+/* void	leaks()
 {
 	system("leaks -q minishell");
-}
+} */
 
 void	*ft_free(void **str)
 {
@@ -49,6 +49,12 @@ void	*ft_print_error(char *str, int error)
 	return (NULL);
 }
 
+void custom_free2(void *data)
+{
+    free(data);
+}
+
+
 int shell_mode(char **env)
 {
 	char	*line;
@@ -58,7 +64,6 @@ int shell_mode(char **env)
 	t_static *s;
 	flag = 0;
 	fd_mini_history = 0;
-	//atexit(leaks);
 	
 	ft_get_old_history(env, &fd_mini_history);
 	ft_put_history(fd_mini_history);
@@ -81,6 +86,7 @@ int shell_mode(char **env)
 	flag = SHELL;
 	while (1)
 	{
+		//leaks();
 		if (flag != 3)
 			flag = SHELL;
 		//line = readline("minishell$ ");
@@ -107,12 +113,14 @@ int shell_mode(char **env)
 			ft_free((void *)&line);
 			//printf("this is the error:%d\n", ft_get_error());
 			ft_save_history();
+			//ft_lstclear(&(s->exp), custom_free2);
 			exit(ft_get_error());
 		}
 		add_history(line);
 		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		if (ft_check_argument(line) == 1)
 		{
+			//leaks();
 			ft_procces_maker(line, env);
 			ft_put_proccess(0);
 		}
@@ -129,12 +137,12 @@ int	exc_mode(char *file, char **env)
 	char *str;
 	char *gnl;
 	//=========================================================================================
-	t_list	*history;
+	//t_list	*history;
 	t_static *s;
 
 	ft_put_static(init_static_struct(env));
 	s = ft_get_static();
-	history = s->history;
+	//history = s->history;
 	ft_copy_env(env);
 
 	creat_exp_list(s);

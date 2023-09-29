@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   struct_utils.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/25 11:29:12 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/28 19:21:38 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef STRUCT_UTILS_H
 # define STRUCT_UTILS_H
 # include <lexer.h>
@@ -105,6 +106,7 @@ typedef struct s_save_history{
 	t_list	*old_history;
 	int		fd;
 	char	**env;
+	char	**exp;
 	int		len;
 }				t_save_history;
 

@@ -6,11 +6,17 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:46:02 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/28 13:06:57 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/29 14:32:07 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+/* void	leaks()
+{
+	system("leaks -q minishell");
+} */
+
 
 void	creat_exp_list(t_static *s)
 {
@@ -21,13 +27,18 @@ void	creat_exp_list(t_static *s)
 	i = 0;
 	new = NULL;
 	temp = NULL;
-	s->exp = ft_lstnew(ft_strjoin("declare -x ", s->env->content));
+	if(s->env)
+		s->exp = ft_lstnew(ft_strjoin("declare -x ", s->env->content));
 	if (s->env->next)
 		temp = s->env->next;
 	while (temp)
 	{
-		new = ft_lstnew(ft_strjoin("declare -x ", temp->content));
+		char *aux = ft_strjoin("declare -x ", temp->content);
+		new = ft_lstnew(aux);
 		add_list_and_sort(&(s->exp), new);
+
+		//leaks();
+		
 		temp = temp->next;
 	}
 }
