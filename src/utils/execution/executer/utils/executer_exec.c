@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
+/*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:03:30 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 15:17:42 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:41:25 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	ft_executer_exec(t_input *input, char **env)
 {
 	int	result;
+
 
 	result = 0;
 	dup2_with_error_check(input->in, STDIN_FILENO);

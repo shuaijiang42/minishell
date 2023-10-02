@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:49:09 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/29 14:13:27 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:58:16 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,18 @@ void custom_free(void *data) {
 
 void	ft_node_substitute(t_list **old, t_list **new)
 {
+	leaks();
 	if (*old && *new)
 	{
+		printf("%s\n", (*old)->content);
 		char *aux = ft_strdup((*new)->content);
-		//free((*old)->content);
+		// free((*old)->content);
 		(*old)->content = aux;
+		if (ft_strnstr(((*old)->content), "PWD=", ft_strlen((*old)->content)))
+	
 	}
 	ft_lstclear(new, custom_free);
+	leaks();
 }
 
 void	ft_front_insert(t_list **front_node, t_list **new)

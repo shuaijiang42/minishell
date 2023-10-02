@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 16:53:23 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/28 12:41:20 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:42:33 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void ft_exit(char **input)
 */
 int	ft_built_in(char **input)
 {
+	
 	if (input && ft_strcmp(input[0], "echo") == 0)
 		ft_echo (input);
 	else if (ft_strcmp(input[0], "cd") == 0)

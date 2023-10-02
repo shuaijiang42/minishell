@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/29 14:34:07 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:36:53 by shujiang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int shell_mode(char **env)
 	ft_copy_env(env);
 
 	creat_exp_list(s);
-
+	
 	ft_put_error(0);
 	flag = SHELL;
 	while (1)
@@ -93,7 +93,9 @@ int shell_mode(char **env)
 		if (isatty(fileno(stdin)))
 		{
 			if (flag != 3)
+			{
 				line = readline("minishell$ ");
+			}
 			else
 			{
 				line = readline("minishell$ ");
@@ -122,6 +124,7 @@ int shell_mode(char **env)
 		{
 			//leaks();
 			ft_procces_maker(line, env);
+			
 			ft_put_proccess(0);
 		}
 		else
@@ -183,11 +186,43 @@ int	exc_mode(char *file, char **env)
 	return (0);
 }
 
+/* typedef struct 
+{
+	void	**mem;
+	size_t	capacity;
+	size_t	len;
+} t_mem;
+
+
+void	mem_realloc(t_mem *mem)
+{
+	mem->capacity *= 2;
+	void	**new = malloc(sizeof(void *) );
+}
+
+void	mem_push(t_mem *mem, void *ptr)
+{
+	if (mem->capacity == mem->len)
+	{
+		// relloc
+	}
+	mem->mem[mem->len] = 	ptr;
+	mem->len += 1;
+} */
+
 int	main(int argc, char **argv, char **env)
 {
+	/* t_mem 	mem;
+
+	mem.capacity = 5;
+	mem.len = 0;
+	mem.mem = malloc(sizeof(void *) * mem.capacity); */
+
+	
 	if (argc == 1)
 		return (shell_mode(env));
 	else 
 		return (exc_mode(argv[1], env));
+	
 	
 }
