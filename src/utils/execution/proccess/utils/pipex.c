@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:56:48 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 17:45:49 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/04 10:44:34 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ void	pipex(char *cmd)
 		pipe_with_error_check(pipex.pipes.start_pipe);
 		pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
 		fd = ft_first_child(pipex.cmd, pipex.pipes.start_pipe);
+		ft_free((void **)&pipex.cmd);
 		while (pipex.i < pipex.n)
 		{
 			pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
 			fd = ft_mid_child(pipex.cmd, fd);
+			ft_free((void **)&pipex.cmd);
 			pipex.i += 1;
 		}
 		pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);

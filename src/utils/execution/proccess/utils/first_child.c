@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:52:17 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 17:20:36 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/04 10:34:30 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_first_child(char *cmd, int pipe[2])
 		close(pipe[1]);
 		exit(executer(cmd, &input));
 	}
+	ft_free((void **)&input.cmd);
 	close(pipe[1]);
 	return (pipe[0]);
 }

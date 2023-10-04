@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:54:35 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 17:20:58 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/04 10:40:18 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	ft_last_child(char *cmd, int fd)
 	}
 	close(fd);
 	close(pipe[1]);
+	ft_free((void **)&cmd);
+	ft_free((void **)&input.cmd);
 	ft_wait_all_children(pid);
 	return (0);
 }
