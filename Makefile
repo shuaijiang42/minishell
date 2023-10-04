@@ -12,7 +12,7 @@
 
 #	GENERAL FLAGS
 NAME	= minishell
-CFLAGS	=  -I ./includes/ -I ./libft/ #-fsanitize=address -g3 #-Wall -Wextra -Werror
+CFLAGS	=  -I ./includes/ -I ./libft/ -fsanitize=address -g3 #-Wall -Wextra -Werror
 CC		= gcc $(CFLAGS)
 UTILS	= ./src/utils/
 #	UTILS VARIABLES
@@ -32,7 +32,7 @@ STATIC  = $(UTILS)static/
 SIGNAL  = $(UTILS)signal/
 #	LIBFT AND READLINE
 LIBFT	= -L./libft/ -lft 
-LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib #-fsanitize=address -g3
+LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -fsanitize=address -g3
 
 MAIN	= ./src/main.c 
 SRCS	= $(MAIN) \

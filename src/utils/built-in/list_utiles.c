@@ -87,7 +87,7 @@ void	ft_node_substitute(t_list **old, t_list **new)
 		char *aux = ft_strdup((*new)->content);
 		// free((*old)->content);
 		(*old)->content = aux;
-		if (ft_strnstr(((*old)->content), "PWD=", ft_strlen((*old)->content)))
+		//if (ft_strnstr(((*old)->content), "PWD=", ft_strlen((*old)->content)))
 	
 	}
 	ft_lstclear(new, custom_free);
