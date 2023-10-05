@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:46:02 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/04 10:13:17 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:08:08 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	print_exp(void)
 			printf("%s\n", ft_substr(temp->content, 0, ft_strlen(temp->content)
 					- 1));
 		else
-			printf("%p\n", temp->content);
+			printf("%s\n", temp->content);
 		temp = temp->next;
 	}
 }
