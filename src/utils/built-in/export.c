@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/29 14:56:28 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/05 11:57:34 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	ft_export_var(char *input)
 	char	*old;
 
 	var = ft_strdup(input);
-	free(input);
 	old = var_existed(var);
 	if (!old)
 	{

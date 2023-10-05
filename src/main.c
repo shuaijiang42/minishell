@@ -6,16 +6,16 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/29 16:36:53 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/05 12:07:33 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-/* void	leaks()
+ void	leaks()
 {
 	system("leaks -q minishell");
-} */
+} 
 
 void	*ft_free(void **str)
 {
@@ -86,7 +86,7 @@ int shell_mode(char **env)
 	flag = SHELL;
 	while (1)
 	{
-		//leaks();
+		leaks();
 		if (flag != 3)
 			flag = SHELL;
 		//line = readline("minishell$ ");
@@ -113,25 +113,19 @@ int shell_mode(char **env)
 		{
 	//		write(STDERR_FILENO, "exit\n", 5);
 			ft_free((void *)&line);
-			//printf("this is the error:%d\n", ft_get_error());
 			ft_save_history();
-			//ft_lstclear(&(s->exp), custom_free2);
 			exit(ft_get_error());
 		}
 		add_history(line);
 		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
 		if (ft_check_argument(line) == 1)
 		{
-			//leaks();
 			ft_procces_maker(line, env);
-			
 			ft_put_proccess(0);
 		}
 		else
 			ft_free((void *)&line);
 	}
-	/* printf("old: %s\n", s->oldpwd->content);
-    printf("last: %s\n", s->last_cmd->content); */
 	exit(ft_get_error());
 }
 

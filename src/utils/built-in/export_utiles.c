@@ -6,17 +6,11 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:46:02 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/05 11:08:08 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/05 12:00:58 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
- void	leaks()
-{
-	system("leaks -q minishell");
-} 
-
 
 void	creat_exp_list(t_static *s)
 {
