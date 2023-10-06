@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:46:02 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/05 12:00:58 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:12:36 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,8 @@ void	creat_exp_list(t_static *s)
 	while (temp)
 	{
 		char *aux = ft_strjoin("declare -x ", temp->content);
-		
-		//printf("aux: %p\n", aux);
-		//atexit(leaks);	
 		new = ft_lstnew(aux);
 		add_list_and_sort(&(s->exp), new);
-
-		//leaks();
-		
 		temp = temp->next;
 	}
 }

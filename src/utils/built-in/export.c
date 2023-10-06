@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/05 11:57:34 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:47:21 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,16 @@ void	ft_export_var(char *input)
 			else
 				modify_env(var);
 		}
+		//leaks();
 	}
+	free(var);
 }
 
 void	ft_export(char **input)
 {
 	int			i;
 	t_static	*s;
+
 	s = ft_get_static();
 	i = 1;
 	if (!input[i])

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:30:13 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/29 13:52:11 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:48:32 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int	ft_substitute_or_insert(t_list **list, t_list *temp, t_list *new)
 	if (ft_strncmp(str, strnew, len) == 0 && str[len] == '='
 		&& strnew[len] == '=')
 	{
+		printf("hola\n");
 		ft_node_substitute(&(temp->next), &new);
 		return (1);
 	}
 	if (temp->next && ft_strcmp(temp->next->content, new->content) > 0)
 	{
+		printf("adeu\n");
 		ft_front_insert(&temp, &new);
 		return (1);
 	}
