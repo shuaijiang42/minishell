@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:50:05 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/18 16:43:26 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:27:49 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ t_dollar_len *dollar)
 
 static int	init_dollar_len(char *str, t_cmd cmd, t_dollar_len *dollar)
 {
+	size_t	i;
+
+	i = 0;
 	if (!str)
 		return (dollar_return(dollar, 0));
 	if (!str[0])
@@ -50,6 +53,9 @@ static int	init_dollar_len(char *str, t_cmd cmd, t_dollar_len *dollar)
 	if (!dollar->str2)
 		return (dollar_return(dollar, 0));
 	ft_strlcpy(dollar->str2, dollar->str, dollar->i);
+	while (dollar->str2[i])
+		i++;
+	dollar->str2[i] = '=';
 	dollar->str2[dollar->i] = '\0';
 	return (0);
 }

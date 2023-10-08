@@ -6,53 +6,12 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:46:02 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/05 13:12:36 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:41:04 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	creat_exp_list(t_static *s)
-{
-	int		i;
-	t_list	*new;
-	t_list	*temp;
-
-	i = 0;
-	new = NULL;
-	temp = NULL;
-	if(s->env)
-		s->exp = ft_lstnew(ft_strjoin("declare -x ", s->env->content));
-	if (s->env->next)
-		temp = s->env->next;
-	while (temp)
-	{
-		char *aux = ft_strjoin("declare -x ", temp->content);
-		new = ft_lstnew(aux);
-		add_list_and_sort(&(s->exp), new);
-		temp = temp->next;
-	}
-}
-
-void	print_exp(void)
-{
-	t_list		*temp;
-	t_static	*s;
-	char		*value;
-
-	s = ft_get_static();
-	temp = s->exp;
-	while (temp)
-	{
-		value = ft_strchr(temp->content, '=');
-		if (value && ft_strlen(value) == 1)
-			printf("%s\n", ft_substr(temp->content, 0, ft_strlen(temp->content)
-					- 1));
-		else
-			printf("%s\n", temp->content);
-		temp = temp->next;
-	}
-}
 
 int	error_parsing_export(char *str)
 {

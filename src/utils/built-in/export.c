@@ -6,97 +6,60 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:49:20 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/05 13:47:21 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:27:18 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_modify(char *str, t_list *node)
+size_t	have_any_equal(char *str)
 {
-	char	*new1;
-	char	*new2;
-	char	*old;
+	size_t	i;
 
-	old = node->content;
-	new1 = ft_substr(old, 0, 11 + var_len(str) + 1);
-	if (!ft_strchr(old, '='))
-		new2 = ft_strjoin(new1, "=\"");
-	else
-		new2 = ft_strjoin(new1, "\"");
-	free(new1);
-	new1 = ft_strjoin(str + var_len(str) + 1, "\"");
-	node->content = ft_strjoin(new2, new1);
-	free(new1);
-	free(new2);
-}
-
-void	modify_exp(char *str)
-{
-	t_list		*temp;
-	char		*old;
-	t_static	*s;
-
-	s = ft_get_static();
-	temp = s->exp;
-	while (temp)
-	{
-		old = temp->content;
-		if (ft_strncmp(old + 11, str, var_len(str)) == 0 && ((old
-					+ 11)[var_len(str)] == '\0' || (old
-				+ 11)[var_len(str)] == '='))
-			break ;
-		temp = temp->next;
-	}
-	if (temp)
-		ft_modify(str, temp);
-}
-
-void	modify_env(char *str)
-{
-	t_list		*temp;
-	char		*old;
-	t_static	*s;
-
-	s = ft_get_static();
-	temp = s->env;
-	while (temp)
-	{
-		old = temp->content;
-		if (ft_strncmp(old, str, var_len(str) + 1) == 0)
-			break ;
-		temp = temp->next;
-	}
-	if (temp)
-		temp->content = str;
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] && str[i] != '=')
+		i++;
+	if (str[i])
+		return (1);
+	return (0);
 }
 
 void	ft_export_var(char *input)
 {
+	t_list	*tmp;
+	t_list	*tmp2;
+	char	*str;
 	char	*var;
-	char	*old;
 
-	var = ft_strdup(input);
-	old = var_existed(var);
-	if (!old)
+	tmp = ft_lstnew(input);
+	if (!tmp)
+		return ;
+	str = get_var_from_node(tmp);
+	if (!str)
 	{
-		if (var && ft_strchr(var, '='))
-			add_new_var_env(var);
-		add_new_var_exp(var);
+		ft_free((void **)&tmp);
+		return ;
 	}
+	var = ft_strndup(input, ft_strlen(input) - ft_strlen(str));
+	if (!var)
+	{
+		ft_free((void **)&str);
+		ft_free((void **)&tmp);
+		return ;
+	}
+	tmp2 = search_node_env(var, (ft_get_static())->env);
+	if (!tmp2)
+		ft_lstadd_back(&(ft_get_static()->env), ft_lstnew(ft_strdup(input)));
 	else
 	{
-		if (ft_strchr(var, '='))
-		{
-			modify_exp(var);
-			if (!ft_strchr(old, '='))
-				add_new_var_env(var);
-			else
-				modify_env(var);
-		}
-		//leaks();
+		if (have_any_equal(input))
+			change_content_env(tmp2, ft_strdup(input));
 	}
-	free(var);
+	ft_free((void **)&tmp);
+	ft_free((void **)&str);
+	ft_free((void **)&var);
 }
 
 void	ft_export(char **input)
@@ -106,7 +69,7 @@ void	ft_export(char **input)
 
 	s = ft_get_static();
 	i = 1;
-	if (!input[i])
+	if (!input[i] || (input[i] && !input[i][0]))
 	{
 		print_exp();
 		return ;

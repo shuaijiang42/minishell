@@ -6,11 +6,27 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:49:41 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/29 16:43:36 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:41:51 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+static void	go_to_home()
+{
+	t_list	*home;
+	char	*str;
+
+	home = search_node_env("HOME=", (ft_get_static())->env);
+	if (!home)
+	{
+		ft_err_msg("minishell: cd: HOME not set\n", NULL, NULL);
+		return ;
+	}
+	str = get_var_from_node(home);
+	ft_go_somewhere(ft_get_static(), str);
+	ft_free((void **)&str);
+}
 
 void	ft_cd(char *path)
 {
@@ -20,12 +36,7 @@ void	ft_cd(char *path)
 	s = ft_get_static();
 	if (!path)
 	{
-		if (!ft_get_var("HOME"))
-		{
-			ft_err_msg("minishell: cd: HOME not set\n", NULL, NULL);
-			return ;
-		}
-		ft_go_somewhere(s, ft_get_var("HOME"));
+		go_to_home();
 		return ;
 	}
 	dir = opendir(path);

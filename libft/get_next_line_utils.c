@@ -6,12 +6,13 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 16:34:38 by shujiang          #+#    #+#             */
-/*   Updated: 2023/04/20 11:37:23 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/08 17:26:18 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
+/*
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -71,3 +72,4 @@ char	*ft_strjoin(char *s1, char *s2)
 	*str = '\0';
 	return (ret);
 }
+*/

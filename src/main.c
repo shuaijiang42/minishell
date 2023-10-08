@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/05 13:45:50 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/06 15:08:13 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,36 +57,32 @@ void custom_free2(void *data)
 
 int shell_mode(char **env)
 {
-	char	*line;
-	int		fd_mini_history;
-	
-	t_list	*history;
-	t_static *s;
+	char		*line;
+	int			fd_mini_history;
+	t_list		*history;
+	t_static	*s;
+
+	///////////////////////////////////////////////////////////////////////////////////////////
 	flag = 0;
 	fd_mini_history = 0;
-	
 	ft_get_old_history(env, &fd_mini_history);
 	ft_put_history(fd_mini_history);
 	line = NULL;
 	signal(SIGINT, handler);
 	signal(SIGQUIT, quit_signal);
-	
 	history = NULL;
-	
 	ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup("")));
+	///////////////////////////////////////////////////////////////////////////////////////////
 	ft_put_static(init_static_struct(env));
 	s = ft_get_static();
+	if (!s)
+		exit (-1);
+	///////////////////////////////////////////////////////////////////////////////////////////
 	s->history = history;
-
-	ft_copy_env(env);
-
-	creat_exp_list(s);
-	
 	ft_put_error(0);
 	flag = SHELL;
 	while (1)
 	{
-		leaks();
 		if (flag != 3)
 			flag = SHELL;
 		//line = readline("minishell$ ");
@@ -140,9 +136,6 @@ int	exc_mode(char *file, char **env)
 	ft_put_static(init_static_struct(env));
 	s = ft_get_static();
 	//history = s->history;
-	ft_copy_env(env);
-
-	creat_exp_list(s);
 	ft_put_error(0);
 
 	errno = 0;

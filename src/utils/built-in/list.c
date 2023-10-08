@@ -6,12 +6,13 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 15:30:13 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/05 13:48:32 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/08 16:28:16 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/*
 int	check_put_new_node_first(t_list **list, t_list *new)
 {
 	int		len;
@@ -34,10 +35,12 @@ int	check_put_new_node_first(t_list **list, t_list *new)
 	}
 	return (0);
 }
+*/
 
 // len = ft_var_len(insert) + 1; check until '='
 // add or substitute and sort
 
+/*
 int	ft_substitute_or_insert(t_list **list, t_list *temp, t_list *new)
 {
 	int		len;
@@ -62,7 +65,9 @@ int	ft_substitute_or_insert(t_list **list, t_list *temp, t_list *new)
 	}
 	return (0);
 }
+*/
 
+/*
 void	add_list_and_sort(t_list **list, t_list *new)
 {
 	t_list	*temp;
@@ -79,6 +84,7 @@ void	add_list_and_sort(t_list **list, t_list *new)
 			ft_lstadd_back(list, new);
 	}
 }
+*/
 
 int	ft_count_node(t_list *list)
 {

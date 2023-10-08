@@ -6,25 +6,36 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 18:05:01 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/28 13:01:31 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/08 16:29:12 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	ft_unset_var(char *var)
+void	unset_var(char *var)
 {
-	int			index1;
-	int			index2;
-	t_static	*s;
+	t_list	*tmp1;
+	t_list	*tmp2;
+	t_list	*node;
+	t_list	*env;
 
-	s = ft_get_static();
-	index1 = get_var_index_env(var);
-	index2 = get_var_index_exp(var);
-	if (index1 >= 0)
-		unset_var(var, index1, s->env);
-	if (index2 >= 0)
-		unset_var(var, index2, s->exp);
+	env = ft_get_static()->env;
+	tmp2 = env;
+	node = search_node_env(var, env);
+	if (!node)
+		return ;
+	tmp1 = node->next;
+	while (tmp2)
+	{
+		if (tmp2->next == node)
+			break ;
+		tmp2 = tmp2->next;
+	}
+	if (!tmp2)
+		return ;
+	ft_free((void **)&node->content);
+	ft_free((void **)&node);
+	tmp2->next = tmp1;
 }
 
 void	ft_unset(char **input)
@@ -48,7 +59,7 @@ void	ft_unset(char **input)
 			not_valid_iden_error(input[i]);
 			return ;
 		}
-		ft_unset_var(input[i]);
+		unset_var(input[i]);
 		i++;
 	}
 }
