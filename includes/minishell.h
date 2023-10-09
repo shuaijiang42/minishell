@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/09 14:09:38 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:12:55 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,15 @@ void		ft_echo(char **input);
 //================================EXPORT======================================//
 int			ft_parsing(char	*str);
 int			error_ft_parsing(char *str);
+size_t		upper_str(char *str1, char *str2);
+int			in_the_list(char *new, char **list, int len);
+char		*get_max(t_list	*env);
+void		print_min(t_list *env, char **list, int len);
 void		print_exp(void);
 size_t		have_any_equal(char *str);
 void		print_env_cpy(void);
 void		ft_env(char **input);
-void		ft_export_var(char *input);
+int			ft_export_var(char *input);
 void		ft_export(char **input);
 //============================================================================//
 //============================================================================//

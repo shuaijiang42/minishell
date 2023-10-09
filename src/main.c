@@ -6,30 +6,21 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/09 14:22:22 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:28:17 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	leaks()
+void	leaks(void)
 {
 	system("leaks -q minishell");
-} 
-
-void	*ft_free(void **str)
-{
-	if (*str)
-	{
-		free(*str);
-		*str = NULL;
-	}
-	return (0);
 }
 
 void	ft_free_input(char **input)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (input[i])
 	{
@@ -37,16 +28,6 @@ void	ft_free_input(char **input)
 		i++;
 	}
 	free (input);
-}
-
-void	*ft_print_error(char *str, int error)
-{
-	write(2, "\7minishell: ", 12);
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
-	ft_put_error(error);
-	errno = error;
-	return (NULL);
 }
 
 /*
@@ -103,6 +84,6 @@ int	main(int argc, char **argv, char **env)
 	(void)env;
 	if (argc == 1)
 		return (shell_mode(env));
-	else 
+	else
 		return (exc_mode());
 }

@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 14:09:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/09 14:18:04 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:06:59 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ static void	init_shell_mode(char **env, char **line, int *fd, t_list **history)
 	ft_lstadd_back(history, ft_lstnew((void *)ft_strdup("")));
 }
 
+/*
+ 		write(STDERR_FILENO, "exit\n", 5);
+		ft_free((void *)line);
+		ft_save_history();
+		exit(ft_get_error());
+ */
 static void	shell_mode_util(int i, char **line, char **env)
 {
 	if (i == 1)
@@ -61,10 +67,10 @@ static void	shell_init_proccess(t_static **s, t_list **history)
 	if (isatty(fileno(stdin)))
 	{
 		if (g_flag != 3)
-			line = readline("minishell$ ");
+			*line = readline("minishell$ ");
 		else
 		{
-			line = readline("minishell$ ");
+			*line = readline("minishell$ ");
 			g_flag = 0;
 		}
 	}
@@ -72,9 +78,10 @@ static void	shell_init_proccess(t_static **s, t_list **history)
 	{
 		char *line2;
 		line2 = get_next_line(fileno(stdin));
-		line = ft_strtrim(line2, "\n");
+		*line = ft_strtrim(line2, "\n");
 		free(line2);
 	}
+	(void)env;
 */
 static void	init_flags_shell(char **env, char **line)
 {		

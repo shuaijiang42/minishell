@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:47:40 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/09 11:54:18 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:12:08 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ size_t	upper_str(char *str1, char *str2)
 static void	print_exp_print_content(t_list *tmp)
 {
 	char	*str;
+
 	str = get_var_from_node(tmp);
 	if (str)
 	{
@@ -42,9 +43,9 @@ static void	print_exp_print_content(t_list *tmp)
 		ft_strlen(tmp->content) - ft_strlen(str));
 		if (have_any_equal(tmp->content))
 		{
-			write(STDOUT_FILENO,"\"", 1);
+			write(STDOUT_FILENO, "\"", 1);
 			write(STDOUT_FILENO, str, ft_strlen(str));
-			write(STDOUT_FILENO,"\"", 1);
+			write(STDOUT_FILENO, "\"", 1);
 		}
 		write(STDOUT_FILENO, "\n", 1);
 	}
@@ -62,7 +63,7 @@ static void	fill_print_list(char **printed, int len)
 
 int	in_the_list(char *new, char **list, int len)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (list[i] && i < (size_t)len)

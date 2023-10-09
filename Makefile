@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/10/09 14:23:07 by samusanc         ###   ########.fr        #
+#    Updated: 2023/10/09 14:33:04 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,28 +37,18 @@ LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -fsanitize=address
 MAIN	= ./src/main.c 
 SRCS	= $(MAIN) \
 		./src/shell_mode.c \
-		$(UTILS)pipex/execute_cmd.c \
-		$(UTILS)pipex/cmd_path.c \
-		$(UTILS)pipex/cmd_path_utils.c \
-		$(UTILS)pipex/error_handling.c \
-		$(UTILS)pipex/main.c \
-		$(BUILT_IN)built_in.c \
-		$(BUILT_IN)built_in_utiles.c \
-		$(BUILT_IN)env.c \
-		$(BUILT_IN)echo.c \
-		$(BUILT_IN)exit.c \
-		$(BUILT_IN)pwd.c \
-		$(BUILT_IN)cd.c \
-		$(BUILT_IN)cd_utiles.c \
-		$(BUILT_IN)export.c \
-		$(BUILT_IN)export_utiles.c \
-		$(BUILT_IN)export_utiles2.c \
-		$(BUILT_IN)list.c \
-		$(BUILT_IN)list_utiles.c \
-		$(BUILT_IN)unset_utiles.c \
-		$(BUILT_IN)unset.c \
+		./src/memhandl.c \
+		$(UTILS)pipex/execute_cmd.c		$(UTILS)pipex/cmd_path.c \
+		$(UTILS)pipex/cmd_path_utils.c	$(UTILS)pipex/error_handling.c	$(UTILS)pipex/main.c \
+		\
+		$(BUILT_IN)built_in.c			$(BUILT_IN)built_in_utiles.c	$(BUILT_IN)env.c \
+		$(BUILT_IN)echo.c				$(BUILT_IN)exit.c				$(BUILT_IN)pwd.c \
+		$(BUILT_IN)cd.c					$(BUILT_IN)cd_utiles.c			$(BUILT_IN)export.c \
+		$(BUILT_IN)export_utiles.c		$(BUILT_IN)export_utiles2.c		$(BUILT_IN)list.c \
+		$(BUILT_IN)list_utiles.c		$(BUILT_IN)unset_utiles.c		$(BUILT_IN)unset.c \
+		\
 		$(STATIC)static.c				$(STATIC)init_static_struct.c	$(SIGNAL)signal.c \
-		$(STATIC)init_static_struct_utils.c	$(STATIC)init_static_struct_utils2.c\
+		$(STATIC)init_struct_utils.c	$(STATIC)init_static_struct_utils2.c\
 		$(STATIC)utils/static_utils_1.c	$(STATIC)utils/static_utils_2.c \
 		\
 		$(PRCS)proccess.c				$(PRCS_U)count_pipes.c \
@@ -79,6 +69,7 @@ SRCS	= $(MAIN) \
 		 \
 		$(UTILS)Samu_GNL/get_next_line.c \
 		$(UTILS)Samu_GNL/get_next_line_utils.c \
+		 \
 		$(UTILS)history/ft_history.c \
 		$(UTILS)history/save_history.c \
 		 \
@@ -90,10 +81,6 @@ SRCS	= $(MAIN) \
 		$(LEX_U)ft_lex_interrogation.c	$(LEX_U)ft_check_char.c			$(LEX_U)ft_init_cmd.c \
 		$(LEX_U)ft_dollar_len.c			$(LEX_U)ft_dollar_fill.c		$(LEX_U)ft_lexer_utils.c \
 		$(LEX_U)ft_lexer_len.c \
-		#$(LEX)utils/ft_lexer_utils.c \
-		$(LEX)checker/check_input.c \
-		$(LEX)checker/ft_lexer_check_status.c \
-		$(LEX)checker/ft_get_next_command.c \
 
 O_DIR	= ./objects/
 OBJS	= $(addprefix $(O_DIR)/, $(SRCS:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/09 12:18:14 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:06:27 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,13 @@ typedef struct s_alloc_parse{
 	int		i;
 	int		arg_len;
 }				t_alloc_parse;
+
+typedef struct s_export_var{
+	t_list	*tmp;
+	t_list	*tmp2;
+	char	*str;
+	char	*var;
+}				t_export_var;
 
 void		init_lexer_len(t_lexer_len *len);
 #endif

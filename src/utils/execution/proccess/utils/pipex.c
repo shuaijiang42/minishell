@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:56:48 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/04 10:44:34 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:39:06 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@ static	void	pipex_init_pipex(t_pipstr *pipex, int *fd, char *cmd)
 	pipex->cmd_cpy = cmd;
 	pipex->n = count_pipes(cmd);
 	pipex->status = 0;
+}
+
+static void	pipex_util_loop(t_pipstr *pipex, int *fd)
+{
+	pipex->cmd = ft_get_cmd_pipex(&pipex->cmd_cpy);
+	*fd = ft_mid_child(pipex->cmd, *fd);
+	ft_free((void **)&pipex->cmd);
+	return ;
 }
 
 void	pipex(char *cmd)
@@ -39,9 +47,7 @@ void	pipex(char *cmd)
 		ft_free((void **)&pipex.cmd);
 		while (pipex.i < pipex.n)
 		{
-			pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
-			fd = ft_mid_child(pipex.cmd, fd);
-			ft_free((void **)&pipex.cmd);
+			pipex_util_loop(&pipex, &fd);
 			pipex.i += 1;
 		}
 		pipex.cmd = ft_get_cmd_pipex(&pipex.cmd_cpy);
