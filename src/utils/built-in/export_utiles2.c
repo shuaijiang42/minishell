@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:47:40 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/08 21:47:09 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:54:18 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ size_t	upper_str(char *str1, char *str2)
 		return (j);
 }
 
-
 static void	print_exp_print_content(t_list *tmp)
 {
 	char	*str;
@@ -39,10 +38,14 @@ static void	print_exp_print_content(t_list *tmp)
 	if (str)
 	{
 		write(STDOUT_FILENO, "declare -x ", 11);
-		write(STDOUT_FILENO, tmp->content, ft_strlen(tmp->content) - ft_strlen(str));
-		write(STDOUT_FILENO,"\"", 1);
-		write(STDOUT_FILENO, str, ft_strlen(str));
-		write(STDOUT_FILENO,"\"", 1);
+		write(STDOUT_FILENO, tmp->content, \
+		ft_strlen(tmp->content) - ft_strlen(str));
+		if (have_any_equal(tmp->content))
+		{
+			write(STDOUT_FILENO,"\"", 1);
+			write(STDOUT_FILENO, str, ft_strlen(str));
+			write(STDOUT_FILENO,"\"", 1);
+		}
 		write(STDOUT_FILENO, "\n", 1);
 	}
 	ft_free((void **)&str);
@@ -62,7 +65,7 @@ int	in_the_list(char *new, char **list, int len)
 	size_t i;
 
 	i = 0;
-	while (list[i] && i < len)
+	while (list[i] && i < (size_t)len)
 	{
 		if (!ft_strncmp(new, list[i++], ft_strlen(new)))
 			return (1);
@@ -85,7 +88,8 @@ char	*get_max(t_list	*env)
 	{
 		if (tmp->content)
 		{
-			if (ft_strncmp(max, tmp->content, upper_str(max, tmp->content)) < 0)
+			if (ft_strncmp(max, tmp->content, \
+			upper_str(max, tmp->content)) < 0)
 				max = tmp->content;
 		}
 		tmp = tmp->next;
@@ -95,7 +99,8 @@ char	*get_max(t_list	*env)
 	{
 		if (tmp->content)
 		{
-			if (ft_strncmp(max, tmp->content, upper_str(max, tmp->content)) < 0)
+			if (ft_strncmp(max, tmp->content, \
+			upper_str(max, tmp->content)) < 0)
 				max = tmp->content;
 		}
 		tmp = tmp->next;
@@ -118,7 +123,9 @@ void	print_min(t_list *env, char **list, int len)
 		return ;
 	while (tmp)
 	{
-		if (ft_strncmp(min, tmp->content, upper_str(min, tmp->content)) > 0 && !in_the_list(tmp->content, list, len))
+		if (ft_strncmp(min, tmp->content, \
+		upper_str(min, tmp->content)) > 0 && \
+		!in_the_list(tmp->content, list, len))
 			min = tmp->content;
 		tmp = tmp->next;
 	}
@@ -153,4 +160,5 @@ void	print_exp(void)
 		print_min((ft_get_static())->env, printed, list_len);
 		tmp = tmp->next;
 	}
+	ft_free((void **)&printed);
 }

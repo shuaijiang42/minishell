@@ -6,13 +6,13 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:49:41 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/08 18:41:51 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:18:42 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-static void	go_to_home()
+static void	go_to_home(void)
 {
 	t_list	*home;
 	char	*str;

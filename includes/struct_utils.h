@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:30:42 by shujiang          #+#    #+#             */
-/*   Updated: 2023/09/28 19:21:38 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:18:14 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ typedef enum e_redir{
 	apd = 4
 }			t_redir;
 
-typedef	struct s_pipes{
+typedef struct s_pipes{
 	int	start_pipe[2];
 }				t_pipes;
 
-typedef	struct s_pipstr{
+typedef struct s_pipstr{
 	char	*cmd_cpy;
 	int		n;
 	int		i;
@@ -40,7 +40,7 @@ typedef	struct s_pipstr{
 	char	*cmd;
 }				t_pipstr;
 
-typedef	struct s_argument{
+typedef struct s_argument{
 	char	*str;
 	char	*type;
 	int		fd;
@@ -67,9 +67,8 @@ typedef struct s_dollar_fill{
 	int		i;
 	int		z;
 	char	*str2;
-	char 	*str3;
+	char	*str3;
 	t_list	*tmp;
-	//	external
 	char	*dst;
 	int		*x;
 }				t_dollar_fill;

@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:03:30 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/29 16:41:25 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:50:56 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	ft_executer_exec(t_input *input, char **env)
 {
 	int	result;
-
 
 	result = 0;
 	dup2_with_error_check(input->in, STDIN_FILENO);

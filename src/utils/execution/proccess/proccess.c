@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 15:16:47 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/29 16:38:54 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:12:07 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static void	proccess_pipex(char *cmd)
 	int	pid;
 	int	status;
 
-	flag = PROCCESS;
+	g_flag = PROCCESS;
 	pid = fork_with_error_check();
 	ft_put_proccess(1);
 	if (!pid)
 	{
-		flag = 4;
+		g_flag = 4;
 		pipex(cmd);
 	}
 	waitpid(-1, &status, 0);

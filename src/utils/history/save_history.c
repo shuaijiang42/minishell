@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/24 19:49:06 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/28 19:27:23 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:22:58 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_save_history(void)
 {
 	t_save_history	his;
-	
+
 	his.old_history = NULL;
 	his.history = (ft_get_static())->history;
 	his.fd = ft_get_history();

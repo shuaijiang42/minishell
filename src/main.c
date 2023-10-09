@@ -6,13 +6,13 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 16:34:14 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/06 15:08:13 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 14:22:22 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
- void	leaks()
+void	leaks()
 {
 	system("leaks -q minishell");
 } 
@@ -49,97 +49,15 @@ void	*ft_print_error(char *str, int error)
 	return (NULL);
 }
 
-void custom_free2(void *data)
-{
-    free(data);
-}
-
-
-int shell_mode(char **env)
-{
-	char		*line;
-	int			fd_mini_history;
-	t_list		*history;
-	t_static	*s;
-
-	///////////////////////////////////////////////////////////////////////////////////////////
-	flag = 0;
-	fd_mini_history = 0;
-	ft_get_old_history(env, &fd_mini_history);
-	ft_put_history(fd_mini_history);
-	line = NULL;
-	signal(SIGINT, handler);
-	signal(SIGQUIT, quit_signal);
-	history = NULL;
-	ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup("")));
-	///////////////////////////////////////////////////////////////////////////////////////////
-	ft_put_static(init_static_struct(env));
-	s = ft_get_static();
-	if (!s)
-		exit (-1);
-	///////////////////////////////////////////////////////////////////////////////////////////
-	s->history = history;
-	ft_put_error(0);
-	flag = SHELL;
-	while (1)
-	{
-		if (flag != 3)
-			flag = SHELL;
-		//line = readline("minishell$ ");
-		if (isatty(fileno(stdin)))
-		{
-			if (flag != 3)
-			{
-				line = readline("minishell$ ");
-			}
-			else
-			{
-				line = readline("minishell$ ");
-				flag = 0;
-			}
-		}
-		else
-		{
-			char *line2;
-			line2 = get_next_line(fileno(stdin));
-			line = ft_strtrim(line2, "\n");
-			free(line2);
-		}
-		if (!line)
-		{
-	//		write(STDERR_FILENO, "exit\n", 5);
-			ft_free((void *)&line);
-			ft_save_history();
-			exit(ft_get_error());
-		}
-		add_history(line);
-		ft_lstadd_back(&history, ft_lstnew((void *)ft_strdup(line)));
-		if (ft_check_argument(line) == 1)
-		{
-			ft_procces_maker(line, env);
-			ft_put_proccess(0);
-		}
-		else
-			ft_free((void *)&line);
-	}
-	exit(ft_get_error());
-}
-
-int	exc_mode(char *file, char **env)
-{
+/*
 	char *str;
 	char *gnl;
-	//=========================================================================================
-	//t_list	*history;
 	t_static *s;
 
 	ft_put_static(init_static_struct(env));
 	s = ft_get_static();
-	//history = s->history;
 	ft_put_error(0);
-
 	errno = 0;
-	//=========================================================================================
 	int fd = 0;
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -171,45 +89,20 @@ int	exc_mode(char *file, char **env)
 		ft_free((void **)&gnl);
 	}
 	return (0);
+*/
+int	exc_mode(void)
+{
+	write(STDERR_FILENO, "minishell: srry i am lazy\n", 26);
+	exit (-1);
 }
-
-/* typedef struct 
-{
-	void	**mem;
-	size_t	capacity;
-	size_t	len;
-} t_mem;
-
-
-void	mem_realloc(t_mem *mem)
-{
-	mem->capacity *= 2;
-	void	**new = malloc(sizeof(void *) );
-}
-
-void	mem_push(t_mem *mem, void *ptr)
-{
-	if (mem->capacity == mem->len)
-	{
-		// relloc
-	}
-	mem->mem[mem->len] = 	ptr;
-	mem->len += 1;
-} */
 
 int	main(int argc, char **argv, char **env)
 {
-	/* t_mem 	mem;
-
-	mem.capacity = 5;
-	mem.len = 0;
-	mem.mem = malloc(sizeof(void *) * mem.capacity); */
-
-	
+	(void)argc;
+	(void)argv;
+	(void)env;
 	if (argc == 1)
 		return (shell_mode(env));
 	else 
-		return (exc_mode(argv[1], env));
-	
-	
+		return (exc_mode());
 }

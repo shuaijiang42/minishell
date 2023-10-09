@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 15:50:18 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/29 16:40:26 by shujiang         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:21:10 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	executer(char *cmd, t_input *input)
 	env = list_to_matrix(s->env);
 	cloud[0] = dup(0);
 	cloud[1] = dup(1);
-
 	value = ft_executer_exec(input, env);
 	dup2_with_error_check(cloud[1], 1);
 	close(cloud[1]);

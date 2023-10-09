@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:54:35 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/04 10:40:18 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:12:35 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	pipex_error_make_redir(int pipe[2])
 {
-	if (flag == 3)
+	if (g_flag == 3)
 		exit(1);
 	else
 	{

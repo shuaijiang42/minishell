@@ -6,12 +6,13 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:49:09 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/05 13:56:24 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:48:22 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
+/*
 int	ft_var_len(char *var)
 {
 	int	i;
@@ -74,13 +75,14 @@ void	ft_remove_node(t_list *list, int index)
 	free(temp);
 }
 
-void custom_free(void *data) {
-    free(data);
+void	custom_free(void *data)
+{
+	free(data);
 }
 
 void	ft_node_substitute(t_list **old, t_list **new)
 {
-	char *aux;
+	char	*aux;
 
 	if (*old && *new)
 	{
@@ -100,3 +102,4 @@ void	ft_front_insert(t_list **front_node, t_list **new)
 	(*front_node)->next = *new;
 	(*new)->next = back_node;
 }
+*/

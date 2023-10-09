@@ -6,13 +6,13 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/10/08 16:44:12 by samusanc         ###   ########.fr        #
+#    Updated: 2023/10/09 14:23:07 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #	GENERAL FLAGS
 NAME	= minishell
-CFLAGS	=  -I ./includes/ -I ./libft/ -fsanitize=address -g3 #-Wall -Wextra -Werror
+CFLAGS	=  -I ./includes/ -I ./libft/ -fsanitize=address -g3 -Wall -Wextra -Werror
 CC		= gcc $(CFLAGS)
 UTILS	= ./src/utils/
 #	UTILS VARIABLES
@@ -36,8 +36,10 @@ LDFLAGS	= -lreadline -L /Users/$(USER)/.brew/opt/readline/lib -fsanitize=address
 
 MAIN	= ./src/main.c 
 SRCS	= $(MAIN) \
+		./src/shell_mode.c \
 		$(UTILS)pipex/execute_cmd.c \
 		$(UTILS)pipex/cmd_path.c \
+		$(UTILS)pipex/cmd_path_utils.c \
 		$(UTILS)pipex/error_handling.c \
 		$(UTILS)pipex/main.c \
 		$(BUILT_IN)built_in.c \
@@ -56,6 +58,7 @@ SRCS	= $(MAIN) \
 		$(BUILT_IN)unset_utiles.c \
 		$(BUILT_IN)unset.c \
 		$(STATIC)static.c				$(STATIC)init_static_struct.c	$(SIGNAL)signal.c \
+		$(STATIC)init_static_struct_utils.c	$(STATIC)init_static_struct_utils2.c\
 		$(STATIC)utils/static_utils_1.c	$(STATIC)utils/static_utils_2.c \
 		\
 		$(PRCS)proccess.c				$(PRCS_U)count_pipes.c \

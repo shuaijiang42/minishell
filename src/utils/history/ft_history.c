@@ -6,7 +6,7 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:21:28 by samusanc          #+#    #+#             */
-/*   Updated: 2023/09/24 20:13:01 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:22:20 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_get_old_history(char **env, int *fd)
 	if (*fd < 0)
 		return ;
 	str3 = get_next_line(*fd);
-	while(str3)
+	while (str3)
 	{
 		str3[ft_strlen(str3) - 1] = '\0';
 		if (str3)
