@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/26 17:47:40 by shujiang          #+#    #+#             */
-/*   Updated: 2023/10/10 13:12:42 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/10 13:14:21 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	in_the_list(char *new, char **list, int len)
 			return (1);
 	}
 	return (0);
-
 }
 
 void	print_min(t_list *env, char **list, int len)
