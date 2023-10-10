@@ -6,7 +6,7 @@
 /*   By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:21:36 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/09 15:12:55 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/10 13:13:13 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int			error_ft_parsing(char *str);
 size_t		upper_str(char *str1, char *str2);
 int			in_the_list(char *new, char **list, int len);
 char		*get_max(t_list	*env);
+void		print_min_printer(t_list *env, char *min);
 void		print_min(t_list *env, char **list, int len);
 void		print_exp(void);
 size_t		have_any_equal(char *str);

@@ -6,7 +6,7 @@
 #    By: shujiang <shujiang@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/24 19:28:25 by samusanc          #+#    #+#              #
-#    Updated: 2023/10/09 14:33:04 by samusanc         ###   ########.fr        #
+#    Updated: 2023/10/10 13:10:58 by samusanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS	= $(MAIN) \
 		$(UTILS)pipex/execute_cmd.c		$(UTILS)pipex/cmd_path.c \
 		$(UTILS)pipex/cmd_path_utils.c	$(UTILS)pipex/error_handling.c	$(UTILS)pipex/main.c \
 		\
+		$(BUILT_IN)export_utiles3.c \
 		$(BUILT_IN)built_in.c			$(BUILT_IN)built_in_utiles.c	$(BUILT_IN)env.c \
 		$(BUILT_IN)echo.c				$(BUILT_IN)exit.c				$(BUILT_IN)pwd.c \
 		$(BUILT_IN)cd.c					$(BUILT_IN)cd_utiles.c			$(BUILT_IN)export.c \
