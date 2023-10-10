@@ -6,47 +6,11 @@
 /*   By: samusanc <samusanc@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:21:28 by samusanc          #+#    #+#             */
-/*   Updated: 2023/10/09 12:22:20 by samusanc         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:41:50 by samusanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
-
-void	ft_get_old_history(char **env, int *fd)
-{
-	int		i;
-	char	*str;
-	char	*str2;
-	char	*str3;
-
-	i = 0;
-	if (!env)
-		return ;
-	while (env[i])
-	{
-		if (!ft_strncmp("HOME=", env[i], 5))
-			break ;
-		i++;
-	}
-	if (!env[i])
-		return ;
-	str = *(env + i);
-	str += 5;
-	str2 = ft_strjoin(str, "/.minishell_history");
-	*fd = open(str2, O_CREAT | O_RDWR | O_APPEND, 0644);
-	ft_free((void *)&str2);
-	if (*fd < 0)
-		return ;
-	str3 = get_next_line(*fd);
-	while (str3)
-	{
-		str3[ft_strlen(str3) - 1] = '\0';
-		if (str3)
-			add_history(str3);
-		ft_free((void *)&str3);
-		str3 = get_next_line(*fd);
-	}
-}
 
 int	len_2_fill(int x, int new)
 {
