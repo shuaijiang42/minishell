@@ -87,7 +87,7 @@ int			shlvl_err(t_list *shlvl, char *str1);
 int			shlvl_sum(t_static *s);
 void		init_default_env(t_static *s);
 void		copy_external_env(t_static	*s, char **env);
-t_static	*ft_setup_struct(char **env, t_static *s);
+t_static	*ft_setup_env(char **env, t_static *s);
 void		*error_init_static(int x, int *i, t_static *s);
 t_static	*init_static_struct(char **env);
 //===========================================================================//

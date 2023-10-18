@@ -48,5 +48,5 @@ t_static	*init_static_struct(char **env)
 	s->error = ft_lstnew((void *)i);
 	if (!s->error)
 		return (error_init_static(1, i, s));
-	return (ft_setup_struct(env, s));
+	return (ft_setup_env(env, s));
 }

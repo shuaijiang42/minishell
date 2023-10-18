@@ -66,7 +66,7 @@ void	copy_external_env(t_static	*s, char **env)
 		ft_lstadd_back(&s->env, ft_lstnew(ft_strdup(env[i++])));
 }
 
-t_static	*ft_setup_struct(char **env, t_static *s)
+t_static	*ft_setup_env(char **env, t_static *s)
 {
 	if (!(*env))
 		init_default_env(s);

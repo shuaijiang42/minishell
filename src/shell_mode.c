@@ -36,7 +36,7 @@ static void	shell_mode_util(int i, char **line, char **env)
 	if (i == 1)
 	{
 		*line = readline("minishell$ ");
-		g_flag = 0;
+		g_flag = SHELL;
 		return ;
 	}
 	else if (i == 2)

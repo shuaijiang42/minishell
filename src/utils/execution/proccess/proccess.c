@@ -22,7 +22,7 @@ static void	proccess_pipex(char *cmd)
 	ft_put_proccess(1);
 	if (!pid)
 	{
-		g_flag = 4;
+		g_flag = PIPE_PROCCESS;
 		pipex(cmd);
 	}
 	waitpid(-1, &status, 0);

@@ -15,6 +15,7 @@
 # define SHELL 0
 # define PROCCESS 1
 # define HERE 2
+# define PIPE_PROCCESS 4
 
 void	handler(int signal);
 void	quit_signal(int signal);
